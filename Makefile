@@ -48,6 +48,7 @@ TEST_OBJ = $(TEST_FILES:%.cpp=$(BUILD_DIR)/%.o) \
 MAIN_DEP = $(MAIN_OBJ:%.o=%.d)
 SRC_DEP = $(SRC_OBJ:%.o=%.d)
 TEST_DEP = $(TEST_OBJ:%.o=%.d)
+DEP = $(MAIN_DEP) $(SRC_DEP) $(TEST_DEP)
 
 ################################################################################
 # Build Targets
