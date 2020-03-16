@@ -1,5 +1,6 @@
 #pragma once
 
-class Matrix{
-  double m[4][4];
+class Matrix {
+ private:
+  alignas(32) double m[4][4];
 };
