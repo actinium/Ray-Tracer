@@ -3,19 +3,22 @@
 class Vector {
  public:
   constexpr Vector();
+  constexpr Vector(double (&iv)[4]);
   constexpr Vector(double ix, double iy, double iz);
 
  public:
-  alignas(32) double v[4];
+  alignas(32) double vec4[4];
 
  public:
-  double& x = v[0];
-  double& y = v[1];
-  double& z = v[2];
-  double& w = v[3];
+  double& x = vec4[0];
+  double& y = vec4[1];
+  double& z = vec4[2];
+  double& w = vec4[3];
 };
 
 constexpr Vector::Vector() : Vector(0.0, 0.0, 0.0) {}
 
+constexpr Vector::Vector(double (&iv)[4]) : vec4{iv[0], iv[1], iv[2], iv[3]} {}
+
 constexpr Vector::Vector(double ix, double iy, double iz)
-    : v{ix, iy, iz, 0.0} {}
+    : vec4{ix, iy, iz, 0.0} {}
