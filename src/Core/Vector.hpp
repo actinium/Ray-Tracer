@@ -3,7 +3,6 @@
 class Vector {
  public:
   constexpr Vector();
-  constexpr Vector(double (&iv)[4]);
   constexpr Vector(double ix, double iy, double iz);
 
  public:
@@ -17,8 +16,6 @@ class Vector {
 };
 
 constexpr Vector::Vector() : Vector(0.0, 0.0, 0.0) {}
-
-constexpr Vector::Vector(double (&iv)[4]) : vec4{iv[0], iv[1], iv[2], iv[3]} {}
 
 constexpr Vector::Vector(double ix, double iy, double iz)
     : vec4{ix, iy, iz, 0.0} {}
