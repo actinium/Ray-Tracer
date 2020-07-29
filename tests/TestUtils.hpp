@@ -5,23 +5,16 @@
 #include "Core/Vector.hpp"
 #include "catch.hpp"
 
-//------------------------------------------------------------------------------
-// Vector
-//------------------------------------------------------------------------------
-inline std::ostream& operator<<(std::ostream& os, const Vector& v) {
-  os << "(" << v.x << "," << v.y << "," << v.z << "," << v.w << ")";
-  return os;
-}
-
-class VectorEquals : public Catch::MatcherBase<Vector> {
-  Vector expected;
+template<class T>
+class TupleEquals : public Catch::MatcherBase<T> {
+  T expected;
 
  public:
-  VectorEquals(const Vector& e) : expected{e} {}
+  TupleEquals(const T& e) : expected{e} {}
 
-  bool match(Vector const& v) const override {
-    return v.x == Approx(expected.x) && v.y == Approx(expected.y) &&
-           v.z == Approx(expected.z) && v.w == Approx(expected.w);
+  bool match(const T& t) const override {
+    return t.x == Approx(expected.x) && t.y == Approx(expected.y) &&
+           t.z == Approx(expected.z) && t.w == Approx(expected.w);
   }
 
   virtual std::string describe() const override {
@@ -31,8 +24,16 @@ class VectorEquals : public Catch::MatcherBase<Vector> {
   }
 };
 
-inline VectorEquals Equals(const Vector& expected) {
-  return VectorEquals(expected);
+//------------------------------------------------------------------------------
+// Vector
+//------------------------------------------------------------------------------
+inline std::ostream& operator<<(std::ostream& os, const Vector& v) {
+  os << "(" << v.x << "," << v.y << "," << v.z << "," << v.w << ")";
+  return os;
+}
+
+inline TupleEquals<Vector> Equals(const Vector& expected) {
+  return TupleEquals<Vector>(expected);
 }
 
 //------------------------------------------------------------------------------
