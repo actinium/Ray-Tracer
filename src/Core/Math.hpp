@@ -35,16 +35,12 @@ double dot(const Vector& v1, const Vector& v2);
 
 Vector operator*(double s, const Vector& v);
 Vector operator*(const Vector& v, double s);
-Point operator*(double s, const Point& p);
-Point operator*(const Point& p, double s);
 
 //------------------------------------------------------------------------------
 // Division
 //------------------------------------------------------------------------------
 Vector operator/(double s, const Vector& v);
 Vector operator/(const Vector& v, double s);
-Point operator/(double s, const Point& p);
-Point operator/(const Point& p, double s);
 
 //------------------------------------------------------------------------------
 // Magnitude
