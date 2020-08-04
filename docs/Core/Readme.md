@@ -1,6 +1,6 @@
 # Core
 
-||
+| Math Classes |
 |--------------|
 | Matrix       |
 | Point        |
@@ -8,7 +8,7 @@
 | Ray          |
 | Intersection |
 
-||
-|-|
-| Image |
-| Color |
+|Image Classes |
+|--------------|
+| Image        |
+| Color        |
