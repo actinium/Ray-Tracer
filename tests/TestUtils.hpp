@@ -2,6 +2,7 @@
 
 #include <sstream>
 
+#include "Core/Color.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Point.hpp"
 #include "Core/Vector.hpp"
@@ -15,8 +16,10 @@ class TupleEquals : public Catch::MatcherBase<T> {
   TupleEquals(const T& e) : expected{e} {}
 
   bool match(const T& t) const override {
-    return t.x == Approx(expected.x) && t.y == Approx(expected.y) &&
-           t.z == Approx(expected.z) && t.w == Approx(expected.w);
+    return t.vec4[0] == Approx(expected.vec4[0]) &&
+           t.vec4[1] == Approx(expected.vec4[1]) &&
+           t.vec4[2] == Approx(expected.vec4[2]) &&
+           t.vec4[3] == Approx(expected.vec4[3]);
   }
 
   virtual std::string describe() const override {
@@ -48,6 +51,18 @@ inline std::ostream& operator<<(std::ostream& os, const Point& p) {
 
 inline TupleEquals<Point> Equals(const Point& expected) {
   return TupleEquals<Point>(expected);
+}
+
+//------------------------------------------------------------------------------
+// Color
+//------------------------------------------------------------------------------
+inline std::ostream& operator<<(std::ostream& os, const Color& c) {
+  os << "(" << c.red << "," << c.green << "," << c.blue << ")";
+  return os;
+}
+
+inline TupleEquals<Color> Equals(const Color& expected) {
+  return TupleEquals<Color>(expected);
 }
 
 //------------------------------------------------------------------------------

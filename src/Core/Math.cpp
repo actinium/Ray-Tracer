@@ -26,6 +26,12 @@ Point operator+(const Point& p, const Vector& v) {
   return r;
 }
 
+Color operator+(const Color& c1, const Color& c2) {
+  Color r;
+  vec4_add(c1.vec4, c2.vec4, r.vec4);
+  return r;
+}
+
 //------------------------------------------------------------------------------
 // Subtraction
 //------------------------------------------------------------------------------
@@ -53,6 +59,12 @@ Vector operator-(const Point& p1, const Point& p2) {
 Point operator-(const Point& p, const Vector& v) {
   Point r;
   vec4_sub(p.vec4, v.vec4, r.vec4);
+  return r;
+}
+
+Color operator-(const Color& c1, const Color& c2) {
+  Color r;
+  vec4_sub(c1.vec4, c2.vec4, r.vec4);
   return r;
 }
 
@@ -94,6 +106,13 @@ void vec4_cross(const double (&a)[4], const double (&b)[4], double (&r)[4]) {
 void vec4_dot(const double (&a)[4], const double (&b)[4], double& r) {
   r = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
 }
+
+void vec4_hadamard(const double (&a)[4], const double (&b)[4], double (&r)[4]) {
+  r[0] = a[0] * b[0];
+  r[1] = a[1] * b[1];
+  r[2] = a[2] * b[2];
+  r[3] = a[3] * b[3];
+}
 }  // namespace
 
 // Matrix operator*(const Matrix& m1, const Matrix& m2);
@@ -121,6 +140,24 @@ Vector operator*(double s, const Vector& v) {
 Vector operator*(const Vector& v, double s) {
   Vector r;
   vec4_scalar_mul(s, v.vec4, r.vec4);
+  return r;
+}
+
+Color operator*(double s, const Color& c) {
+  Color r;
+  vec4_scalar_mul(s, c.vec4, r.vec4);
+  return r;
+}
+
+Color operator*(const Color& c, double s) {
+  Color r;
+  vec4_scalar_mul(s, c.vec4, r.vec4);
+  return r;
+}
+
+Color operator*(const Color& c1, const Color& c2) {
+  Color r;
+  vec4_hadamard(c1.vec4, c2.vec4, r.vec4);
   return r;
 }
 

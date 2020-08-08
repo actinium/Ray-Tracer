@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Color.hpp"
 #include "Matrix.hpp"
 #include "Point.hpp"
 #include "Vector.hpp"
@@ -9,6 +10,7 @@
 //------------------------------------------------------------------------------
 Vector operator+(const Vector& v1, const Vector& v2);
 Point operator+(const Point& p, const Vector& v);
+Color operator+(const Color& c1, const Color& c2);
 
 //------------------------------------------------------------------------------
 // Subtraction
@@ -16,6 +18,7 @@ Point operator+(const Point& p, const Vector& v);
 Vector operator-(const Vector& v1, const Vector& v2);
 Vector operator-(const Point& p1, const Point& p2);
 Point operator-(const Point& p, const Vector& v);
+Color operator-(const Color& c1, const Color& c2);
 
 //------------------------------------------------------------------------------
 // Negation
@@ -32,8 +35,12 @@ Point operator*(const Matrix& m, const Point& p);
 Vector cross(const Vector& v1, const Vector& v2);
 double dot(const Vector& v1, const Vector& v2);
 
+Color operator*(const Color& c1, const Color& c2);
+
 Vector operator*(double s, const Vector& v);
 Vector operator*(const Vector& v, double s);
+Color operator*(double s, const Color& c);
+Color operator*(const Color& c, double s);
 
 //------------------------------------------------------------------------------
 // Division
