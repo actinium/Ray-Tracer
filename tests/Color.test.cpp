@@ -17,6 +17,15 @@ TEST_CASE("Color cunstruction", "[Color]") {
   REQUIRE(c.blue == Approx(0));
 }
 
+TEST_CASE("Color cunstruction with hex values", "[Color]") {
+  REQUIRE_THAT(Color("000000"), Equals(Color(0, 0, 0)));
+  REQUIRE_THAT(Color("FF0000"), Equals(Color(1, 0, 0)));
+  REQUIRE_THAT(Color("00FF00"), Equals(Color(0, 1, 0)));
+  REQUIRE_THAT(Color("0000FF"), Equals(Color(0, 0, 1)));
+  REQUIRE_THAT(Color("FFFFFF"), Equals(Color(1, 1, 1)));
+  REQUIRE_THAT(Color("ABCDEF"), Equals(Color(0.670588, 0.803922, 0.937255)));
+}
+
 //------------------------------------------------------------------------------
 // Addition
 //------------------------------------------------------------------------------
