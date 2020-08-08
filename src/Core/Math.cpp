@@ -73,11 +73,6 @@ Vector operator-(const Vector& v) {
   vec4_neg(v.vec4, r.vec4);
   return r;
 }
-Point operator-(const Point& p) {
-  Point r;
-  vec4_neg(p.vec4, r.vec4);
-  return r;
-}
 
 //------------------------------------------------------------------------------
 // Multiplication
@@ -133,12 +128,6 @@ Vector operator*(const Vector& v, double s) {
 // Division
 //------------------------------------------------------------------------------
 namespace {
-void vec4_scalar_div(double s, const double (&a)[4], double (&r)[4]) {
-  r[0] = s / a[0];
-  r[1] = s / a[1];
-  r[2] = s / a[2];
-  r[3] = s / a[3];
-}
 
 void vec4_scalar_div(const double (&a)[4], double s, double (&r)[4]) {
   r[0] = a[0] / s;
@@ -147,12 +136,6 @@ void vec4_scalar_div(const double (&a)[4], double s, double (&r)[4]) {
   r[3] = a[3] / s;
 }
 }  // namespace
-
-Vector operator/(double s, const Vector& v) {
-  Vector r;
-  vec4_scalar_div(s, v.vec4, r.vec4);
-  return r;
-}
 
 Vector operator/(const Vector& v, double s) {
   Vector r;
@@ -163,6 +146,47 @@ Vector operator/(const Vector& v, double s) {
 //------------------------------------------------------------------------------
 // Magnitude
 //------------------------------------------------------------------------------
+namespace {
+void vec4_mag(const double (&v)[4], double& r) {
+  r = std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2] + v[3] * v[3]);
+}
+
+void vec4_norm(const double (&v)[4], double (&r)[4]) {
+  double mag;
+  vec4_mag(v, mag);
+  r[0] = v[0] / mag;
+  r[1] = v[1] / mag;
+  r[2] = v[2] / mag;
+  r[3] = v[3] / mag;
+}
+}  // namespace
+
+double magnitude(const Vector& v) {
+  double r;
+  vec4_mag(v.vec4, r);
+  return r;
+}
+
+Vector normalize(const Vector& v) {
+  Vector r;
+  vec4_norm(v.vec4, r.vec4);
+  return r;
+}
+
+//------------------------------------------------------------------------------
+// Reflection
+//------------------------------------------------------------------------------
 namespace {}
-double magnitude(const Vector& v);
-Vector normalize(const Vector& v);
+Vector reflect(const Vector& v, const Vector& n);
+
+//------------------------------------------------------------------------------
+// Transposition
+//------------------------------------------------------------------------------
+namespace {}
+Matrix transpose(const Matrix& m);
+
+//------------------------------------------------------------------------------
+// Inversion
+//------------------------------------------------------------------------------
+namespace {}
+Matrix inverse(const Matrix& m);

@@ -21,7 +21,6 @@ Point operator-(const Point& p, const Vector& v);
 // Negation
 //------------------------------------------------------------------------------
 Vector operator-(const Vector& v);
-Point operator-(const Point& p);
 
 //------------------------------------------------------------------------------
 // Multiplication
@@ -39,7 +38,6 @@ Vector operator*(const Vector& v, double s);
 //------------------------------------------------------------------------------
 // Division
 //------------------------------------------------------------------------------
-Vector operator/(double s, const Vector& v);
 Vector operator/(const Vector& v, double s);
 
 //------------------------------------------------------------------------------
