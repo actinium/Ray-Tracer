@@ -66,7 +66,7 @@ $(BUILD_DIR)/$(TEST_BIN) : $(SRC_OBJ) $(TEST_OBJ)
 
 -include $(DEP)
 
-$(BUILD_DIR)/%.o : %.cpp
+$(BUILD_DIR)/%.o : %.cpp Makefile
 	$(ECHO) "\033[1m\033[94m[Compiling] \033[0m$<"
 	$(DIR_GUARD)
 	$(CPP) $(CPPFLAGS) -MMD -c $< -o $@
