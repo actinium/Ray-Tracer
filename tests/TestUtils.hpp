@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "Core/Color.hpp"
+#include "Core/Constants.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Point.hpp"
 #include "Core/Vector.hpp"
@@ -16,10 +17,10 @@ class TupleEquals : public Catch::MatcherBase<T> {
   TupleEquals(const T& e) : expected{e} {}
 
   bool match(const T& t) const override {
-    return t.vec4[0] == Approx(expected.vec4[0]) &&
-           t.vec4[1] == Approx(expected.vec4[1]) &&
-           t.vec4[2] == Approx(expected.vec4[2]) &&
-           t.vec4[3] == Approx(expected.vec4[3]);
+    return t.vec4[0] == Approx(expected.vec4[0]).margin(EPSILON) &&
+           t.vec4[1] == Approx(expected.vec4[1]).margin(EPSILON) &&
+           t.vec4[2] == Approx(expected.vec4[2]).margin(EPSILON) &&
+           t.vec4[3] == Approx(expected.vec4[3]).margin(EPSILON);
   }
 
   virtual std::string describe() const override {
@@ -91,7 +92,7 @@ class MatrixEquals : public Catch::MatcherBase<Matrix> {
   bool match(const Matrix& m) const override {
     for (int r = 0; r < 4; ++r) {
       for (int c = 0; c < 4; ++c) {
-        if (expected.mat4[r][c] != Approx(m.mat4[r][c])) {
+        if (expected.mat4[r][c] != Approx(m.mat4[r][c]).margin(EPSILON)) {
           return false;
         }
       }

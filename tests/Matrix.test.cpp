@@ -107,3 +107,21 @@ TEST_CASE("Multiplying a product by its inverse", "[Matrix]") {
   Matrix C = A * B;
   REQUIRE_THAT(C * inverse(B), Equals(A));
 }
+
+TEST_CASE("Multiplying a matrix by its inverse", "[Matrix]") {
+  Matrix A(-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 1, -3, 7, 4);
+  REQUIRE_THAT(A * inverse(A), Equals(Matrix::Identity));
+  Matrix B(8, -5, 9, 2, 7, 5, 6, 1, -6, 0, 9, 6, -3, 0, -9, -4);
+  REQUIRE_THAT(B * inverse(B), Equals(Matrix::Identity));
+  Matrix C(9, 3, 0, 9, -5, -2, -6, -3, -4, 9, 6, 4, -7, 6, 6, 2);
+  REQUIRE_THAT(C * inverse(C), Equals(Matrix::Identity));
+}
+
+TEST_CASE("Calculating the inverse of the inverse of a matrix", "[Matrix]") {
+  Matrix A(-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 1, -3, 7, 4);
+  REQUIRE_THAT(inverse(inverse(A)), Equals(A));
+  Matrix B(8, -5, 9, 2, 7, 5, 6, 1, -6, 0, 9, 6, -3, 0, -9, -4);
+  REQUIRE_THAT(inverse(inverse(B)), Equals(B));
+  Matrix C(9, 3, 0, 9, -5, -2, -6, -3, -4, 9, 6, 4, -7, 6, 6, 2);
+  REQUIRE_THAT(inverse(inverse(C)), Equals(C));
+}
