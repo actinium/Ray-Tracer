@@ -1,5 +1,6 @@
 CPP = @clang++
-CPPFLAGS = -std=c++17 -march=native -O2 $(WARNING_FLAGS) $(INCLUDE_FLAGS)
+CPPFLAGS = -std=c++17 -march=native -O2 -pthread \
+           $(WARNING_FLAGS) $(INCLUDE_FLAGS)
 WARNING_FLAGS = -Wall -Wextra -Wpedantic -Wconversion -Wshadow \
                 -Wfatal-errors -Werror
 INCLUDE_FLAGS = -I$(SRC_DIR) -I$(CATCH_DIR) -I$(STB_DIR) -I$(PROGRESSBAR_DIR)
