@@ -14,6 +14,9 @@ class Matrix {
 
  public:
   alignas(32) double mat4[4][4];
+
+ public:
+  static const Matrix Identity;
 };
 
 constexpr Matrix::Matrix() noexcept
