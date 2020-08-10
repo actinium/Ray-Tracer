@@ -4,6 +4,8 @@ class Vector {
  public:
   constexpr Vector() noexcept;
   constexpr Vector(double ix, double iy, double iz) noexcept;
+
+  constexpr Vector(const Vector& other) noexcept;
   constexpr Vector& operator=(const Vector& other) noexcept;
 
  public:
@@ -20,6 +22,9 @@ constexpr Vector::Vector() noexcept : Vector(0.0, 0.0, 0.0) {}
 
 constexpr Vector::Vector(double ix, double iy, double iz) noexcept
     : vec4{ix, iy, iz, 0.0} {}
+
+constexpr Vector::Vector(const Vector& other) noexcept
+    : vec4{other.x, other.y, other.z, other.w} {}
 
 constexpr Vector& Vector::operator=(const Vector& other) noexcept {
   vec4[0] = other.vec4[0];

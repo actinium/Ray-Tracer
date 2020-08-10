@@ -58,7 +58,7 @@ inline TupleEquals<Point> Equals(const Point& expected) {
 // Color
 //------------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream& os, const Color& c) {
-  os << "(" << c.red << "," << c.green << "," << c.blue << ")";
+  os << "(" << c.r << "," << c.g << "," << c.b << ")";
   return os;
 }
 

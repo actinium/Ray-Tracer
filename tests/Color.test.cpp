@@ -5,16 +5,16 @@
 
 TEST_CASE("The default color is (0, 0, 0)", "[Color]") {
   Color c;
-  REQUIRE(c.red == Approx(0));
-  REQUIRE(c.green == Approx(0));
-  REQUIRE(c.blue == Approx(0));
+  REQUIRE(c.r == Approx(0));
+  REQUIRE(c.g == Approx(0));
+  REQUIRE(c.b == Approx(0));
 }
 
 TEST_CASE("Color cunstruction", "[Color]") {
   Color c(1, 0.5, 0);
-  REQUIRE(c.red == Approx(1));
-  REQUIRE(c.green == Approx(0.5));
-  REQUIRE(c.blue == Approx(0));
+  REQUIRE(c.r == Approx(1));
+  REQUIRE(c.g == Approx(0.5));
+  REQUIRE(c.b == Approx(0));
 }
 
 TEST_CASE("Color cunstruction with hex values", "[Color]") {

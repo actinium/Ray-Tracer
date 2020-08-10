@@ -9,7 +9,9 @@ class Matrix {
                    double m11, double m12, double m13, double m20, double m21,
                    double m22, double m23, double m30, double m31, double m32,
                    double m33) noexcept;
-  constexpr Matrix(double (&m)[4][4]) noexcept;
+  constexpr Matrix(const double (&m)[4][4]) noexcept;
+
+  constexpr Matrix(const Matrix& other) noexcept;
   constexpr Matrix& operator=(const Matrix& other) noexcept;
 
  public:
@@ -32,11 +34,13 @@ constexpr Matrix::Matrix(double m00, double m01, double m02, double m03,
            {m20, m21, m22, m23},
            {m30, m31, m32, m33}} {}
 
-constexpr Matrix::Matrix(double (&m)[4][4]) noexcept
+constexpr Matrix::Matrix(const double (&m)[4][4]) noexcept
     : mat4{{m[0][0], m[0][1], m[0][2], m[0][3]},
            {m[1][0], m[1][1], m[1][2], m[1][3]},
            {m[2][0], m[2][1], m[2][2], m[2][3]},
            {m[3][0], m[3][1], m[3][2], m[3][3]}} {}
+
+constexpr Matrix::Matrix(const Matrix& other) noexcept : Matrix(other.mat4) {}
 
 constexpr Matrix& Matrix::operator=(const Matrix& other) noexcept {
   mat4[0][0] = other.mat4[0][0];

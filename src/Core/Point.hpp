@@ -4,7 +4,9 @@ class Point {
  public:
   constexpr Point() noexcept;
   constexpr Point(double ix, double iy, double iz) noexcept;
+
   constexpr Point& operator=(const Point& other) noexcept;
+  constexpr Point(const Point& other) noexcept;
 
  public:
   alignas(32) double vec4[4];
@@ -20,6 +22,9 @@ constexpr Point::Point() noexcept : Point(0.0, 0.0, 0.0) {}
 
 constexpr Point::Point(double ix, double iy, double iz) noexcept
     : vec4{ix, iy, iz, 1.0} {}
+
+constexpr Point::Point(const Point& other) noexcept
+    : vec4{other.x, other.y, other.z, other.w} {}
 
 constexpr Point& Point::operator=(const Point& other) noexcept {
   vec4[0] = other.vec4[0];
