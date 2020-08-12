@@ -1,9 +1,14 @@
+#include <cmath>
+
+#include "Core/Constants.hpp"
 #include "Core/Math.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
+
+using std::sqrt;
 
 //------------------------------------------------------------------------------
 // Translation
@@ -68,6 +73,39 @@ TEST_CASE("Reflection is scaling by a negative value", "[Transformation]") {
 //------------------------------------------------------------------------------
 // Rotation
 //------------------------------------------------------------------------------
+TEST_CASE("Rotating a point around the x axis", "[Transformation]") {
+  Point p(0, 1, 0);
+  Matrix half_quarter = rotation_x(PI / 4);
+  Matrix full_quarter = rotation_x(PI / 2);
+  REQUIRE_THAT(half_quarter * p, Equals(Point(0, sqrt(2) / 2, sqrt(2) / 2)));
+  REQUIRE_THAT(full_quarter * p, Equals(Point(0, 0, 1)));
+}
+
+TEST_CASE("The inverse of an x-rotation rotates in the opposite direction",
+          "[Transformation]") {
+  Point p(0, 1, 0);
+  Matrix half_quarter = rotation_x(PI / 4);
+  Matrix opposite_half_quarter = rotation_x(-PI / 4);
+  Matrix inv = inverse(half_quarter);
+  REQUIRE_THAT(inv, Equals(opposite_half_quarter));
+  REQUIRE_THAT(inv * p, Equals(Point(0, sqrt(2) / 2, -sqrt(2) / 2)));
+}
+
+TEST_CASE("Rotating a point around the y axis", "[Transformation]") {
+  Point p(0, 0, 1);
+  Matrix half_quarter = rotation_y(PI / 4);
+  Matrix full_quarter = rotation_y(PI / 2);
+  REQUIRE_THAT(half_quarter * p, Equals(Point(sqrt(2) / 2, 0, sqrt(2) / 2)));
+  REQUIRE_THAT(full_quarter * p, Equals(Point(1, 0, 0)));
+}
+
+TEST_CASE("Rotating a point around the z axis", "[Transformation]") {
+  Point p(0, 1, 0);
+  Matrix half_quarter = rotation_z(PI / 4);
+  Matrix full_quarter = rotation_z(PI / 2);
+  REQUIRE_THAT(half_quarter * p, Equals(Point(-sqrt(2) / 2, sqrt(2) / 2, 0)));
+  REQUIRE_THAT(full_quarter * p, Equals(Point(-1, 0, 0)));
+}
 
 //------------------------------------------------------------------------------
 // Shearing

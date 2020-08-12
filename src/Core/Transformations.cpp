@@ -1,5 +1,10 @@
 #include "Transformations.hpp"
 
+#include <cmath>
+
+using std::cos;
+using std::sin;
+
 //------------------------------------------------------------------------------
 // Translation
 //------------------------------------------------------------------------------
@@ -17,9 +22,20 @@ Matrix scaling(double x, double y, double z) {
 //------------------------------------------------------------------------------
 // Rotation
 //------------------------------------------------------------------------------
-Matrix rotation_x(double r);
-Matrix rotation_y(double r);
-Matrix rotation_z(double r);
+Matrix rotation_x(double r) {
+  return Matrix(1, 0, 0, 0, 0, cos(r), -sin(r), 0, 0, sin(r), cos(r), 0, 0, 0,
+                0, 1);
+}
+
+Matrix rotation_y(double r) {
+  return Matrix(cos(r), 0, sin(r), 0, 0, 1, 0, 0, -sin(r), 0, cos(r), 0, 0, 0,
+                0, 1);
+}
+
+Matrix rotation_z(double r) {
+  return Matrix(cos(r), -sin(r), 0, 0, sin(r), cos(r), 0, 0, 0, 0, 1, 0, 0, 0,
+                0, 1);
+}
 
 //------------------------------------------------------------------------------
 // Shearing
