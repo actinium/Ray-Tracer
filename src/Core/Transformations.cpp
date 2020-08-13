@@ -41,7 +41,9 @@ Matrix rotation_z(double r) {
 // Shearing
 //------------------------------------------------------------------------------
 Matrix shearing(double x_y, double x_z, double y_x, double y_z, double z_x,
-                double z_y);
+                double z_y) {
+  return Matrix(1, x_y, x_z, 0, y_x, 1, y_z, 0, z_x, z_y, 1, 0, 0, 0, 0, 1);
+}
 
 //------------------------------------------------------------------------------
 // View Transformation

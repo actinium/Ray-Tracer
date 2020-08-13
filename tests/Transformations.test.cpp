@@ -110,6 +110,47 @@ TEST_CASE("Rotating a point around the z axis", "[Transformation]") {
 //------------------------------------------------------------------------------
 // Shearing
 //------------------------------------------------------------------------------
+TEST_CASE("A shearing transformation moves x in proportion to y",
+          "[Transformation]") {
+  Matrix transform = shearing(1, 0, 0, 0, 0, 0);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(5, 3, 4)));
+}
+
+TEST_CASE("A shearing transformation moves x in proportion to z",
+          "[Transformation]") {
+  Matrix transform = shearing(0, 1, 0, 0, 0, 0);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(6, 3, 4)));
+}
+
+TEST_CASE("A shearing transformation moves y in proportion to x",
+          "[Transformation]") {
+  Matrix transform = shearing(0, 0, 1, 0, 0, 0);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(2, 5, 4)));
+}
+
+TEST_CASE("A shearing transformation moves y in proportion to z",
+          "[Transformation]") {
+  Matrix transform = shearing(0, 0, 0, 1, 0, 0);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(2, 7, 4)));
+}
+
+TEST_CASE("A shearing transformation moves z in proportion to x",
+          "[Transformation]") {
+  Matrix transform = shearing(0, 0, 0, 0, 1, 0);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(2, 3, 6)));
+}
+
+TEST_CASE("A shearing transformation moves z in proportion to y",
+          "[Transformation]") {
+  Matrix transform = shearing(0, 0, 0, 0, 0, 1);
+  Point p(2, 3, 4);
+  REQUIRE_THAT(transform * p, Equals(Point(2, 3, 7)));
+}
 
 //------------------------------------------------------------------------------
 // Transformation chaining
