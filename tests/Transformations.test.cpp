@@ -155,3 +155,26 @@ TEST_CASE("A shearing transformation moves z in proportion to y",
 //------------------------------------------------------------------------------
 // Transformation chaining
 //------------------------------------------------------------------------------
+TEST_CASE("Individual transformations are applied in sequence",
+          "[Transformation]") {
+  Point p(1, 0, 1);
+  Matrix A = rotation_x(PI / 2);
+  Matrix B = scaling(5, 5, 5);
+  Matrix C = translation(10, 5, 7);
+  Point p2 = A * p;
+  REQUIRE_THAT(p2, Equals(Point(1, -1, 0)));
+  Point p3 = B * p2;
+  REQUIRE_THAT(p3, Equals(Point(5, -5, 0)));
+  Point p4 = C * p3;
+  REQUIRE_THAT(p4, Equals(Point(15, 0, 7)));
+}
+
+TEST_CASE("Chained transformations must be applied in reverse order",
+          "[Transformation]") {
+  Point p(1, 0, 1);
+  Matrix A = rotation_x(PI / 2);
+  Matrix B = scaling(5, 5, 5);
+  Matrix C = translation(10, 5, 7);
+  Matrix T = C * B * A;
+  REQUIRE_THAT(T * p, Equals(Point(15, 0, 7)));
+}
