@@ -15,8 +15,8 @@ Intersections Sphere::intersect(const Ray& ray) {
   double c = dot(sphere_to_ray, sphere_to_ray) - 1;
   double discriminant = b * b - 4 * a * c;
   if (discriminant >= 0) {
-    is.emplace_back((-b - sqrt(discriminant)) / (2 * a));
-    is.emplace_back((-b + sqrt(discriminant)) / (2 * a));
+    is.emplace_back((-b - sqrt(discriminant)) / (2 * a), this);
+    is.emplace_back((-b + sqrt(discriminant)) / (2 * a), this);
   }
   return is;
 }

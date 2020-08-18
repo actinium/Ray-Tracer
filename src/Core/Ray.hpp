@@ -8,8 +8,8 @@ class Ray {
   constexpr Ray(Point origin, Vector direction) noexcept;
 
  public:
-  Point origin;
-  Vector direction;
+  const Point origin;
+  const Vector direction;
 };
 
 constexpr Ray::Ray(Point o, Vector d) noexcept : origin{o}, direction{d} {}

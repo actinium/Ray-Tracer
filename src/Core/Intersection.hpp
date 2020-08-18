@@ -2,14 +2,18 @@
 
 #include <vector>
 
+class Object;
+
 class Intersection {
  public:
-  constexpr Intersection(double t) noexcept;
+  constexpr Intersection(double t, Object* object) noexcept;
 
  public:
-  double t;
+  const double t;
+  Object const* const object;
 };
 
-constexpr Intersection::Intersection(double it) noexcept : t{it} {}
+constexpr Intersection::Intersection(double it, Object* obj) noexcept
+    : t{it}, object{obj} {}
 
 using Intersections = std::vector<Intersection>;
