@@ -4,6 +4,7 @@
 
 #include "Core/Color.hpp"
 #include "Core/Constants.hpp"
+#include "Core/Intersection.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Point.hpp"
 #include "Core/Vector.hpp"
@@ -109,4 +110,37 @@ class MatrixEquals : public Catch::MatcherBase<Matrix> {
 
 inline MatrixEquals Equals(const Matrix& expected) {
   return MatrixEquals(expected);
+}
+
+//------------------------------------------------------------------------------
+// Intersection
+//------------------------------------------------------------------------------
+inline std::ostream& operator<<(std::ostream& os, const Intersection& i) {
+  os << "(";
+  os << i.t << ", ";
+  os << i.object;
+  os << ")";
+  return os;
+}
+
+class IntersectionEquals : public Catch::MatcherBase<Intersection> {
+  Intersection expected;
+
+ public:
+  IntersectionEquals(const Intersection& e) : expected{e} {}
+
+  bool match(const Intersection& i) const override {
+    return i.t == Approx(expected.t).margin(EPSILON) &&
+           i.object == expected.object;
+  }
+
+  virtual std::string describe() const override {
+    std::ostringstream ss;
+    ss << "equals " << expected;
+    return ss.str();
+  }
+};
+
+inline IntersectionEquals Equals(const Intersection& expected) {
+  return IntersectionEquals(expected);
 }
