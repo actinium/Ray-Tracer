@@ -252,14 +252,11 @@ Vector normalize(const Vector& v) {
 //------------------------------------------------------------------------------
 namespace {
 void vec4_reflect(const double (&v)[4], const double (&n)[4], double (&r)[4]) {
-  double d;
-  alignas(32) double tmp[4];
-
   // r = v - n * 2 * dot(v, n)
+  double d;
   vec4_dot(v, n, d);
-  d *= 2;
-  vec4_scalar_mul(d, n, tmp);
-  vec4_sub(v, tmp, r);
+  vec4_scalar_mul(2 * d, n, r);
+  vec4_sub(v, r, r);
 }
 }  // namespace
 
