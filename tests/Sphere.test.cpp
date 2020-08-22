@@ -1,5 +1,6 @@
 #include "Core/Intersection.hpp"
 #include "Core/Ray.hpp"
+#include "Core/Transformations.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
@@ -45,4 +46,19 @@ TEST_CASE("A sphere is behind a ray", "[Sphere]") {
   REQUIRE(xs.size() == 2);
   REQUIRE(xs[0].t == Approx(-6.0));
   REQUIRE(xs[1].t == Approx(-4.0));
+}
+
+//------------------------------------------------------------------------------
+// Transformation
+//------------------------------------------------------------------------------
+TEST_CASE("A sphere's default transformation", "[Sphere]") {
+  Sphere s;
+  REQUIRE_THAT(s.transform(), Equals(Matrix::Identity));
+}
+
+TEST_CASE("Changing a sphere's transformation", "[Sphere]") {
+  Sphere s;
+  Matrix t = translation(2, 3, 4);
+  s.set_transform(t);
+  REQUIRE_THAT(s.transform(), Equals(t));
 }

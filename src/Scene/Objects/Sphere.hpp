@@ -5,10 +5,10 @@
 
 class Sphere : public Object {
  public:
-  constexpr Sphere();
+  constexpr Sphere() noexcept;
 
  public:
   Intersections intersect(const Ray& ray) override;
 };
 
-constexpr Sphere::Sphere() {}
+constexpr Sphere::Sphere() noexcept : Object() {}

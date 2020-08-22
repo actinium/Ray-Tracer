@@ -22,6 +22,9 @@ TEST_CASE("Computing a point from a distance", "[Ray]") {
   REQUIRE_THAT(position(r, 2.5), Equals(Point(4.5, 3, 4)));
 }
 
+//------------------------------------------------------------------------------
+// Transformation
+//------------------------------------------------------------------------------
 TEST_CASE("Translating a ray", "[Ray]") {
   Ray r(Point(1, 2, 3), Vector(0, 1, 0));
   Matrix m = translation(3, 4, 5);
