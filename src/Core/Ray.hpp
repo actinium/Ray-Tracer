@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Matrix.hpp"
 #include "Point.hpp"
 #include "Vector.hpp"
 
@@ -15,3 +16,5 @@ class Ray {
 constexpr Ray::Ray(Point o, Vector d) noexcept : origin{o}, direction{d} {}
 
 Point position(const Ray& ray, double t);
+
+Ray transform(const Ray& ray, const Matrix& matrix);
