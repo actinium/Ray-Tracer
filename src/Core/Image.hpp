@@ -11,8 +11,11 @@
 class Image {
  public:
   Image(std::size_t init_width, std::size_t init_height);
+  Image(std::size_t init_width, std::size_t init_height, const Color& color);
+  Image(const Image& other);
   ~Image();
 
+ public:
   std::size_t width() const { return width_; }
   std::size_t height() const { return height_; }
 
@@ -21,6 +24,8 @@ class Image {
   const Color& operator()(std::size_t x, std::size_t y) const {
     return get(x, y);
   }
+
+  void write(std::size_t x, std::size_t y, const Image& image);
 
   int save_as_png(const std::string& filename) const;
 

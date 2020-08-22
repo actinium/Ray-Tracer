@@ -7,7 +7,7 @@
 
 using std::sqrt;
 
-Intersections Sphere::intersect(const Ray& ray) {
+Intersections Sphere::intersect(const Ray& ray) const {
   Ray ray2 = ::transform(ray, inverse_transform());
   Intersections is;
   Vector sphere_to_ray = ray2.origin - Point(0, 0, 0);

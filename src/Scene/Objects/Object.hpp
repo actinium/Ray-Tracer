@@ -9,7 +9,7 @@ class Object {
   constexpr Object() noexcept;
 
  public:
-  virtual Intersections intersect(const Ray& ray) = 0;
+  virtual Intersections intersect(const Ray& ray) const = 0;
 
  public:
   const Matrix& transform() const;

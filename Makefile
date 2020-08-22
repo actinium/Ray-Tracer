@@ -34,7 +34,8 @@ SRC_FILES = $(wildcard $(SRC_DIR)/Core/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Lights/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/Materials/*.cpp) \
-            $(wildcard $(SRC_DIR)/Scene/Objects/Materials/Patterns/*.cpp)
+            $(wildcard $(SRC_DIR)/Scene/Objects/Materials/Patterns/*.cpp) \
+			$(wildcard $(SRC_DIR)/Chapters/*.cpp)
 TEST_FILES = $(wildcard $(TESTS_DIR)/*.test.cpp)
 TEST_MAIN = $(TESTS_DIR)/TestMain.cpp
 MAIN = $(SRC_DIR)/Main.cpp
@@ -78,6 +79,14 @@ $(BUILD_DIR)/%.o : %.cpp Makefile
 .PHONY : test
 test : $(BUILD_DIR)/$(TEST_BIN)
 	$(ECHO) "\033[1m\033[94m[Running Tests]\033[0m"
+	@./$<
+
+################################################################################
+# Run
+################################################################################
+.PHONY : run
+run : $(BIN)
+	$(ECHO) "\033[1m\033[94m[Running Ray Tracer]\033[0m"
 	@./$<
 
 ################################################################################

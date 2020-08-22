@@ -8,7 +8,7 @@ class Sphere : public Object {
   constexpr Sphere() noexcept;
 
  public:
-  Intersections intersect(const Ray& ray) override;
+  Intersections intersect(const Ray& ray) const override;
 };
 
 constexpr Sphere::Sphere() noexcept : Object() {}

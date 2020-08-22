@@ -12,7 +12,32 @@ Image::Image(std::size_t init_width, std::size_t init_height)
       height_{init_height},
       pixels_{new Color[init_width * init_height]} {}
 
+Image::Image(std::size_t init_width, std::size_t init_height,
+             const Color& color)
+    : Image(init_width, init_height) {
+  for (std::size_t i = 0; i < init_width * init_height; ++i) {
+    pixels_[i] = color;
+  }
+}
+
+Image::Image(const Image& other)
+    : width_{other.width()},
+      height_{other.height()},
+      pixels_{new Color[other.width() * other.height()]} {
+  std::copy(other.pixels_, other.pixels_ + other.width() * other.height(),
+            pixels_);
+}
+
 Image::~Image() { delete[] pixels_; }
+
+void Image::write(std::size_t x_start, std::size_t y_start,
+                  const Image& image) {
+  for (std::size_t x = 0; x < image.width(); ++x) {
+    for (std::size_t y = 0; y < image.height(); ++y) {
+      get(x_start + x, y_start + y) = image(x, y);
+    }
+  }
+}
 
 //------------------------------------------------------------------------------
 // Save Image as PNG

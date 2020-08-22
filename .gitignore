@@ -39,3 +39,6 @@ build
 
 # Build target
 raytracer
+
+#images
+*.png
