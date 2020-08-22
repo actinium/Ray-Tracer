@@ -3,6 +3,7 @@
 #include "Core/Intersection.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Ray.hpp"
+#include "Materials/Material.hpp"
 
 class Object {
  public:
@@ -17,15 +18,23 @@ class Object {
   const Matrix& inverse_transform() const;
   void set_transform(const Matrix& matrix);
 
+  const Material& material() const;
+  void set_material(const Material& material);
+
  private:
   Matrix transform_;
   Matrix inv_transform_;
+  const Material* material_;
 };
 
 constexpr Object::Object() noexcept
-    : transform_{Matrix::Identity}, inv_transform_{Matrix::Identity} {}
+    : transform_{Matrix::Identity},
+      inv_transform_{Matrix::Identity},
+      material_{&Material::Default} {}
 
 inline const Matrix& Object::transform() const { return transform_; }
 inline const Matrix& Object::inverse_transform() const {
   return inv_transform_;
 }
+
+inline const Material& Object::material() const { return *material_; }

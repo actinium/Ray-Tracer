@@ -8,6 +8,7 @@
 #include "Core/Matrix.hpp"
 #include "Core/Point.hpp"
 #include "Core/Vector.hpp"
+#include "Scene/Objects/Materials/Material.hpp"
 #include "catch.hpp"
 
 template <class T>
@@ -143,4 +144,45 @@ class IntersectionEquals : public Catch::MatcherBase<Intersection> {
 
 inline IntersectionEquals Equals(const Intersection& expected) {
   return IntersectionEquals(expected);
+}
+
+//------------------------------------------------------------------------------
+// Material
+//------------------------------------------------------------------------------
+inline std::ostream& operator<<(std::ostream& os, const Material& m) {
+  os << "(";
+  os << m.color << ", ";
+  os << m.ambient << ", ";
+  os << m.diffuse << ", ";
+  os << m.specular << ", ";
+  os << m.shininess << ", ";
+  os << ")";
+  return os;
+}
+
+class MaterialEquals : public Catch::MatcherBase<Material> {
+  Material expected;
+  TupleEquals<Color> color_matcher;
+
+ public:
+  MaterialEquals(const Material& e) : expected{e}, color_matcher{e.color} {}
+
+  bool match(const Material& m) const override {
+    if (m.ambient != Approx(expected.ambient)) return false;
+    if (m.diffuse != Approx(expected.diffuse)) return false;
+    if (m.specular != Approx(expected.specular)) return false;
+    if (m.shininess != Approx(expected.shininess)) return false;
+    if (!color_matcher.match(m.color)) return false;
+    return true;
+  }
+
+  virtual std::string describe() const override {
+    std::ostringstream ss;
+    ss << "equals " << expected;
+    return ss.str();
+  }
+};
+
+inline MaterialEquals Equals(const Material& expected) {
+  return MaterialEquals(expected);
 }

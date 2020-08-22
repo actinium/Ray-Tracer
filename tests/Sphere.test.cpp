@@ -132,3 +132,20 @@ TEST_CASE("Computing the normal on a transformed sphere", "[Sphere]") {
   Vector n = s.normal_at(Point(0, sqrt(2) / 2, -sqrt(2) / 2));
   REQUIRE_THAT(n, Equals(Vector(0, 0.97014, -0.242536)));
 }
+
+//------------------------------------------------------------------------------
+// Material
+//------------------------------------------------------------------------------
+TEST_CASE("A sphere has a default material", "[Sphere]") {
+  Sphere s;
+  const Material& m = s.material();
+  REQUIRE_THAT(m, Equals(Material::Default));
+}
+
+TEST_CASE("A sphere may be assigned a material", "[Sphere]") {
+  Sphere s;
+  Material m;
+  m.ambient = 1;
+  s.set_material(m);
+  REQUIRE_THAT(s.material(), Equals(m));
+}
