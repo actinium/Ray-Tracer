@@ -8,10 +8,11 @@
 using std::sqrt;
 
 Intersections Sphere::intersect(const Ray& ray) {
+  Ray ray2 = ::transform(ray, inverse_transform());
   Intersections is;
-  Vector sphere_to_ray = ray.origin - Point(0, 0, 0);
-  double a = dot(ray.direction, ray.direction);
-  double b = 2 * dot(ray.direction, sphere_to_ray);
+  Vector sphere_to_ray = ray2.origin - Point(0, 0, 0);
+  double a = dot(ray2.direction, ray2.direction);
+  double b = 2 * dot(ray2.direction, sphere_to_ray);
   double c = dot(sphere_to_ray, sphere_to_ray) - 1;
   double discriminant = b * b - 4 * a * c;
   if (discriminant >= 0) {

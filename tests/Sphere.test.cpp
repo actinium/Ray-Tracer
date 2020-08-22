@@ -62,3 +62,21 @@ TEST_CASE("Changing a sphere's transformation", "[Sphere]") {
   s.set_transform(t);
   REQUIRE_THAT(s.transform(), Equals(t));
 }
+
+TEST_CASE("Intersecting a scaled sphere with a ray", "[Sphere]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Sphere s;
+  s.set_transform(scaling(2, 2, 2));
+  Intersections xs = s.intersect(r);
+  REQUIRE(xs.size() == 2);
+  REQUIRE(xs[0].t == Approx(3));
+  REQUIRE(xs[1].t == Approx(7));
+}
+
+TEST_CASE("Intersecting a translated sphere with a ray", "[Sphere]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Sphere s;
+  s.set_transform(translation(5, 0, 0));
+  Intersections xs = s.intersect(r);
+  REQUIRE(xs.size() == 0);
+}
