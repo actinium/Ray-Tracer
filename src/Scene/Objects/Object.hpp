@@ -10,6 +10,7 @@ class Object {
 
  public:
   virtual Intersections intersect(const Ray& ray) const = 0;
+  virtual Vector normal_at(const Point& world_point) const = 0;
 
  public:
   const Matrix& transform() const;

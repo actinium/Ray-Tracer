@@ -102,3 +102,18 @@ TEST_CASE("Normalizing a vector", "[Vector]") {
 TEST_CASE("The magnitude of a normalized vector", "[Vector]") {
   REQUIRE(magnitude(normalize(Vector(1, 2, 3))) == Approx(1));
 }
+
+//------------------------------------------------------------------------------
+// Reflection
+//------------------------------------------------------------------------------
+TEST_CASE("Reflecting a vector approaching at 45°", "[Vector]") {
+  Vector vector(1, -1, 0);
+  Vector normal(0, 1, 0);
+  REQUIRE_THAT(reflect(vector, normal), Equals(Vector(1, 1, 0)));
+}
+
+TEST_CASE("Reflecting a vector off a slanted surface", "[Vector]") {
+  Vector vector(0, -1, 0);
+  Vector normal(sqrt(2) / 2, sqrt(2) / 2, 0);
+  REQUIRE_THAT(reflect(vector, normal), Equals(Vector(1, 0, 0)));
+}

@@ -1,9 +1,14 @@
+#include <cmath>
+
 #include "Core/Intersection.hpp"
+#include "Core/Math.hpp"
 #include "Core/Ray.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
+
+using std::sqrt;
 
 TEST_CASE("A ray intersects a sphere at two points", "[Sphere]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
@@ -79,4 +84,51 @@ TEST_CASE("Intersecting a translated sphere with a ray", "[Sphere]") {
   s.set_transform(translation(5, 0, 0));
   Intersections xs = s.intersect(r);
   REQUIRE(xs.size() == 0);
+}
+
+//------------------------------------------------------------------------------
+// Normal Vector
+//------------------------------------------------------------------------------
+TEST_CASE("The normal on a sphere at a point on the x axis", "[Sphere]") {
+  Sphere s;
+  Vector n = s.normal_at(Point(1, 0, 0));
+  REQUIRE_THAT(n, Equals(Vector(1, 0, 0)));
+}
+
+TEST_CASE("The normal on a sphere at a point on the y axis", "[Sphere]") {
+  Sphere s;
+  Vector n = s.normal_at(Point(0, 1, 0));
+  REQUIRE_THAT(n, Equals(Vector(0, 1, 0)));
+}
+
+TEST_CASE("The normal on a sphere at a point on the z axis", "[Sphere]") {
+  Sphere s;
+  Vector n = s.normal_at(Point(0, 0, 1));
+  REQUIRE_THAT(n, Equals(Vector(0, 0, 1)));
+}
+
+TEST_CASE("The normal on a sphere at a nonaxial point", "[Sphere]") {
+  Sphere s;
+  Vector n = s.normal_at(Point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+  REQUIRE_THAT(n, Equals(Vector(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3)));
+}
+
+TEST_CASE("The normal is a normalized vector", "[Sphere]") {
+  Sphere s;
+  Vector n = s.normal_at(Point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+  REQUIRE_THAT(n, Equals(normalize(n)));
+}
+
+TEST_CASE("Computing the normal on a translated sphere", "[Sphere]") {
+  Sphere s;
+  s.set_transform(translation(0, 1, 0));
+  Vector n = s.normal_at(Point(0, 1.70711, -0.70711));
+  REQUIRE_THAT(n, Equals(Vector(0, 0.70711, -0.70711)));
+}
+
+TEST_CASE("Computing the normal on a transformed sphere", "[Sphere]") {
+  Sphere s;
+  s.set_transform(scaling(1, 0.5, 1) * rotation_z(PI / 5));
+  Vector n = s.normal_at(Point(0, sqrt(2) / 2, -sqrt(2) / 2));
+  REQUIRE_THAT(n, Equals(Vector(0, 0.97014, -0.242536)));
 }

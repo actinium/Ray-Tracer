@@ -9,6 +9,7 @@ class Sphere : public Object {
 
  public:
   Intersections intersect(const Ray& ray) const override;
+  Vector normal_at(const Point& world_point) const override;
 };
 
 constexpr Sphere::Sphere() noexcept : Object() {}

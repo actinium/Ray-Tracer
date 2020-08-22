@@ -16,6 +16,9 @@ class Point {
   double& y = vec4[1];
   double& z = vec4[2];
   double& w = vec4[3];
+
+ public:
+  static const Point Origin;
 };
 
 constexpr Point::Point() noexcept : Point(0.0, 0.0, 0.0) {}

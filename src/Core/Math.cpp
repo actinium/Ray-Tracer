@@ -250,9 +250,24 @@ Vector normalize(const Vector& v) {
 //------------------------------------------------------------------------------
 // Reflection
 //------------------------------------------------------------------------------
-namespace {}
+namespace {
+void vec4_reflect(const double (&v)[4], const double (&n)[4], double (&r)[4]) {
+  double d;
+  alignas(32) double tmp[4];
 
-Vector reflect(const Vector& v, const Vector& n);
+  // r = v - n * 2 * dot(v, n)
+  vec4_dot(v, n, d);
+  d *= 2;
+  vec4_scalar_mul(d, n, tmp);
+  vec4_sub(v, tmp, r);
+}
+}  // namespace
+
+Vector reflect(const Vector& v, const Vector& n) {
+  Vector r;
+  vec4_reflect(v.vec4, n.vec4, r.vec4);
+  return r;
+}
 
 //------------------------------------------------------------------------------
 // Transposition

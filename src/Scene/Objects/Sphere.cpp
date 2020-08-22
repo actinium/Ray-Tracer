@@ -10,7 +10,7 @@ using std::sqrt;
 Intersections Sphere::intersect(const Ray& ray) const {
   Ray ray2 = ::transform(ray, inverse_transform());
   Intersections is;
-  Vector sphere_to_ray = ray2.origin - Point(0, 0, 0);
+  Vector sphere_to_ray = ray2.origin - Point::Origin;
   double a = dot(ray2.direction, ray2.direction);
   double b = 2 * dot(ray2.direction, sphere_to_ray);
   double c = dot(sphere_to_ray, sphere_to_ray) - 1;
@@ -20,4 +20,12 @@ Intersections Sphere::intersect(const Ray& ray) const {
     is.emplace_back((-b + sqrt(discriminant)) / (2 * a), this);
   }
   return is;
+}
+
+Vector Sphere::normal_at(const Point& world_point) const {
+  const Point object_point = inverse_transform() * world_point;
+  const Vector object_normal = object_point - Point::Origin;
+  Vector world_normal = transpose(inverse_transform()) * object_normal;
+  world_normal.w = 0;
+  return normalize(world_normal);
 }
