@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Intersection.hpp"
+#include "Core/Math.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Ray.hpp"
 #include "Materials/Material.hpp"
@@ -8,6 +9,7 @@
 class Object {
  public:
   constexpr Object() noexcept;
+  Object(const Matrix& transform, const Material& material) noexcept;
 
  public:
   virtual Intersections intersect(const Ray& ray) const = 0;
@@ -31,6 +33,9 @@ constexpr Object::Object() noexcept
     : transform_{Matrix::Identity},
       inv_transform_{Matrix::Identity},
       material_{&Material::Default} {}
+
+inline Object::Object(const Matrix& t, const Material& m) noexcept
+    : transform_{t}, inv_transform_{inverse(t)}, material_{&m} {}
 
 inline const Matrix& Object::transform() const { return transform_; }
 inline const Matrix& Object::inverse_transform() const {

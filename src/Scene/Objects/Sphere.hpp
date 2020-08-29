@@ -6,6 +6,7 @@
 class Sphere : public Object {
  public:
   constexpr Sphere() noexcept;
+  Sphere(const Matrix& transform, const Material& material) noexcept;
 
  public:
   Intersections intersect(const Ray& ray) const override;
@@ -13,3 +14,6 @@ class Sphere : public Object {
 };
 
 constexpr Sphere::Sphere() noexcept : Object() {}
+
+inline Sphere::Sphere(const Matrix& t, const Material& m) noexcept
+    : Object(t, m) {}
