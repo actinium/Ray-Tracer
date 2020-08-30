@@ -1,5 +1,6 @@
 #include "Core/Intersection.hpp"
 #include "Core/Point.hpp"
+#include "Core/PreparedComputations.hpp"
 #include "Core/Ray.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Objects/Sphere.hpp"
@@ -86,4 +87,40 @@ TEST_CASE("The hit is always the lowest nonnegative intersection",
   Hit h = hit(xs);
   REQUIRE(h.has_value());
   REQUIRE_THAT(h.value(), Equals(i4));
+}
+
+//------------------------------------------------------------------------------
+// Prepared Computations
+//------------------------------------------------------------------------------
+TEST_CASE("Precomputing the state of an intersection", "[Intersection]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Sphere shape;
+  Intersection i(4, &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  REQUIRE(comps.t == i.t);
+  REQUIRE(comps.object == i.object);
+  REQUIRE_THAT(comps.point, Equals(Point(0, 0, -1)));
+  REQUIRE_THAT(comps.eye_vector, Equals(Vector(0, 0, -1)));
+  REQUIRE_THAT(comps.normal_vector, Equals(Vector(0, 0, -1)));
+}
+
+TEST_CASE("The hit, when an intersection occurs on the outside",
+          "[Intersection]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Sphere shape;
+  Intersection i(4, &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  REQUIRE_FALSE(comps.inside);
+}
+
+TEST_CASE("The hit, when an intersection occurs on the inside",
+          "[Intersection]") {
+  Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+  Sphere shape;
+  Intersection i(1, &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  REQUIRE_THAT(comps.point, Equals(Point(0, 0, 1)));
+  REQUIRE_THAT(comps.eye_vector, Equals(Vector(0, 0, -1)));
+  REQUIRE(comps.inside);
+  REQUIRE_THAT(comps.normal_vector, Equals(Vector(0, 0, -1)));
 }
