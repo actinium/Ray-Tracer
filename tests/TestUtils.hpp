@@ -7,8 +7,12 @@
 #include "Core/Intersection.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Point.hpp"
+#include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
+#include "Scene/Lights/Light.hpp"
 #include "Scene/Objects/Materials/Material.hpp"
+#include "Scene/Objects/Sphere.hpp"
+#include "Scene/Scene.hpp"
 #include "catch.hpp"
 
 template <class T>
@@ -186,3 +190,14 @@ class MaterialEquals : public Catch::MatcherBase<Material> {
 inline MaterialEquals Equals(const Material& expected) {
   return MaterialEquals(expected);
 }
+
+//------------------------------------------------------------------------------
+// Scene
+//------------------------------------------------------------------------------
+inline Light default_light(Point(-10, 10, -10), Color(1, 1, 1));
+inline Material default_material_1(Color(0.8, 1.0, 0.6), 0.1, 0.7, 0.2, 200);
+inline Sphere default_sphere_1(Matrix::Identity, default_material_1);
+inline Material default_material_2{};
+inline Sphere default_sphere_2(scaling(0.5, 0.5, 0.5), default_material_2);
+inline Scene default_scene({&default_light},
+                           {&default_sphere_1, &default_sphere_2});
