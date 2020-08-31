@@ -1,5 +1,7 @@
 #include "Core/Color.hpp"
+#include "Core/Lighting.hpp"
 #include "Core/Point.hpp"
+#include "Core/PreparedComputations.hpp"
 #include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
@@ -54,4 +56,87 @@ TEST_CASE("Intersect a scene with a ray", "[Scene]") {
   REQUIRE(xs[1].t == Approx(4.5));
   REQUIRE(xs[2].t == Approx(5.5));
   REQUIRE(xs[3].t == Approx(6));
+}
+
+//------------------------------------------------------------------------------
+// Shading
+//------------------------------------------------------------------------------
+TEST_CASE("Shading an intersection", "[Scene]") {
+  Scene scene = default_scene;
+
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  const Object* shape = scene.objects.front();
+  Intersection i(4, shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color c = shade_hit(scene, comps);
+  REQUIRE_THAT(c, Equals(Color(0.380661, 0.475826, 0.285496)));
+}
+
+TEST_CASE("Shading an intersection from the inside", "[Scene]") {
+  Scene scene = default_scene;
+  Light light(Point(0, 0.25, 0), Color(1, 1, 1));
+  scene.lights.front() = &light;
+
+  Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+  const Object* shape = scene.objects[1];
+  Intersection i(0.5, shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color c = shade_hit(scene, comps);
+  REQUIRE_THAT(c, Equals(Color(0.90498, 0.90498, 0.90498)));
+}
+
+TEST_CASE("Shading an intersection with multiple lights", "[Scene]") {
+  Scene scene = default_scene;
+
+  scene.lights.erase(scene.lights.begin());
+  Light red(Point(-10, 10, -10), Color(1, 0, 0));
+  Light green(Point(-10, 10, -10), Color(0, 1, 0));
+  Light blue(Point(-10, 10, -10), Color(0, 0, 1));
+  scene.lights.push_back(&red);
+  scene.lights.push_back(&green);
+  scene.lights.push_back(&blue);
+
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  const Object* shape = scene.objects.front();
+  Intersection i(4, shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color c = shade_hit(scene, comps);
+  REQUIRE_THAT(c, Equals(Color(0.380661, 0.475826, 0.285496)));
+}
+
+TEST_CASE("The color when a ray misses", "[Scene]") {
+  Scene scene = default_scene;
+
+  Ray r(Point(0, 0, -5), Vector(0, 1, 0));
+  Color c = color_at(scene, r);
+  REQUIRE_THAT(c, Equals(Color(0, 0, 0)));
+}
+
+TEST_CASE("The color when a ray hits", "[Scene]") {
+  Scene scene = default_scene;
+
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Color c = color_at(scene, r);
+  REQUIRE_THAT(c, Equals(Color(0.380661, 0.475826, 0.285496)));
+}
+
+TEST_CASE("The color with an intersection behind the ray", "[Scene]") {
+  Scene scene = default_scene;
+
+  Sphere outer = default_sphere_1;
+  Material m_outer = default_material_1;
+  m_outer.ambient = 1;
+  outer.set_material(m_outer);
+
+  Sphere inner = default_sphere_2;
+  Material m_inner = default_material_2;
+  m_inner.ambient = 1;
+  inner.set_material(m_inner);
+
+  scene.objects[0] = &outer;
+  scene.objects[1] = &inner;
+
+  Ray r(Point(0, 0, 0.75), Vector(0, 0, -1));
+  Color c = color_at(scene, r);
+  REQUIRE_THAT(c, Equals(Color(m_inner.color)));
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Math.hpp"
+#include "Scene/Objects/Object.hpp"
 
 using std::pow;
 
@@ -30,4 +31,26 @@ Color lighting(const Material& material, const Light& light,
     }
   }
   return ambient + diffuse + specular;
+}
+
+Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
+  Color shade;
+  for (const Light* light : scene.lights) {
+    Color c = lighting(comps.object->material(), *light, comps.point,
+                       comps.eye_vector, comps.normal_vector);
+    shade = shade + c;
+  }
+  return shade;
+}
+
+Color color_at(const Scene& scene, const Ray& ray) {
+  Intersections is = scene.intersect(ray);
+  Hit h = hit(is);
+  if (!h.has_value()) {
+    return Color(0, 0, 0);
+  }
+  Intersection i = h.value();
+  PreparedComputations comps = prepare_computations(i, ray);
+  Color c = shade_hit(scene, comps);
+  return c;
 }
