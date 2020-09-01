@@ -2,6 +2,7 @@
 
 #include "Chapters/Chapter05.hpp"
 #include "Chapters/Chapter06.hpp"
+#include "Chapters/Chapter07.hpp"
 
 int main() {
   std::cout << "Hello Raytracer" << std::endl;
@@ -11,4 +12,7 @@ int main() {
 
   std::cout << "Running Chapter 6" << std::endl;
   chapter6();
+
+  std::cout << "Running Chapter 7" << std::endl;
+  chapter7();
 }
