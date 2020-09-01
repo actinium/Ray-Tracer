@@ -178,3 +178,43 @@ TEST_CASE("Chained transformations must be applied in reverse order",
   Matrix T = C * B * A;
   REQUIRE_THAT(T * p, Equals(Point(15, 0, 7)));
 }
+
+//------------------------------------------------------------------------------
+// View Transform
+//------------------------------------------------------------------------------
+TEST_CASE("The transformation matrix for the default orientation",
+          "[Transformation]") {
+  Point from(0, 0, 0);
+  Point to(0, 0, -1);
+  Vector up(0, 1, 0);
+  Matrix t = view_transform(from, to, up);
+  REQUIRE_THAT(t, Equals(Matrix::Identity));
+}
+
+TEST_CASE("A view transformation matrix looking in positive z direction",
+          "[Transformation]") {
+  Point from(0, 0, 0);
+  Point to(0, 0, 1);
+  Vector up(0, 1, 0);
+  Matrix t = view_transform(from, to, up);
+  REQUIRE_THAT(t, Equals(scaling(-1, 1, -1)));
+}
+
+TEST_CASE("The view transformation moves the world", "[Transformation]") {
+  Point from(0, 0, 8);
+  Point to(0, 0, 0);
+  Vector up(0, 1, 0);
+  Matrix t = view_transform(from, to, up);
+  REQUIRE_THAT(t, Equals(translation(0, 0, -8)));
+}
+
+TEST_CASE("An arbitrary view transformation", "[Transformation]") {
+  Point from(1, 3, 2);
+  Point to(4, -2, 8);
+  Vector up(1, 1, 0);
+  Matrix t = view_transform(from, to, up);
+  REQUIRE_THAT(t,
+               Equals(Matrix(-0.507093, 0.507093, 0.676123, -2.36643, 0.767716,
+                             0.606092, 0.121218, -2.82843, -0.358569, 0.597614,
+                             -0.717137, 0, 0, 0, 0, 1)));
+}

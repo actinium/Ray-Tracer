@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "Math.hpp"
+
 using std::cos;
 using std::sin;
 
@@ -48,4 +50,13 @@ Matrix shearing(double x_y, double x_z, double y_x, double y_z, double z_x,
 //------------------------------------------------------------------------------
 // View Transformation
 //------------------------------------------------------------------------------
-Matrix view_transform(const Point &from, const Point &to, const Vector &up);
+Matrix view_transform(const Point &from, const Point &to, const Vector &up) {
+  Vector forward = normalize(to - from);
+  Vector left = cross(forward, normalize(up));
+  Vector true_up = cross(left, forward);
+
+  Matrix orientation(left.x, left.y, left.z, 0, true_up.x, true_up.y, true_up.z,
+                     0, -forward.x, -forward.y, -forward.z, 0, 0, 0, 0, 1);
+
+  return orientation * translation(-from.x, -from.y, -from.z);
+}
