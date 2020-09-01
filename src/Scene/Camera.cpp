@@ -3,10 +3,16 @@
 #include "Core/Lighting.hpp"
 #include "Core/Math.hpp"
 #include "Core/Point.hpp"
+#include "Core/Transformations.hpp"
 
 void Camera::set_transform(const Matrix& matrix) {
   transform_ = matrix;
   inv_transform_ = inverse(matrix);
+}
+
+void Camera::set_view_transform(const Point& from, const Point& to,
+                                const Vector& up) {
+  set_transform(view_transform(from, to, up));
 }
 
 Ray Camera::ray_for_pixel(std::size_t x, std::size_t y) const {

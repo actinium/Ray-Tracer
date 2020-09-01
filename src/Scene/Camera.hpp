@@ -19,6 +19,7 @@ class Camera {
   const Matrix& transform() const;
   const Matrix& inverse_transform() const;
   void set_transform(const Matrix& matrix);
+  void set_view_transform(const Point& from, const Point& to, const Vector& up);
 
   Ray ray_for_pixel(std::size_t x, std::size_t y) const;
   Image render(const Scene& scene) const;
