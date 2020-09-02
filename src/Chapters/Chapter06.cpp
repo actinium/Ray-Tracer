@@ -35,7 +35,7 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape) {
         Vector normal = h->object->normal_at(point);
         Vector eye = -r.direction;
         Color color =
-            lighting(h->object->material(), light, point, eye, normal);
+            lighting(h->object->material(), light, point, eye, normal, false);
         image(x, y) = color;
       }
     }

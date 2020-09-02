@@ -124,3 +124,13 @@ TEST_CASE("The hit, when an intersection occurs on the inside",
   REQUIRE(comps.inside);
   REQUIRE_THAT(comps.normal_vector, Equals(Vector(0, 0, -1)));
 }
+
+TEST_CASE("The hit should offset the point", "[Intersection]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Sphere shape;
+  shape.set_transform(translation(0, 0, 1));
+  Intersection i(5, &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  REQUIRE(comps.over_point.z < -EPSILON / 2);
+  REQUIRE(comps.point.z > comps.over_point.z);
+}

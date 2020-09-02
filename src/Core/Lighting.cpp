@@ -8,14 +8,18 @@
 using std::pow;
 
 Color lighting(const Material& material, const Light& light,
-               const Point& position, const Vector& eyev,
-               const Vector& normalv) {
+               const Point& position, const Vector& eyev, const Vector& normalv,
+               bool in_shadow) {
   Color effective_color = material.color * light.intensity;
   Vector lightv = normalize(light.position - position);
 
   Color ambient = effective_color * material.ambient;
   Color diffuse(0, 0, 0);
   Color specular(0, 0, 0);
+
+  if (in_shadow) {
+    return ambient;
+  }
 
   double light_dot_normal = dot(lightv, normalv);
   if (light_dot_normal >= 0) {
@@ -30,14 +34,16 @@ Color lighting(const Material& material, const Light& light,
       specular = light.intensity * material.specular * factor;
     }
   }
+
   return ambient + diffuse + specular;
 }
 
 Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
   Color shade;
   for (const Light* light : scene.lights) {
-    Color c = lighting(comps.object->material(), *light, comps.point,
-                       comps.eye_vector, comps.normal_vector);
+    bool in_shadow = is_shadowed(comps.over_point, *light, scene);
+    Color c = lighting(comps.object->material(), *light, comps.over_point,
+                       comps.eye_vector, comps.normal_vector, in_shadow);
     shade = shade + c;
   }
   return shade;
@@ -53,4 +59,17 @@ Color color_at(const Scene& scene, const Ray& ray) {
   PreparedComputations comps = prepare_computations(i, ray);
   Color c = shade_hit(scene, comps);
   return c;
+}
+
+bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
+  Vector v = light.position - point;
+  double distance = magnitude(v);
+  Vector direction = normalize(v);
+  Ray r(point, direction);
+  Intersections intersections = scene.intersect(r);
+  Hit h = hit(intersections);
+  if (h.has_value() && h.value().t < distance) {
+    return true;
+  }
+  return false;
 }

@@ -11,6 +11,7 @@ struct PreparedComputations {
   double t;
   const Object* object;
   Point point;
+  Point over_point;
   Vector eye_vector;
   Vector normal_vector;
   bool inside;

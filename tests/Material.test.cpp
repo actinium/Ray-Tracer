@@ -27,7 +27,7 @@ TEST_CASE("Lighting with the eye between the light and the surface",
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv);
+  Color result = lighting(m, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.9, 1.9, 1.9)));
 }
 
@@ -38,7 +38,7 @@ TEST_CASE("Lighting with the eye between light and surface, eye offset 45°",
   Vector eyev(0, sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv);
+  Color result = lighting(m, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.0, 1.0, 1.0)));
 }
 
@@ -49,7 +49,7 @@ TEST_CASE("Lighting with eye opposite surface, light offset 45°",
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 10, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv);
+  Color result = lighting(m, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(0.7364, 0.7364, 0.7364)));
 }
 
@@ -60,7 +60,7 @@ TEST_CASE("Lighting with eye in the path of the reflection vector",
   Vector eyev(0, -sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 10, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv);
+  Color result = lighting(m, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.6364, 1.6364, 1.6364)));
 }
 
@@ -70,6 +70,20 @@ TEST_CASE("Lighting with the light behind the surface", "[Material]") {
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, 10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv);
+  Color result = lighting(m, light, position, eyev, normalv, false);
+  REQUIRE_THAT(result, Equals(Color(0.1, 0.1, 0.1)));
+}
+
+//------------------------------------------------------------------------------
+// Lighting with Shadows
+//------------------------------------------------------------------------------
+TEST_CASE("Lighting with the surface in shadow", "[Material]") {
+  Material m;
+  Point position = Point::Origin;
+  Vector eyev(0, 0, -1);
+  Vector normalv(0, 0, -1);
+  Light light(Point(0, 0, -10), Color(1, 1, 1));
+  bool in_shadow = true;
+  Color result = lighting(m, light, position, eyev, normalv, in_shadow);
   REQUIRE_THAT(result, Equals(Color(0.1, 0.1, 0.1)));
 }

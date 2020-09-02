@@ -1,5 +1,6 @@
 #include "PreparedComputations.hpp"
 
+#include "Constants.hpp"
 #include "Math.hpp"
 #include "Scene/Objects/Object.hpp"
 
@@ -18,6 +19,7 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
   } else {
     comps.inside = false;
   }
+  comps.over_point = comps.point + comps.normal_vector * EPSILON;
 
   return comps;
 }

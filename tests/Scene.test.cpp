@@ -140,3 +140,50 @@ TEST_CASE("The color with an intersection behind the ray", "[Scene]") {
   Color c = color_at(scene, r);
   REQUIRE_THAT(c, Equals(Color(m_inner.color)));
 }
+
+//------------------------------------------------------------------------------
+// Shadows
+//------------------------------------------------------------------------------
+TEST_CASE("There is no shadow when nothing is collinear with point and light",
+          "[Scene]") {
+  Scene scene = default_scene;
+  Point p(0, 10, 0);
+  REQUIRE_FALSE(is_shadowed(p, *scene.lights.front(), scene));
+}
+
+TEST_CASE("The shadow when an object is between the point and the light",
+          "[Scene]") {
+  Scene scene = default_scene;
+  Point p(10, -10, 10);
+  REQUIRE(is_shadowed(p, *scene.lights.front(), scene));
+}
+TEST_CASE("There is no shadow when an object is behind the light", "[Scene]") {
+  Scene scene = default_scene;
+  Point p(-20, 20, -20);
+  REQUIRE_FALSE(is_shadowed(p, *scene.lights.front(), scene));
+}
+
+TEST_CASE("There is no shadow when an object is behind the point", "[Scene]") {
+  Scene scene = default_scene;
+  Point p(-2, 2, -2);
+  REQUIRE_FALSE(is_shadowed(p, *scene.lights.front(), scene));
+}
+
+TEST_CASE("shade_hit() is given an intersection in shadow", "[Scene]") {
+  Scene scene;
+  Light light(Point(0, 0, -10), Color(1, 1, 1));
+  scene.lights.push_back(&light);
+
+  Sphere s1;
+  scene.objects.push_back(&s1);
+
+  Sphere s2;
+  s2.set_transform(translation(0, 0, 10));
+  scene.objects.push_back(&s2);
+
+  Ray ray(Point(0, 0, 5), Vector(0, 0, 1));
+  Intersection i(4, &s2);
+  PreparedComputations comps = prepare_computations(i, ray);
+  Color c = shade_hit(scene, comps);
+  REQUIRE_THAT(c, Equals(Color(0.1, 0.1, 0.1)));
+}

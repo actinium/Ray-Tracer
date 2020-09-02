@@ -13,6 +13,6 @@ int main() {
   std::cout << "Running Chapter 6" << std::endl;
   chapter6();
 
-  std::cout << "Running Chapter 7" << std::endl;
+  std::cout << "Running Chapter 7-8" << std::endl;
   chapter7();
 }
