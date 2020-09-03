@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Intersection.hpp"
 #include "Object.hpp"
 
 class Sphere : public Object {
