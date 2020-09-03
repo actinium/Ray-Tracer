@@ -21,6 +21,8 @@ Matrix scaling(double x, double y, double z) {
   return Matrix(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
 }
 
+Matrix scaling(double xyz) { return scaling(xyz, xyz, xyz); }
+
 //------------------------------------------------------------------------------
 // Rotation
 //------------------------------------------------------------------------------

@@ -13,6 +13,7 @@ Matrix translation(double x, double y, double z);
 // Scaling
 //------------------------------------------------------------------------------
 Matrix scaling(double x, double y, double z);
+Matrix scaling(double xyz);
 
 //------------------------------------------------------------------------------
 // Rotation
