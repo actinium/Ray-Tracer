@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-#include "Math.hpp"
+#include "Core/Math.hpp"
 
 using std::cos;
 using std::sin;

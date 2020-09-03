@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include "Lights/Light.hpp"
-#include "Objects/Object.hpp"
+#include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Object.hpp"
 
 Intersections Scene::intersect(const Ray& ray) const {
   Intersections is;

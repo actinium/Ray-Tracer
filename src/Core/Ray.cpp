@@ -1,6 +1,6 @@
 #include "Ray.hpp"
 
-#include "Math.hpp"
+#include "Core/Math.hpp"
 
 Point Ray::position(double t) const { return origin + direction * t; }
 

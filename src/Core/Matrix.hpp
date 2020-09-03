@@ -1,7 +1,5 @@
 #pragma once
 
-#include <initializer_list>
-
 class Matrix {
  public:
   constexpr Matrix() noexcept;

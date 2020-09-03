@@ -1,6 +1,6 @@
 #include "Intersection.hpp"
 
-#include "Constants.hpp"
+#include "Core/Constants.hpp"
 
 Hit hit(Intersections is) {
   double t_min = INF;

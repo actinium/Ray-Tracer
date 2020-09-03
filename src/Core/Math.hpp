@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Color.hpp"
-#include "Matrix.hpp"
-#include "Point.hpp"
-#include "Vector.hpp"
+#include "Core/Color.hpp"
+#include "Core/Matrix.hpp"
+#include "Core/Point.hpp"
+#include "Core/Vector.hpp"
 
 //------------------------------------------------------------------------------
 // Addition

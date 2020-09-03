@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <string>
 
-#include "Color.hpp"
+#include "Core/Color.hpp"
 
 //------------------------------------------------------------------------------
 // Image

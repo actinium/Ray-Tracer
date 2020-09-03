@@ -4,7 +4,7 @@
 #include "Core/Math.hpp"
 #include "Core/Matrix.hpp"
 #include "Core/Ray.hpp"
-#include "Materials/Material.hpp"
+#include "Scene/Objects/Materials/Material.hpp"
 
 class Object {
  public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.hpp"
+#include "Scene/Objects/Object.hpp"
 
 class Plane : public Object {
  public:

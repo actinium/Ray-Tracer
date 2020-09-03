@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Matrix.hpp"
-#include "Point.hpp"
-#include "Vector.hpp"
+#include "Core/Matrix.hpp"
+#include "Core/Point.hpp"
+#include "Core/Vector.hpp"
 
 class Ray {
  public:
