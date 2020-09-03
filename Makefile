@@ -48,7 +48,8 @@ SRC_FILES = $(wildcard $(SRC_DIR)/Core/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/Materials/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/Materials/Patterns/*.cpp) \
-			$(wildcard $(SRC_DIR)/Chapters/*.cpp)
+			$(wildcard $(SRC_DIR)/Chapters/*.cpp) \
+			$(wildcard $(SRC_DIR)/Chapters/Extra/*.cpp)
 TEST_FILES = $(wildcard $(TESTS_DIR)/*.test.cpp)
 TEST_MAIN = $(TESTS_DIR)/TestMain.cpp
 MAIN = $(SRC_DIR)/Main.cpp
