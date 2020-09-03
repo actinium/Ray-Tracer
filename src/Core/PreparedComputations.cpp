@@ -10,7 +10,7 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
   comps.t = i.t;
   comps.object = i.object;
 
-  comps.point = position(r, i.t);
+  comps.point = r.position(i.t);
   comps.eye_vector = -r.direction;
   comps.normal_vector = comps.object->normal_at(comps.point);
   if (dot(comps.normal_vector, comps.eye_vector) < 0) {

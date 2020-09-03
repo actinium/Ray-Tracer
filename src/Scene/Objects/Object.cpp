@@ -10,7 +10,7 @@ void Object::set_transform(const Matrix& matrix) {
 void Object::set_material(const Material& m) { material_ = &m; }
 
 Intersections Object::intersect(const Ray& ray) const {
-  Ray local_ray = ::transform(ray, inverse_transform());
+  Ray local_ray = ray.transform(inverse_transform());
   return local_intersect(local_ray);
 }
 

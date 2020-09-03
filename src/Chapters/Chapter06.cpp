@@ -31,7 +31,7 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape) {
       Intersections xs = shape.intersect(r);
       Hit h = hit(xs);
       if (h.has_value()) {
-        Point point = ::position(r, h->t);
+        Point point = r.position(h->t);
         Vector normal = h->object->normal_at(point);
         Vector eye = -r.direction;
         Color color =

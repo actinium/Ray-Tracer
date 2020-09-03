@@ -2,10 +2,8 @@
 
 #include "Math.hpp"
 
-Point position(const Ray& ray, double t) {
-  return ray.origin + ray.direction * t;
-}
+Point Ray::position(double t) const { return origin + direction * t; }
 
-Ray transform(const Ray& ray, const Matrix& matrix) {
-  return Ray(matrix * ray.origin, matrix * ray.direction);
+Ray Ray::transform(const Matrix& matrix) const {
+  return Ray(matrix * origin, matrix * direction);
 }

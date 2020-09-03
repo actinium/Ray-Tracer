@@ -9,12 +9,12 @@ class Ray {
   constexpr Ray(Point origin, Vector direction) noexcept;
 
  public:
+  Point position(double t) const;
+  Ray transform(const Matrix& matrix) const;
+
+ public:
   const Point origin;
   const Vector direction;
 };
 
 constexpr Ray::Ray(Point o, Vector d) noexcept : origin{o}, direction{d} {}
-
-Point position(const Ray& ray, double t);
-
-Ray transform(const Ray& ray, const Matrix& matrix);
