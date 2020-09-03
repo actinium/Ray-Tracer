@@ -12,16 +12,20 @@ class Object {
   Object(const Matrix& transform, const Material& material) noexcept;
 
  public:
-  virtual Intersections intersect(const Ray& ray) const = 0;
-  virtual Vector normal_at(const Point& world_point) const = 0;
-
- public:
   const Matrix& transform() const;
   const Matrix& inverse_transform() const;
   void set_transform(const Matrix& matrix);
 
   const Material& material() const;
   void set_material(const Material& material);
+
+ public:
+  Intersections intersect(const Ray& ray) const;
+  Vector normal_at(const Point& world_point) const;
+
+ private:
+  virtual Intersections local_intersect(const Ray& ray) const = 0;
+  virtual Vector local_normal_at(const Point& point) const = 0;
 
  private:
   Matrix transform_;

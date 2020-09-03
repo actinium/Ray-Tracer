@@ -8,9 +8,9 @@ class Sphere : public Object {
   constexpr Sphere() noexcept;
   Sphere(const Matrix& transform, const Material& material) noexcept;
 
- public:
-  Intersections intersect(const Ray& ray) const override;
-  Vector normal_at(const Point& world_point) const override;
+ private:
+  Intersections local_intersect(const Ray& ray) const override;
+  Vector local_normal_at(const Point& point) const override;
 };
 
 constexpr Sphere::Sphere() noexcept : Object() {}
