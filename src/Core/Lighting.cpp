@@ -2,11 +2,15 @@
 
 #include <cmath>
 
-#include "Math.hpp"
+#include "Core/Constants.hpp"
+#include "Core/Math.hpp"
 #include "Scene/Objects/Object.hpp"
 
 using std::pow;
 
+//------------------------------------------------------------------------------
+// Lighting
+//------------------------------------------------------------------------------
 Color lighting(const Material& material, const Light& light,
                const Point& position, const Vector& eyev, const Vector& normalv,
                bool in_shadow) {
@@ -38,6 +42,9 @@ Color lighting(const Material& material, const Light& light,
   return ambient + diffuse + specular;
 }
 
+//------------------------------------------------------------------------------
+// Shade Hit
+//------------------------------------------------------------------------------
 Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
   Color shade;
   for (const Light* light : scene.lights) {
@@ -49,6 +56,25 @@ Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
   return shade;
 }
 
+//------------------------------------------------------------------------------
+// Is Shadowed
+//------------------------------------------------------------------------------
+bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
+  Vector v = light.position - point;
+  double distance = magnitude(v);
+  Vector direction = normalize(v);
+  Ray r(point, direction);
+  Intersections intersections = scene.intersect(r);
+  Hit h = hit(intersections);
+  if (h.has_value() && h.value().t < distance) {
+    return true;
+  }
+  return false;
+}
+
+//------------------------------------------------------------------------------
+// Color at
+//------------------------------------------------------------------------------
 Color color_at(const Scene& scene, const Ray& ray) {
   Intersections is = scene.intersect(ray);
   Hit h = hit(is);
@@ -61,15 +87,25 @@ Color color_at(const Scene& scene, const Ray& ray) {
   return c;
 }
 
-bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
-  Vector v = light.position - point;
-  double distance = magnitude(v);
-  Vector direction = normalize(v);
-  Ray r(point, direction);
-  Intersections intersections = scene.intersect(r);
-  Hit h = hit(intersections);
-  if (h.has_value() && h.value().t < distance) {
-    return true;
+//------------------------------------------------------------------------------
+// Prepare Computations
+//------------------------------------------------------------------------------
+PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
+  PreparedComputations comps;
+
+  comps.t = i.t;
+  comps.object = i.object;
+
+  comps.point = r.position(i.t);
+  comps.eye_vector = -r.direction;
+  comps.normal_vector = comps.object->normal_at(comps.point);
+  if (dot(comps.normal_vector, comps.eye_vector) < 0) {
+    comps.inside = true;
+    comps.normal_vector = -comps.normal_vector;
+  } else {
+    comps.inside = false;
   }
-  return false;
+  comps.over_point = comps.point + comps.normal_vector * EPSILON;
+
+  return comps;
 }

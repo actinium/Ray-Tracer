@@ -1,7 +1,6 @@
 #include "Core/Color.hpp"
 #include "Core/Lighting.hpp"
 #include "Core/Point.hpp"
-#include "Core/PreparedComputations.hpp"
 #include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"

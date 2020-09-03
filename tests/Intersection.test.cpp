@@ -1,6 +1,6 @@
 #include "Core/Intersection.hpp"
+#include "Core/Lighting.hpp"
 #include "Core/Point.hpp"
-#include "Core/PreparedComputations.hpp"
 #include "Core/Ray.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Objects/Sphere.hpp"
