@@ -60,5 +60,5 @@ void spheres_on_sphere() {
   camera.set_view_transform(Point(0, 0, -10), Point(0, 0, 0), Vector(0, 1, 0));
 
   Image image = camera.render(scene);
-  image.save_as_png("extra-spheres-on-sphere.png");
+  image.save_as_png("images/extra-06-spheres-on-sphere.png");
 }

@@ -83,9 +83,9 @@ void chapter7() {
   //----------------------------------------------------------------------------
   // Camera
   //----------------------------------------------------------------------------
-  Camera camera(800, 450, PI / 3);
+  Camera camera(1920, 1080, PI / 3);
   camera.set_view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
 
   Image image = camera.render(scene);
-  image.save_as_png("chapter-07-08.png");
+  image.save_as_png("images/chapter-07-making-a-scene.png");
 }

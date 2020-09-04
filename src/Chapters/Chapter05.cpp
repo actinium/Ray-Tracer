@@ -66,5 +66,5 @@ void chapter5() {
   Image image4 = render_sphere(img_pixels, shape4, color4);
   image.write(img_pixels + 20, img_pixels + 20, image4);
 
-  image.save_as_png("chapter-05.png");
+  image.save_as_png("images/chapter-05-sphere-intersections.png");
 }

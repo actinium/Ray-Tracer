@@ -82,5 +82,5 @@ void chapter6() {
   Image image4 = render_sphere(img_pixels, shape4);
   image.write(img_pixels + 20, img_pixels + 20, image4);
 
-  image.save_as_png("chapter-06.png");
+  image.save_as_png("images/chapter-06-light-and-shading.png");
 }
