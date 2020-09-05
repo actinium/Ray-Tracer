@@ -1,4 +1,4 @@
-#include "SpheresOnSphere.hpp"
+#include "Stack.hpp"
 
 #include <cmath>
 
@@ -9,40 +9,30 @@
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
+#include "SpheresOnSphere.hpp"
 
 using std::cos;
 using std::sin;
 using std::sqrt;
 
-void extra_spheres_on_sphere() {
+void extra_stack() {
   Scene scene;
 
   //----------------------------------------------------------------------------
-  // Spheres on a sphere
-  //
-  // Using the Fibonacci sphere algorithm
+  // Spheres
   //----------------------------------------------------------------------------
   Material sphere_material;
-  sphere_material.color = Color::Turquoise;
+  sphere_material.color = Color::Orange;
   sphere_material.ambient = 0.4;
   sphere_material.diffuse = 0.8;
   sphere_material.specular = 0.75;
   sphere_material.shininess = 300;
 
-  const int num_spheres = 200;
-  const double num_spheres_min_one = static_cast<double>(num_spheres - 1);
-  const double phi = PI * (3 - sqrt(5));
-
+  const int num_spheres = 21;
   for (int k = 0; k < num_spheres; ++k) {
-    const double y = 1 - 2 * k / num_spheres_min_one;
-    const double radius = sqrt(1 - y * y);
-    const double theta = k * phi;
-
-    const double x = cos(theta) * radius;
-    const double z = sin(theta) * radius;
-
     Sphere* s = new Sphere();
-    s->set_transform(scaling(3) * translation(x, y, z) * scaling(0.2));
+    s->set_transform(translation(0, 0.1 * (k - (num_spheres / 2)), 0) *
+                     rotation_y(k * PI / 32) * scaling(0.4, 0.2, 1));
     s->set_material(sphere_material);
     scene.objects.push_back(s);
   }
@@ -57,8 +47,8 @@ void extra_spheres_on_sphere() {
   // Camera
   //----------------------------------------------------------------------------
   Camera camera(1080, 1080, PI / 3);
-  camera.set_view_transform(Point(0, 0, -10), Point(0, 0, 0), Vector(0, 1, 0));
+  camera.set_view_transform(Point(0, 0, -3), Point(0, 0, 0), Vector(0, 1, 0));
 
   Image image = camera.render(scene);
-  image.save_as_png("images/extra-06-spheres-on-sphere.png");
+  image.save_as_png("images/extra-07-stack.png");
 }

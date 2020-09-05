@@ -1,3 +1,3 @@
 #pragma once
 
-void spheres_on_sphere();
+void extra_spheres_on_sphere();
