@@ -43,9 +43,9 @@ TEST_CASE("The hit, when all intersections have positive t", "[Intersection]") {
   Intersections xs;
   xs.push_back(i2);
   xs.push_back(i1);
-  Hit h = hit(xs);
-  REQUIRE(h.has_value());
-  REQUIRE_THAT(h.value(), Equals(i1));
+  Hit hit = get_first_hit(xs);
+  REQUIRE(hit.has_value());
+  REQUIRE_THAT(hit.value(), Equals(i1));
 }
 
 TEST_CASE("The hit, when some intersections have negative t",
@@ -56,9 +56,9 @@ TEST_CASE("The hit, when some intersections have negative t",
   Intersections xs;
   xs.push_back(i2);
   xs.push_back(i1);
-  Hit h = hit(xs);
-  REQUIRE(h.has_value());
-  REQUIRE_THAT(h.value(), Equals(i2));
+  Hit hit = get_first_hit(xs);
+  REQUIRE(hit.has_value());
+  REQUIRE_THAT(hit.value(), Equals(i2));
 }
 
 TEST_CASE("The hit, when all intersections have negative t", "[Intersection]") {
@@ -68,8 +68,8 @@ TEST_CASE("The hit, when all intersections have negative t", "[Intersection]") {
   Intersections xs;
   xs.push_back(i2);
   xs.push_back(i1);
-  Hit h = hit(xs);
-  REQUIRE_FALSE(h.has_value());
+  Hit hit = get_first_hit(xs);
+  REQUIRE_FALSE(hit.has_value());
 }
 
 TEST_CASE("The hit is always the lowest nonnegative intersection",
@@ -84,9 +84,9 @@ TEST_CASE("The hit is always the lowest nonnegative intersection",
   xs.push_back(i2);
   xs.push_back(i3);
   xs.push_back(i4);
-  Hit h = hit(xs);
-  REQUIRE(h.has_value());
-  REQUIRE_THAT(h.value(), Equals(i4));
+  Hit hit = get_first_hit(xs);
+  REQUIRE(hit.has_value());
+  REQUIRE_THAT(hit.value(), Equals(i4));
 }
 
 //------------------------------------------------------------------------------

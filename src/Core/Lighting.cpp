@@ -65,8 +65,8 @@ bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
   Vector direction = normalize(v);
   Ray r(point, direction);
   Intersections intersections = scene.intersect(r);
-  Hit h = hit(intersections);
-  if (h.has_value() && h.value().t < distance) {
+  Hit hit = get_first_hit(intersections);
+  if (hit.has_value() && hit.value().t < distance) {
     return true;
   }
   return false;
@@ -77,11 +77,11 @@ bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
 //------------------------------------------------------------------------------
 Color color_at(const Scene& scene, const Ray& ray) {
   Intersections is = scene.intersect(ray);
-  Hit h = hit(is);
-  if (!h.has_value()) {
+  Hit hit = get_first_hit(is);
+  if (!hit.has_value()) {
     return Color(0, 0, 0);
   }
-  Intersection i = h.value();
+  Intersection i = hit.value();
   PreparedComputations comps = prepare_computations(i, ray);
   Color c = shade_hit(scene, comps);
   return c;

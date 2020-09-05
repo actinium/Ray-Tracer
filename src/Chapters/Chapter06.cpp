@@ -29,13 +29,13 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape) {
       Point position(world_x, world_y, wall_z);
       Ray r(ray_origin, normalize(position - ray_origin));
       Intersections xs = shape.intersect(r);
-      Hit h = hit(xs);
-      if (h.has_value()) {
-        Point point = r.position(h->t);
-        Vector normal = h->object->normal_at(point);
+      Hit hit = get_first_hit(xs);
+      if (hit.has_value()) {
+        Point point = r.position(hit->t);
+        Vector normal = hit->object->normal_at(point);
         Vector eye = -r.direction;
         Color color =
-            lighting(h->object->material(), light, point, eye, normal, false);
+            lighting(hit->object->material(), light, point, eye, normal, false);
         image(x, y) = color;
       }
     }

@@ -26,4 +26,4 @@ using Intersections = std::vector<Intersection>;
 
 using Hit = std::optional<Intersection>;
 
-Hit hit(Intersections is);
+Hit get_first_hit(Intersections is);

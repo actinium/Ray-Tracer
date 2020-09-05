@@ -2,7 +2,7 @@
 
 #include "Core/Constants.hpp"
 
-Hit hit(Intersections is) {
+Hit get_first_hit(Intersections is) {
   double t_min = INF;
   const Object *target = nullptr;
 
