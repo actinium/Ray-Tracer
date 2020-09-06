@@ -10,7 +10,6 @@
 #include "Chapters/Extra/Shininess.hpp"
 #include "Chapters/Extra/Specular.hpp"
 #include "Chapters/Extra/SpheresOnSphere.hpp"
-#include "Chapters/Extra/Stack.hpp"
 
 void run_chapters() {
   std::cout << "Running Chapter 5" << std::endl;
@@ -46,9 +45,6 @@ void run_extra_materials() {
 void run_extra_scenes() {
   std::cout << "Running Extra - Spheres on Sphere" << std::endl;
   extra_spheres_on_sphere();
-
-  std::cout << "Running Extra - Stack" << std::endl;
-  extra_stack();
 }
 
 int main() {

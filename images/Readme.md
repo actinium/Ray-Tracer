@@ -33,6 +33,3 @@
 
 ## Spheres on Sphere
 ![Spheres on Sphere](/images/extra-06-spheres-on-sphere.png)
-
-## Turning Stack
-![Stack](/images/extra-07-stack.png)
