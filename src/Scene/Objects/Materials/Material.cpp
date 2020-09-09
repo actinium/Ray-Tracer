@@ -1,3 +1,9 @@
 #include "Material.hpp"
 
-const Material Material::Default = Material();
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
+
+namespace {
+SimpleMaterial sm;
+}
+
+const Material& Material::Default = sm;

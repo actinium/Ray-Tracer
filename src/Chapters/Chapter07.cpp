@@ -4,6 +4,7 @@
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Sphere.hpp"
 
 void chapter7() {
@@ -13,7 +14,7 @@ void chapter7() {
   //----------------------------------------------------------------------------
   Sphere floor;
   floor.set_transform(scaling(10, 0.01, 10));
-  Material wall_floor_material;
+  SimpleMaterial wall_floor_material;
   wall_floor_material.color = Color(1, 0.9, 0.9);
   wall_floor_material.specular = 0;
   floor.set_material(wall_floor_material);
@@ -42,7 +43,7 @@ void chapter7() {
   //----------------------------------------------------------------------------
   Sphere middle;
   middle.set_transform(translation(-0.5, 1, 0.5));
-  Material middle_material;
+  SimpleMaterial middle_material;
   middle_material.color = Color(0.1, 1, 0.5);
   middle_material.diffuse = 0.7;
   middle_material.specular = 0.3;
@@ -54,7 +55,7 @@ void chapter7() {
   //----------------------------------------------------------------------------
   Sphere right;
   right.set_transform(translation(1.5, 0.5, -0.5) * scaling(0.5, 0.5, 0.5));
-  Material right_material;
+  SimpleMaterial right_material;
   right_material.color = Color(0.5, 1, 0.1);
   right_material.diffuse = 0.7;
   right_material.specular = 0.3;
@@ -67,7 +68,7 @@ void chapter7() {
   Sphere left;
   left.set_transform(translation(-1.5, 0.33, -0.75) *
                      scaling(0.33, 0.33, 0.33));
-  Material left_material;
+  SimpleMaterial left_material;
   left_material.color = Color(1, 0.8, 0.1);
   left_material.diffuse = 0.7;
   left_material.specular = 0.3;

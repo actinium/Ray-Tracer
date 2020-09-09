@@ -6,6 +6,7 @@
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -22,7 +23,7 @@ void extra_spheres_on_sphere() {
   //
   // Using the Fibonacci sphere algorithm
   //----------------------------------------------------------------------------
-  Material sphere_material;
+  SimpleMaterial sphere_material;
   sphere_material.color = Color::Turquoise;
   sphere_material.ambient = 0.4;
   sphere_material.diffuse = 0.8;

@@ -3,13 +3,14 @@
 #include "Core/Lighting.hpp"
 #include "Scene/Lights/Light.hpp"
 #include "Scene/Objects/Materials/Material.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
 
 using std::sqrt;
 
 TEST_CASE("The default material", "[Material]") {
-  Material m;
+  SimpleMaterial m;
   REQUIRE_THAT(m.color, Equals(Color(1, 1, 1)));
   REQUIRE(m.ambient == Approx(0.1));
   REQUIRE(m.diffuse == Approx(0.9));
@@ -22,7 +23,7 @@ TEST_CASE("The default material", "[Material]") {
 //------------------------------------------------------------------------------
 TEST_CASE("Lighting with the eye between the light and the surface",
           "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
@@ -33,7 +34,7 @@ TEST_CASE("Lighting with the eye between the light and the surface",
 
 TEST_CASE("Lighting with the eye between light and surface, eye offset 45°",
           "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
@@ -44,7 +45,7 @@ TEST_CASE("Lighting with the eye between light and surface, eye offset 45°",
 
 TEST_CASE("Lighting with eye opposite surface, light offset 45°",
           "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
@@ -55,7 +56,7 @@ TEST_CASE("Lighting with eye opposite surface, light offset 45°",
 
 TEST_CASE("Lighting with eye in the path of the reflection vector",
           "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, -sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
@@ -65,7 +66,7 @@ TEST_CASE("Lighting with eye in the path of the reflection vector",
 }
 
 TEST_CASE("Lighting with the light behind the surface", "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
@@ -78,7 +79,7 @@ TEST_CASE("Lighting with the light behind the surface", "[Material]") {
 // Lighting with Shadows
 //------------------------------------------------------------------------------
 TEST_CASE("Lighting with the surface in shadow", "[Material]") {
-  Material m;
+  SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);

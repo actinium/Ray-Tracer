@@ -4,6 +4,7 @@
 #include "Core/Math.hpp"
 #include "Core/Ray.hpp"
 #include "Core/Transformations.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
@@ -138,14 +139,15 @@ TEST_CASE("Computing the normal on a transformed sphere", "[Sphere]") {
 //------------------------------------------------------------------------------
 TEST_CASE("A sphere has a default material", "[Sphere]") {
   Sphere s;
-  const Material& m = s.material();
-  REQUIRE_THAT(m, Equals(Material::Default));
+  const SimpleMaterial& m = dynamic_cast<const SimpleMaterial&>(s.material());
+  REQUIRE_THAT(m,
+               Equals(dynamic_cast<const SimpleMaterial&>(Material::Default)));
 }
 
 TEST_CASE("A sphere may be assigned a material", "[Sphere]") {
   Sphere s;
-  Material m;
+  SimpleMaterial m;
   m.ambient = 1;
   s.set_material(m);
-  REQUIRE_THAT(s.material(), Equals(m));
+  REQUIRE_THAT(dynamic_cast<const SimpleMaterial&>(s.material()), Equals(m));
 }

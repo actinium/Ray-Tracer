@@ -4,6 +4,7 @@
 #include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
 #include "TestUtils.hpp"
@@ -19,7 +20,7 @@ TEST_CASE("The default scene", "[Scene]") {
   Light light(Point(-10, 10, -10), Color(1, 1, 1));
 
   Sphere s1;
-  Material m;
+  SimpleMaterial m;
   m.color = Color(0.8, 1.0, 0.6);
   m.diffuse = 0.7;
   m.specular = 0.2;
@@ -37,13 +38,21 @@ TEST_CASE("The default scene", "[Scene]") {
   const Sphere* o1 = dynamic_cast<const Sphere*>(scene.objects[0]);
   REQUIRE(o1 != nullptr);
   REQUIRE_THAT(o1->transform(), Equals(s1.transform()));
-  REQUIRE_THAT(o1->material(), Equals(s1.material()));
+  const SimpleMaterial& o1m =
+      dynamic_cast<const SimpleMaterial&>(o1->material());
+  const SimpleMaterial& s1m =
+      dynamic_cast<const SimpleMaterial&>(s1.material());
+  REQUIRE_THAT(o1m, Equals(s1m));
 
   // scene contains s2
   const Sphere* o2 = dynamic_cast<const Sphere*>(scene.objects[1]);
   REQUIRE(o2 != nullptr);
   REQUIRE_THAT(o2->transform(), Equals(s2.transform()));
-  REQUIRE_THAT(o2->material(), Equals(s2.material()));
+  const SimpleMaterial& o2m =
+      dynamic_cast<const SimpleMaterial&>(o2->material());
+  const SimpleMaterial& s2m =
+      dynamic_cast<const SimpleMaterial&>(s2.material());
+  REQUIRE_THAT(o2m, Equals(s2m));
 }
 
 TEST_CASE("Intersect a scene with a ray", "[Scene]") {
@@ -123,12 +132,12 @@ TEST_CASE("The color with an intersection behind the ray", "[Scene]") {
   Scene scene = default_scene;
 
   Sphere outer = default_sphere_1;
-  Material m_outer = default_material_1;
+  SimpleMaterial m_outer = default_material_1;
   m_outer.ambient = 1;
   outer.set_material(m_outer);
 
   Sphere inner = default_sphere_2;
-  Material m_inner = default_material_2;
+  SimpleMaterial m_inner = default_material_2;
   m_inner.ambient = 1;
   inner.set_material(m_inner);
 

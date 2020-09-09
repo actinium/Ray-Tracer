@@ -14,7 +14,7 @@ using std::pow;
 Color lighting(const Material& material, const Light& light,
                const Point& position, const Vector& eyev, const Vector& normalv,
                bool in_shadow) {
-  Color effective_color = material.color * light.intensity;
+  Color effective_color = material.color_at(position) * light.intensity;
   Vector lightv = normalize(light.position - position);
 
   Color ambient = effective_color * material.ambient;

@@ -4,6 +4,7 @@
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -15,7 +16,7 @@ Image render_sphere(double diffuse) {
   //----------------------------------------------------------------------------
   // Sphere
   //----------------------------------------------------------------------------
-  Material sphere_material;
+  SimpleMaterial sphere_material;
   sphere_material.color = Color::Blue;
   sphere_material.diffuse = diffuse;
 

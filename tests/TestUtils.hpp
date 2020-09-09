@@ -11,6 +11,7 @@
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
 #include "Scene/Objects/Materials/Material.hpp"
+#include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
 #include "catch.hpp"
@@ -153,7 +154,7 @@ inline IntersectionEquals Equals(const Intersection& expected) {
 //------------------------------------------------------------------------------
 // Material
 //------------------------------------------------------------------------------
-inline std::ostream& operator<<(std::ostream& os, const Material& m) {
+inline std::ostream& operator<<(std::ostream& os, const SimpleMaterial& m) {
   os << "(";
   os << m.color << ", ";
   os << m.ambient << ", ";
@@ -164,14 +165,15 @@ inline std::ostream& operator<<(std::ostream& os, const Material& m) {
   return os;
 }
 
-class MaterialEquals : public Catch::MatcherBase<Material> {
-  Material expected;
+class SimpleMaterialEquals : public Catch::MatcherBase<SimpleMaterial> {
+  SimpleMaterial expected;
   TupleEquals<Color> color_matcher;
 
  public:
-  MaterialEquals(const Material& e) : expected{e}, color_matcher{e.color} {}
+  SimpleMaterialEquals(const SimpleMaterial& e)
+      : expected{e}, color_matcher{e.color} {}
 
-  bool match(const Material& m) const override {
+  bool match(const SimpleMaterial& m) const override {
     if (m.ambient != Approx(expected.ambient)) return false;
     if (m.diffuse != Approx(expected.diffuse)) return false;
     if (m.specular != Approx(expected.specular)) return false;
@@ -187,17 +189,18 @@ class MaterialEquals : public Catch::MatcherBase<Material> {
   }
 };
 
-inline MaterialEquals Equals(const Material& expected) {
-  return MaterialEquals(expected);
+inline SimpleMaterialEquals Equals(const SimpleMaterial& expected) {
+  return SimpleMaterialEquals(expected);
 }
 
 //------------------------------------------------------------------------------
 // Scene
 //------------------------------------------------------------------------------
 inline Light default_light(Point(-10, 10, -10), Color(1, 1, 1));
-inline Material default_material_1(Color(0.8, 1.0, 0.6), 0.1, 0.7, 0.2, 200);
+inline SimpleMaterial default_material_1(Color(0.8, 1.0, 0.6), 0.1, 0.7, 0.2,
+                                         200);
 inline Sphere default_sphere_1(Matrix::Identity, default_material_1);
-inline Material default_material_2{};
+inline SimpleMaterial default_material_2{};
 inline Sphere default_sphere_2(scaling(0.5, 0.5, 0.5), default_material_2);
 inline Scene default_scene({&default_light},
                            {&default_sphere_1, &default_sphere_2});
