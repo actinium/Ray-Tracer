@@ -12,6 +12,9 @@
 ## Chapter 9
 ![Chapter 9](/images/chapter-09-planes.png)
 
+## Chapter 10
+![Chapter 10](/images/chapter-10-patterns.png)
+
 # Material Samples
 
 ## Color
