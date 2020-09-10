@@ -22,7 +22,7 @@ Image render_sphere(const Color& color) {
   sphere_material.color = color;
 
   Sphere s;
-  s.set_material(sphere_material);
+  s.set_material(&sphere_material);
   s.set_transform(scaling(4));
   scene.objects.push_back(&s);
 

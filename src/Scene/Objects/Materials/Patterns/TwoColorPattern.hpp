@@ -13,4 +13,4 @@ class TwoColorPattern : public Pattern {
 
 constexpr TwoColorPattern::TwoColorPattern(const Color& a,
                                            const Color& b) noexcept
-    : color_a(a), color_b(b) {}
+    : Pattern(), color_a(a), color_b(b) {}

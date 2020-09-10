@@ -35,8 +35,8 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape) {
         Point point = r.position(hit->t);
         Vector normal = hit->object->normal_at(point);
         Vector eye = -r.direction;
-        Color color =
-            lighting(hit->object->material(), light, point, eye, normal, false);
+        Color color = lighting(hit->object->material(), hit->object, light,
+                               point, eye, normal, false);
         image(x, y) = color;
       }
     }
@@ -54,7 +54,7 @@ void chapter6() {
   Sphere shape1;
   SimpleMaterial material1;
   material1.color = Color::Orange;
-  shape1.set_material(material1);
+  shape1.set_material(&material1);
   shape1.set_transform(scaling(0.7, 0.7, 0.7));
   Image image1 = render_sphere(img_pixels, shape1);
   image.write(10, 10, image1);
@@ -62,7 +62,7 @@ void chapter6() {
   Sphere shape2;
   SimpleMaterial material2;
   material2.color = Color::Green;
-  shape2.set_material(material2);
+  shape2.set_material(&material2);
   shape2.set_transform(scaling(1, 0.5, 1));
   Image image2 = render_sphere(img_pixels, shape2);
   image.write(img_pixels + 20, 10, image2);
@@ -70,7 +70,7 @@ void chapter6() {
   Sphere shape3;
   SimpleMaterial material3;
   material3.color = Color::Blue;
-  shape3.set_material(material3);
+  shape3.set_material(&material3);
   shape3.set_transform(shearing(0, 0.5, 0, 0.7, 0, 0) * scaling(0.7, 0.4, 0.7));
   Image image3 = render_sphere(img_pixels, shape3);
   image.write(10, img_pixels + 20, image3);
@@ -78,7 +78,7 @@ void chapter6() {
   Sphere shape4;
   SimpleMaterial material4;
   material4.color = Color::Yellow;
-  shape4.set_material(material4);
+  shape4.set_material(&material4);
   shape4.set_transform(translation(0.3, -0.3, 0.3) * scaling(0.4, 0.4, 0.4));
   Image image4 = render_sphere(img_pixels, shape4);
   image.write(img_pixels + 20, img_pixels + 20, image4);

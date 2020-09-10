@@ -11,10 +11,11 @@ using std::pow;
 //------------------------------------------------------------------------------
 // Lighting
 //------------------------------------------------------------------------------
-Color lighting(const Material& material, const Light& light,
-               const Point& position, const Vector& eyev, const Vector& normalv,
-               bool in_shadow) {
-  Color effective_color = material.color_at(position) * light.intensity;
+Color lighting(const Material& material, const Object* object,
+               const Light& light, const Point& position, const Vector& eyev,
+               const Vector& normalv, bool in_shadow) {
+  Color effective_color =
+      material.color_at_object(object, position) * light.intensity;
   Vector lightv = normalize(light.position - position);
 
   Color ambient = effective_color * material.ambient;
@@ -49,8 +50,9 @@ Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
   Color shade;
   for (const Light* light : scene.lights) {
     bool in_shadow = is_shadowed(comps.over_point, *light, scene);
-    Color c = lighting(comps.object->material(), *light, comps.over_point,
-                       comps.eye_vector, comps.normal_vector, in_shadow);
+    Color c = lighting(comps.object->material(), comps.object, *light,
+                       comps.over_point, comps.eye_vector, comps.normal_vector,
+                       in_shadow);
     shade = shade + c;
   }
   return shade;

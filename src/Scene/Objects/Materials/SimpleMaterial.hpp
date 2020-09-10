@@ -9,7 +9,8 @@ class SimpleMaterial : public Material {
                            double specular, double shininess) noexcept;
 
  public:
-  const Color& color_at(const Point& point) const override;
+  Color color_at_object(const Object* object,
+                        const Point& point) const override;
 
  public:
   Color color;

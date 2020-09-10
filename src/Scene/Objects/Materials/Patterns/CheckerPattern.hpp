@@ -2,4 +2,10 @@
 
 #include "Scene/Objects/Materials/Patterns/TwoColorPattern.hpp"
 
-class CheckerPattern : public TwoColorPattern {};
+class CheckerPattern : public TwoColorPattern {
+ public:
+  using TwoColorPattern::TwoColorPattern;
+
+ public:
+  Color color_at(const Point& point) const override;
+};

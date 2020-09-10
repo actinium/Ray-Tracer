@@ -11,6 +11,7 @@
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
 #include "Scene/Objects/Materials/Material.hpp"
+#include "Scene/Objects/Materials/Patterns/Pattern.hpp"
 #include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -204,3 +205,16 @@ inline SimpleMaterial default_material_2{};
 inline Sphere default_sphere_2(scaling(0.5, 0.5, 0.5), default_material_2);
 inline Scene default_scene({&default_light},
                            {&default_sphere_1, &default_sphere_2});
+
+//------------------------------------------------------------------------------
+// Pattern
+//------------------------------------------------------------------------------
+class TestPattern : public Pattern {
+ public:
+  using Pattern::Pattern;
+
+ public:
+  Color color_at(const Point& point) const override {
+    return Color(point.x, point.y, point.z);
+  }
+};

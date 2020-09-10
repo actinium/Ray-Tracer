@@ -25,55 +25,60 @@ TEST_CASE("The default material", "[Material]") {
 //------------------------------------------------------------------------------
 TEST_CASE("Lighting with the eye between the light and the surface",
           "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv, false);
+  Color result = lighting(m, &object, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.9, 1.9, 1.9)));
 }
 
 TEST_CASE("Lighting with the eye between light and surface, eye offset 45°",
           "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv, false);
+  Color result = lighting(m, &object, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.0, 1.0, 1.0)));
 }
 
 TEST_CASE("Lighting with eye opposite surface, light offset 45°",
           "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 10, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv, false);
+  Color result = lighting(m, &object, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(0.7364, 0.7364, 0.7364)));
 }
 
 TEST_CASE("Lighting with eye in the path of the reflection vector",
           "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, -sqrt(2) / 2, -sqrt(2) / 2);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 10, -10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv, false);
+  Color result = lighting(m, &object, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(1.6364, 1.6364, 1.6364)));
 }
 
 TEST_CASE("Lighting with the light behind the surface", "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, 10), Color(1, 1, 1));
-  Color result = lighting(m, light, position, eyev, normalv, false);
+  Color result = lighting(m, &object, light, position, eyev, normalv, false);
   REQUIRE_THAT(result, Equals(Color(0.1, 0.1, 0.1)));
 }
 
@@ -81,13 +86,15 @@ TEST_CASE("Lighting with the light behind the surface", "[Material]") {
 // Lighting with Shadows
 //------------------------------------------------------------------------------
 TEST_CASE("Lighting with the surface in shadow", "[Material]") {
+  Sphere object;
   SimpleMaterial m;
   Point position = Point::Origin;
   Vector eyev(0, 0, -1);
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
   bool in_shadow = true;
-  Color result = lighting(m, light, position, eyev, normalv, in_shadow);
+  Color result =
+      lighting(m, &object, light, position, eyev, normalv, in_shadow);
   REQUIRE_THAT(result, Equals(Color(0.1, 0.1, 0.1)));
 }
 
@@ -95,6 +102,7 @@ TEST_CASE("Lighting with the surface in shadow", "[Material]") {
 // Lighting with a Pattern
 //------------------------------------------------------------------------------
 TEST_CASE("Lighting with a pattern applied", "[Material]") {
+  Sphere object;
   PatternMaterial m;
   Point position = Point::Origin;
   StripePattern sp(Color(1, 1, 1), Color(0, 0, 0));
@@ -107,8 +115,10 @@ TEST_CASE("Lighting with a pattern applied", "[Material]") {
   Vector normalv(0, 0, -1);
   Light light(Point(0, 0, -10), Color(1, 1, 1));
 
-  Color c1 = lighting(m, light, Point(0.9, 0, 0), eyev, normalv, false);
-  Color c2 = lighting(m, light, Point(1.1, 0, 0), eyev, normalv, false);
+  Color c1 =
+      lighting(m, &object, light, Point(0.9, 0, 0), eyev, normalv, false);
+  Color c2 =
+      lighting(m, &object, light, Point(1.1, 0, 0), eyev, normalv, false);
   REQUIRE_THAT(c1, Equals(Color(1, 1, 1)));
   REQUIRE_THAT(c2, Equals(Color(0, 0, 0)));
 }

@@ -17,7 +17,7 @@ void chapter9() {
   SimpleMaterial wall_floor_material;
   wall_floor_material.color = Color::Lightgrey;
   wall_floor_material.specular = 0;
-  floor.set_material(wall_floor_material);
+  floor.set_material(&wall_floor_material);
   scene.objects.push_back(&floor);
 
   //----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ void chapter9() {
   middle_material.color = Color::Red;
   middle_material.diffuse = 0.7;
   middle_material.specular = 0.3;
-  middle.set_material(middle_material);
+  middle.set_material(&middle_material);
   scene.objects.push_back(&middle);
 
   //----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ void chapter9() {
   right_material.color = Color::Blue;
   right_material.diffuse = 0.7;
   right_material.specular = 0.3;
-  right.set_material(right_material);
+  right.set_material(&right_material);
   scene.objects.push_back(&right);
 
   //----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ void chapter9() {
   left_material.color = Color::Green;
   left_material.diffuse = 0.7;
   left_material.specular = 0.3;
-  left.set_material(left_material);
+  left.set_material(&left_material);
   scene.objects.push_back(&left);
 
   //----------------------------------------------------------------------------

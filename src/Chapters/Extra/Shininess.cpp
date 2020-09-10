@@ -20,7 +20,7 @@ Image render_sphere(double shininess) {
   sphere_material.shininess = shininess;
 
   Sphere s;
-  s.set_material(sphere_material);
+  s.set_material(&sphere_material);
   s.set_transform(scaling(4));
   scene.objects.push_back(&s);
 

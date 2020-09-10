@@ -24,7 +24,7 @@ TEST_CASE("The default scene", "[Scene]") {
   m.color = Color(0.8, 1.0, 0.6);
   m.diffuse = 0.7;
   m.specular = 0.2;
-  s1.set_material(m);
+  s1.set_material(&m);
 
   Sphere s2;
   s2.set_transform(scaling(0.5, 0.5, 0.5));
@@ -134,12 +134,12 @@ TEST_CASE("The color with an intersection behind the ray", "[Scene]") {
   Sphere outer = default_sphere_1;
   SimpleMaterial m_outer = default_material_1;
   m_outer.ambient = 1;
-  outer.set_material(m_outer);
+  outer.set_material(&m_outer);
 
   Sphere inner = default_sphere_2;
   SimpleMaterial m_inner = default_material_2;
   m_inner.ambient = 1;
-  inner.set_material(m_inner);
+  inner.set_material(&m_inner);
 
   scene.objects[0] = &outer;
   scene.objects[1] = &inner;

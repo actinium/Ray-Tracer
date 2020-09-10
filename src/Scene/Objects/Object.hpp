@@ -17,7 +17,7 @@ class Object {
   void set_transform(const Matrix& matrix);
 
   const Material& material() const;
-  void set_material(const Material& material);
+  void set_material(const Material* material);
 
  public:
   Intersections intersect(const Ray& ray) const;

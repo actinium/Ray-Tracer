@@ -6,12 +6,14 @@
 class PatternMaterial : public Material {
  public:
   constexpr PatternMaterial() noexcept;
+  constexpr PatternMaterial(const Pattern* pattern) noexcept;
   constexpr PatternMaterial(const Pattern* pattern, double ambient,
                             double diffuse, double specular,
                             double shininess) noexcept;
 
  public:
-  const Color& color_at(const Point& point) const override;
+  Color color_at_object(const Object* object,
+                        const Point& point) const override;
 
  public:
   const Pattern* pattern;
@@ -19,6 +21,9 @@ class PatternMaterial : public Material {
 
 constexpr PatternMaterial::PatternMaterial() noexcept
     : Material(), pattern(nullptr) {}
+
+constexpr PatternMaterial::PatternMaterial(const Pattern* p) noexcept
+    : Material(), pattern(p) {}
 
 constexpr PatternMaterial::PatternMaterial(const Pattern* p, double amb,
                                            double dif, double spec,

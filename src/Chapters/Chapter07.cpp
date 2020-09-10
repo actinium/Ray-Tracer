@@ -17,7 +17,7 @@ void chapter7() {
   SimpleMaterial wall_floor_material;
   wall_floor_material.color = Color(1, 0.9, 0.9);
   wall_floor_material.specular = 0;
-  floor.set_material(wall_floor_material);
+  floor.set_material(&wall_floor_material);
   scene.objects.push_back(&floor);
 
   //----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ void chapter7() {
   Sphere left_wall;
   left_wall.set_transform(translation(0, 0, 5) * rotation_y(-PI / 4) *
                           rotation_x(PI / 2) * scaling(10, 0.01, 10));
-  left_wall.set_material(wall_floor_material);
+  left_wall.set_material(&wall_floor_material);
   scene.objects.push_back(&left_wall);
 
   //----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ void chapter7() {
   Sphere right_wall;
   right_wall.set_transform(translation(0, 0, 5) * rotation_y(PI / 4) *
                            rotation_x(PI / 2) * scaling(10, 0.01, 10));
-  right_wall.set_material(wall_floor_material);
+  right_wall.set_material(&wall_floor_material);
   scene.objects.push_back(&right_wall);
 
   //----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ void chapter7() {
   middle_material.color = Color(0.1, 1, 0.5);
   middle_material.diffuse = 0.7;
   middle_material.specular = 0.3;
-  middle.set_material(middle_material);
+  middle.set_material(&middle_material);
   scene.objects.push_back(&middle);
 
   //----------------------------------------------------------------------------
@@ -59,7 +59,7 @@ void chapter7() {
   right_material.color = Color(0.5, 1, 0.1);
   right_material.diffuse = 0.7;
   right_material.specular = 0.3;
-  right.set_material(right_material);
+  right.set_material(&right_material);
   scene.objects.push_back(&right);
 
   //----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ void chapter7() {
   left_material.color = Color(1, 0.8, 0.1);
   left_material.diffuse = 0.7;
   left_material.specular = 0.3;
-  left.set_material(left_material);
+  left.set_material(&left_material);
   scene.objects.push_back(&left);
 
   //----------------------------------------------------------------------------

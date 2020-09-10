@@ -44,7 +44,7 @@ void extra_spheres_on_sphere() {
 
     Sphere* s = new Sphere();
     s->set_transform(scaling(3) * translation(x, y, z) * scaling(0.2));
-    s->set_material(sphere_material);
+    s->set_material(&sphere_material);
     scene.objects.push_back(s);
   }
 

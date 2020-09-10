@@ -3,6 +3,8 @@
 #include "Core/Color.hpp"
 #include "Core/Point.hpp"
 
+class Object;
+
 class Material {
  public:
   constexpr Material() noexcept;
@@ -10,7 +12,8 @@ class Material {
                      double shininess) noexcept;
 
  public:
-  virtual const Color& color_at(const Point& point) const = 0;
+  virtual Color color_at_object(const Object* object,
+                                const Point& point) const = 0;
 
  public:
   double ambient;

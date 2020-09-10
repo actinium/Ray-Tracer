@@ -1,3 +1,5 @@
 #include "SimpleMaterial.hpp"
 
-const Color& SimpleMaterial::color_at(const Point&) const { return color; }
+Color SimpleMaterial::color_at_object(const Object*, const Point&) const {
+  return color;
+}

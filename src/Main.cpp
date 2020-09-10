@@ -4,6 +4,7 @@
 #include "Chapters/Chapter06.hpp"
 #include "Chapters/Chapter07.hpp"
 #include "Chapters/Chapter09.hpp"
+#include "Chapters/Chapter10.hpp"
 #include "Chapters/Extra/Ambient.hpp"
 #include "Chapters/Extra/Colors.hpp"
 #include "Chapters/Extra/Diffuse.hpp"
@@ -23,6 +24,9 @@ void run_chapters() {
 
   std::cout << "Running Chapter 9" << std::endl;
   chapter9();
+
+  std::cout << "Running Chapter 10" << std::endl;
+  chapter10();
 }
 
 void run_extra_materials() {
@@ -52,7 +56,7 @@ int main() {
 
   run_chapters();
 
-  run_extra_materials();
+  // run_extra_materials();
 
-  run_extra_scenes();
+  // run_extra_scenes();
 }

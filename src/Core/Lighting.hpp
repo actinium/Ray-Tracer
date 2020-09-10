@@ -22,8 +22,9 @@ struct PreparedComputations {
   bool inside;
 };
 
-Color lighting(const Material& m, const Light& light, const Point& position,
-               const Vector& eyev, const Vector& normalv, bool in_shadow);
+Color lighting(const Material& material, const Object* object,
+               const Light& light, const Point& position, const Vector& eyev,
+               const Vector& normalv, bool in_shadow);
 
 Color shade_hit(const Scene& scene, const PreparedComputations& comps);
 

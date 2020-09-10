@@ -21,7 +21,7 @@ Image render_sphere(double ambient) {
   sphere_material.ambient = ambient;
 
   Sphere s;
-  s.set_material(sphere_material);
+  s.set_material(&sphere_material);
   s.set_transform(scaling(4));
   scene.objects.push_back(&s);
 

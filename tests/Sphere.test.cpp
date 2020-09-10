@@ -148,6 +148,6 @@ TEST_CASE("A sphere may be assigned a material", "[Sphere]") {
   Sphere s;
   SimpleMaterial m;
   m.ambient = 1;
-  s.set_material(m);
+  s.set_material(&m);
   REQUIRE_THAT(dynamic_cast<const SimpleMaterial&>(s.material()), Equals(m));
 }
