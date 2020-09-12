@@ -1,11 +1,16 @@
+#include <cmath>
+
 #include "Core/Intersection.hpp"
 #include "Core/Lighting.hpp"
 #include "Core/Point.hpp"
 #include "Core/Ray.hpp"
 #include "Core/Vector.hpp"
+#include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "TestUtils.hpp"
 #include "catch.hpp"
+
+using std::sqrt;
 
 TEST_CASE("An intersection encapsulates t and object", "[Intersection]") {
   Sphere s;
@@ -133,4 +138,16 @@ TEST_CASE("The hit should offset the point", "[Intersection]") {
   PreparedComputations comps = prepare_computations(i, r);
   REQUIRE(comps.over_point.z < -EPSILON / 2);
   REQUIRE(comps.point.z > comps.over_point.z);
+}
+
+//------------------------------------------------------------------------------
+// Reflection
+//------------------------------------------------------------------------------
+TEST_CASE("Precomputing the reflection vector", "[Intersection]") {
+  Plane shape;
+  Ray r(Point(0, 1, -1), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersection i(sqrt(2), &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  REQUIRE_THAT(comps.reflect_vector,
+               Equals(Vector(0, sqrt(2) / 2, sqrt(2) / 2)));
 }

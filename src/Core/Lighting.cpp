@@ -46,14 +46,16 @@ Color lighting(const Material& material, const Object* object,
 //------------------------------------------------------------------------------
 // Shade Hit
 //------------------------------------------------------------------------------
-Color shade_hit(const Scene& scene, const PreparedComputations& comps) {
+Color shade_hit(const Scene& scene, const PreparedComputations& comps,
+                int remaining) {
   Color shade;
   for (const Light* light : scene.lights) {
     bool in_shadow = is_shadowed(comps.over_point, *light, scene);
-    Color c = lighting(comps.object->material(), comps.object, *light,
-                       comps.over_point, comps.eye_vector, comps.normal_vector,
-                       in_shadow);
-    shade = shade + c;
+    Color surface = lighting(comps.object->material(), comps.object, *light,
+                             comps.over_point, comps.eye_vector,
+                             comps.normal_vector, in_shadow);
+    Color reflected = reflected_color(scene, comps, remaining);
+    shade = shade + surface + reflected;
   }
   return shade;
 }
@@ -77,7 +79,7 @@ bool is_shadowed(const Point& point, const Light& light, const Scene& scene) {
 //------------------------------------------------------------------------------
 // Color at
 //------------------------------------------------------------------------------
-Color color_at(const Scene& scene, const Ray& ray) {
+Color color_at(const Scene& scene, const Ray& ray, int remaining) {
   Intersections is = scene.intersect(ray);
   Hit hit = get_first_hit(is);
   if (!hit.has_value()) {
@@ -85,8 +87,26 @@ Color color_at(const Scene& scene, const Ray& ray) {
   }
   Intersection i = hit.value();
   PreparedComputations comps = prepare_computations(i, ray);
-  Color c = shade_hit(scene, comps);
+  Color c = shade_hit(scene, comps, remaining);
   return c;
+}
+
+//------------------------------------------------------------------------------
+// Reflected Color
+//------------------------------------------------------------------------------
+Color reflected_color(const Scene& scene, const PreparedComputations& comps,
+                      int remaining) {
+  if (remaining <= 0) {
+    return Color(0, 0, 0);
+  }
+  if (comps.object->material().reflective == 0) {
+    return Color(0, 0, 0);
+  }
+
+  Ray reflect_ray(comps.over_point, comps.reflect_vector);
+  Color color = color_at(scene, reflect_ray, remaining - 1);
+
+  return color * comps.object->material().reflective;
 }
 
 //------------------------------------------------------------------------------
@@ -107,6 +127,7 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
   } else {
     comps.inside = false;
   }
+  comps.reflect_vector = reflect(r.direction, comps.normal_vector);
   comps.over_point = comps.point + comps.normal_vector * EPSILON;
 
   return comps;

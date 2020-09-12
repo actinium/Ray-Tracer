@@ -5,6 +5,7 @@
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
 #include "Scene/Objects/Materials/SimpleMaterial.hpp"
+#include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
 #include "TestUtils.hpp"
@@ -194,4 +195,96 @@ TEST_CASE("shade_hit() is given an intersection in shadow", "[Scene]") {
   PreparedComputations comps = prepare_computations(i, ray);
   Color c = shade_hit(scene, comps);
   REQUIRE_THAT(c, Equals(Color(0.1, 0.1, 0.1)));
+}
+
+//------------------------------------------------------------------------------
+// Reflection
+//------------------------------------------------------------------------------
+TEST_CASE("The reflected color for a nonreflective material", "[Scene]") {
+  Scene scene = default_scene;
+  Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+
+  Sphere shape = default_sphere_2;
+  SimpleMaterial shape_material = default_material_2;
+  shape_material.ambient = 1;
+  scene.objects[1] = &shape;
+
+  Intersection i(1, &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color color = reflected_color(scene, comps);
+  REQUIRE_THAT(color, Equals(Color(0, 0, 0)));
+}
+
+TEST_CASE("The reflected color for a reflective material", "[Scene]") {
+  Scene scene = default_scene;
+
+  Plane shape;
+  SimpleMaterial shape_material;
+  shape_material.reflective = 0.5;
+  shape.set_material(&shape_material);
+  shape.set_transform(translation(0, -1, 0));
+  scene.objects.push_back(&shape);
+
+  Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersection i(sqrt(2), &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color color = reflected_color(scene, comps);
+  REQUIRE_THAT(color, Equals(Color(0.190331, 0.237913, 0.142748)));
+}
+
+TEST_CASE("shade_hit() with a reflective material", "[Scene]") {
+  Scene scene = default_scene;
+
+  Plane shape;
+  SimpleMaterial shape_material;
+  shape_material.reflective = 0.5;
+  shape.set_material(&shape_material);
+  shape.set_transform(translation(0, -1, 0));
+  scene.objects.push_back(&shape);
+
+  Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersection i(sqrt(2), &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color color = shade_hit(scene, comps);
+  REQUIRE_THAT(color, Equals(Color(0.87676, 0.92434, 0.82917)));
+}
+
+TEST_CASE("color_at() with mutually reflective surfaces", "[Scene]") {
+  Scene scene;
+
+  Light light(Point(0, 0, 0), Color(1, 1, 1));
+  scene.lights.push_back(&light);
+
+  SimpleMaterial material;
+  material.reflective = 1;
+
+  Plane lower;
+  lower.set_material(&material);
+  lower.set_transform(translation(0, -1, 0));
+  scene.objects.push_back(&lower);
+
+  Plane upper;
+  upper.set_material(&material);
+  upper.set_transform(translation(0, 1, 0));
+  scene.objects.push_back(&upper);
+
+  Ray r(Point(0, 0, 0), Vector(0, 1, 0));
+  REQUIRE_NOTHROW(color_at(scene, r));
+}
+
+TEST_CASE("The reflected color at the maximum recursive depth", "[Scene]") {
+  Scene scene = default_scene;
+
+  Plane shape;
+  SimpleMaterial shape_material;
+  shape_material.reflective = 0.5;
+  shape.set_material(&shape_material);
+  shape.set_transform(translation(0, -1, 0));
+  scene.objects.push_back(&shape);
+
+  Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersection i(sqrt(2), &shape);
+  PreparedComputations comps = prepare_computations(i, r);
+  Color color = reflected_color(scene, comps, 0);
+  REQUIRE_THAT(color, Equals(Color(0, 0, 0)));
 }
