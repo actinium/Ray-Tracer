@@ -49,9 +49,8 @@ void reflection_scene() {
   // Floor
   //----------------------------------------------------------------------------
   Plane floor;
-  PatternMaterial floor_material;
-  CheckerPattern floor_pattern(Color::White, Color::Darkgrey);
-  floor_material.pattern = &floor_pattern;
+  SimpleMaterial floor_material;
+  floor_material.color = Color::Lightgrey;
   floor_material.specular = 0;
   floor.set_material(&floor_material);
   scene.objects.push_back(&floor);
