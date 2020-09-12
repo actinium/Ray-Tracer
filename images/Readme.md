@@ -15,6 +15,9 @@
 ## Chapter 10
 ![Chapter 10](/images/chapter-10-patterns.png)
 
+## Chapter 11
+![Chapter 11 - Reflection](/images/chapter-11-reflection.png)
+
 # Material Samples
 
 ## Color
