@@ -130,3 +130,13 @@ TEST_CASE("Reflectivity for the default material", "[Material]") {
   SimpleMaterial m;
   REQUIRE(m.reflective == Approx(0.0));
 }
+
+//------------------------------------------------------------------------------
+// Transparency
+//------------------------------------------------------------------------------
+TEST_CASE("Transparency and Refractive Index for the default material",
+          "[Material]") {
+  SimpleMaterial m;
+  REQUIRE(m.transparency == Approx(0.0));
+  REQUIRE(m.refractive_index == Approx(1.0));
+}

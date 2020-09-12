@@ -151,3 +151,14 @@ TEST_CASE("A sphere may be assigned a material", "[Sphere]") {
   s.set_material(&m);
   REQUIRE_THAT(dynamic_cast<const SimpleMaterial&>(s.material()), Equals(m));
 }
+
+//------------------------------------------------------------------------------
+// Glass Sphere
+//------------------------------------------------------------------------------
+TEST_CASE("A helper for producing a sphere with a glassy material",
+          "[Sphere]") {
+  Sphere s = glass_sphere;
+  REQUIRE_THAT(s.transform(), Equals(Matrix::Identity));
+  REQUIRE(s.material().transparency == Approx(1.0));
+  REQUIRE(s.material().refractive_index == Approx(1.5));
+}

@@ -199,12 +199,16 @@ inline SimpleMaterialEquals Equals(const SimpleMaterial& expected) {
 //------------------------------------------------------------------------------
 inline Light default_light(Point(-10, 10, -10), Color(1, 1, 1));
 inline SimpleMaterial default_material_1(Color(0.8, 1.0, 0.6), 0.1, 0.7, 0.2,
-                                         200, 0);
+                                         200, 0, 0, 1);
 inline Sphere default_sphere_1(Matrix::Identity, default_material_1);
 inline SimpleMaterial default_material_2{};
 inline Sphere default_sphere_2(scaling(0.5, 0.5, 0.5), default_material_2);
 inline Scene default_scene({&default_light},
                            {&default_sphere_1, &default_sphere_2});
+
+inline SimpleMaterial default_glass_material(Color(1, 1, 1), 0.1, 0.9, 0.9, 200,
+                                             0, 1, 1.5);
+inline Sphere glass_sphere(Matrix::Identity, default_glass_material);
 
 //------------------------------------------------------------------------------
 // Pattern

@@ -9,7 +9,8 @@ class Material {
  public:
   constexpr Material() noexcept;
   constexpr Material(double ambient, double diffuse, double specular,
-                     double shininess, double reflective) noexcept;
+                     double shininess, double reflective, double transparency,
+                     double refractive_index) noexcept;
 
  public:
   virtual Color color_at_object(const Object* object,
@@ -20,7 +21,10 @@ class Material {
   double diffuse;
   double specular;
   double shininess;
+
   double reflective;
+  double transparency;
+  double refractive_index;
 
  public:
   static const Material& Default;
@@ -31,12 +35,16 @@ constexpr Material::Material() noexcept
       diffuse(0.9),
       specular(0.9),
       shininess(200),
-      reflective(0) {}
+      reflective(0.0),
+      transparency(0.0),
+      refractive_index(1.0) {}
 
 constexpr Material::Material(double amb, double dif, double spec, double shin,
-                             double refl) noexcept
+                             double refl, double transp, double refri) noexcept
     : ambient(amb),
       diffuse(dif),
       specular(spec),
       shininess(shin),
-      reflective(refl) {}
+      reflective(refl),
+      transparency(transp),
+      refractive_index(refri) {}
