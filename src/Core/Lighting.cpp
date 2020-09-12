@@ -54,9 +54,10 @@ Color shade_hit(const Scene& scene, const PreparedComputations& comps,
     Color surface = lighting(comps.object->material(), comps.object, *light,
                              comps.over_point, comps.eye_vector,
                              comps.normal_vector, in_shadow);
-    Color reflected = reflected_color(scene, comps, remaining);
-    shade = shade + surface + reflected;
+    shade = shade + surface;
   }
+  Color reflected = reflected_color(scene, comps, remaining);
+  shade = shade + reflected;
   return shade;
 }
 

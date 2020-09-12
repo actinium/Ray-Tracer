@@ -48,9 +48,10 @@ void run_extra_scenes() {
 int main() {
   std::cout << "Hello Raytracer" << std::endl;
 
-  run_chapters();
+  // run_chapters();
+  chapter11();
 
-  run_extra_materials();
+  // run_extra_materials();
 
-  run_extra_scenes();
+  // run_extra_scenes();
 }
