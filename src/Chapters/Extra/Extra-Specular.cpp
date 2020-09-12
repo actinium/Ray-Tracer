@@ -1,5 +1,3 @@
-#include "Diffuse.hpp"
-
 #include "Core/Constants.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
@@ -10,7 +8,7 @@
 #include "Scene/Scene.hpp"
 
 namespace {
-Image render_sphere(double diffuse) {
+Image render_sphere(double specular) {
   Scene scene;
 
   //----------------------------------------------------------------------------
@@ -18,7 +16,7 @@ Image render_sphere(double diffuse) {
   //----------------------------------------------------------------------------
   SimpleMaterial sphere_material;
   sphere_material.color = Color::Blue;
-  sphere_material.diffuse = diffuse;
+  sphere_material.specular = specular;
 
   Sphere s;
   s.set_material(&sphere_material);
@@ -41,15 +39,15 @@ Image render_sphere(double diffuse) {
 }
 }  // namespace
 
-void extra_diffuse() {
+void extra_specular() {
   Image grid(200 * 6, 200);
 
   std::size_t x = 0;
-  for (double diffuse = 0; diffuse <= 1; diffuse += 0.2) {
-    Image image = render_sphere(diffuse);
+  for (double specular = 0; specular <= 1; specular += 0.2) {
+    Image image = render_sphere(specular);
     grid.write(x, 0, image);
     x += 200;
   }
 
-  grid.save_as_png("images/extra-03-diffuse.png");
+  grid.save_as_png("images/extra-04-specular.png");
 }

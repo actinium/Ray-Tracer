@@ -1,16 +1,7 @@
 #include <iostream>
 
-#include "Chapters/Chapter05.hpp"
-#include "Chapters/Chapter06.hpp"
-#include "Chapters/Chapter07.hpp"
-#include "Chapters/Chapter09.hpp"
-#include "Chapters/Chapter10.hpp"
-#include "Chapters/Extra/Ambient.hpp"
-#include "Chapters/Extra/Colors.hpp"
-#include "Chapters/Extra/Diffuse.hpp"
-#include "Chapters/Extra/Shininess.hpp"
-#include "Chapters/Extra/Specular.hpp"
-#include "Chapters/Extra/SpheresOnSphere.hpp"
+#include "Chapters/Chapters.hpp"
+#include "Chapters/Extra/Extras.hpp"
 
 void run_chapters() {
   std::cout << "Running Chapter 5" << std::endl;
@@ -27,6 +18,9 @@ void run_chapters() {
 
   std::cout << "Running Chapter 10" << std::endl;
   chapter10();
+
+  std::cout << "Running Chapter 11" << std::endl;
+  chapter11();
 }
 
 void run_extra_materials() {
@@ -56,7 +50,7 @@ int main() {
 
   run_chapters();
 
-  // run_extra_materials();
+  run_extra_materials();
 
-  // run_extra_scenes();
+  run_extra_scenes();
 }

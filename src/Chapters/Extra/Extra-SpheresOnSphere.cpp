@@ -1,5 +1,3 @@
-#include "SpheresOnSphere.hpp"
-
 #include <cmath>
 
 #include "Core/Constants.hpp"

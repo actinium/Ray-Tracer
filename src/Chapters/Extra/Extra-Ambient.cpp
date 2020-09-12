@@ -1,7 +1,3 @@
-#include "Colors.hpp"
-
-#include <vector>
-
 #include "Core/Constants.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
@@ -12,14 +8,15 @@
 #include "Scene/Scene.hpp"
 
 namespace {
-Image render_sphere(const Color& color) {
+Image render_sphere(double ambient) {
   Scene scene;
 
   //----------------------------------------------------------------------------
   // Sphere
   //----------------------------------------------------------------------------
   SimpleMaterial sphere_material;
-  sphere_material.color = color;
+  sphere_material.color = Color::Blue;
+  sphere_material.ambient = ambient;
 
   Sphere s;
   s.set_material(&sphere_material);
@@ -42,19 +39,15 @@ Image render_sphere(const Color& color) {
 }
 }  // namespace
 
-void extra_colors() {
-  std::vector<Color> color_list = {
-      Color::Red,       Color::Orange, Color::Yellow, Color::Green,
-      Color::Turquoise, Color::Cyan,   Color::Blue,   Color::Purple};
-
-  Image grid(200 * color_list.size(), 200);
+void extra_ambient() {
+  Image grid(200 * 6, 200);
 
   std::size_t x = 0;
-  for (const Color& color : color_list) {
-    Image image = render_sphere(color);
+  for (double ambient = 0; ambient <= 1; ambient += 0.2) {
+    Image image = render_sphere(ambient);
     grid.write(x, 0, image);
     x += 200;
   }
 
-  grid.save_as_png("images/extra-01-colors.png");
+  grid.save_as_png("images/extra-02-ambient.png");
 }

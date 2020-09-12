@@ -1,5 +1,3 @@
-#include "Ambient.hpp"
-
 #include "Core/Constants.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
@@ -10,7 +8,7 @@
 #include "Scene/Scene.hpp"
 
 namespace {
-Image render_sphere(double ambient) {
+Image render_sphere(double diffuse) {
   Scene scene;
 
   //----------------------------------------------------------------------------
@@ -18,7 +16,7 @@ Image render_sphere(double ambient) {
   //----------------------------------------------------------------------------
   SimpleMaterial sphere_material;
   sphere_material.color = Color::Blue;
-  sphere_material.ambient = ambient;
+  sphere_material.diffuse = diffuse;
 
   Sphere s;
   s.set_material(&sphere_material);
@@ -41,15 +39,15 @@ Image render_sphere(double ambient) {
 }
 }  // namespace
 
-void extra_ambient() {
+void extra_diffuse() {
   Image grid(200 * 6, 200);
 
   std::size_t x = 0;
-  for (double ambient = 0; ambient <= 1; ambient += 0.2) {
-    Image image = render_sphere(ambient);
+  for (double diffuse = 0; diffuse <= 1; diffuse += 0.2) {
+    Image image = render_sphere(diffuse);
     grid.write(x, 0, image);
     x += 200;
   }
 
-  grid.save_as_png("images/extra-02-ambient.png");
+  grid.save_as_png("images/extra-03-diffuse.png");
 }

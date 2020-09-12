@@ -6,7 +6,6 @@
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
-#include "Specular.hpp"
 
 namespace {
 Image render_sphere(double shininess) {

@@ -1,5 +1,3 @@
-#include "Chapter09.hpp"
-
 #include "Core/Constants.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
@@ -8,7 +6,8 @@
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
 
-void chapter9() {
+namespace {
+void reflection_scene() {
   Scene scene;
   //----------------------------------------------------------------------------
   // Floor
@@ -70,5 +69,8 @@ void chapter9() {
   camera.set_view_transform(Point(0, 1.5, -5), Point(0, 1, 0), Vector(0, 1, 0));
 
   Image image = camera.render(scene);
-  image.save_as_png("images/chapter-09-planes.png");
+  image.save_as_png("images/chapter-11-reflection.png");
 }
+}  // namespace
+
+void chapter11() { reflection_scene(); }

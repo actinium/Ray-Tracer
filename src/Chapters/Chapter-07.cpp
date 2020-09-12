@@ -1,5 +1,3 @@
-#include "Chapter07.hpp"
-
 #include "Core/Constants.hpp"
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
