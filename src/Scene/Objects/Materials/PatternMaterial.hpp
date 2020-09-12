@@ -8,8 +8,8 @@ class PatternMaterial : public Material {
   constexpr PatternMaterial() noexcept;
   constexpr PatternMaterial(const Pattern* pattern) noexcept;
   constexpr PatternMaterial(const Pattern* pattern, double ambient,
-                            double diffuse, double specular,
-                            double shininess) noexcept;
+                            double diffuse, double specular, double shininess,
+                            double reflective) noexcept;
 
  public:
   Color color_at_object(const Object* object,
@@ -26,6 +26,6 @@ constexpr PatternMaterial::PatternMaterial(const Pattern* p) noexcept
     : Material(), pattern(p) {}
 
 constexpr PatternMaterial::PatternMaterial(const Pattern* p, double amb,
-                                           double dif, double spec,
-                                           double shin) noexcept
-    : Material(amb, dif, spec, shin), pattern(p) {}
+                                           double dif, double spec, double shin,
+                                           double refl) noexcept
+    : Material(amb, dif, spec, shin, refl), pattern(p) {}

@@ -122,3 +122,11 @@ TEST_CASE("Lighting with a pattern applied", "[Material]") {
   REQUIRE_THAT(c1, Equals(Color(1, 1, 1)));
   REQUIRE_THAT(c2, Equals(Color(0, 0, 0)));
 }
+
+//------------------------------------------------------------------------------
+// Reflectivity
+//------------------------------------------------------------------------------
+TEST_CASE("Reflectivity for the default material", "[Material]") {
+  SimpleMaterial m;
+  REQUIRE(m.reflective == Approx(0.0));
+}
