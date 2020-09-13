@@ -101,7 +101,7 @@ TEST_CASE("Precomputing the state of an intersection", "[Intersection]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere shape;
   Intersection i(4, &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   REQUIRE(comps.t == i.t);
   REQUIRE(comps.object == i.object);
   REQUIRE_THAT(comps.point, Equals(Point(0, 0, -1)));
@@ -114,7 +114,7 @@ TEST_CASE("The hit, when an intersection occurs on the outside",
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere shape;
   Intersection i(4, &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   REQUIRE_FALSE(comps.inside);
 }
 
@@ -123,7 +123,7 @@ TEST_CASE("The hit, when an intersection occurs on the inside",
   Ray r(Point(0, 0, 0), Vector(0, 0, 1));
   Sphere shape;
   Intersection i(1, &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   REQUIRE_THAT(comps.point, Equals(Point(0, 0, 1)));
   REQUIRE_THAT(comps.eye_vector, Equals(Vector(0, 0, -1)));
   REQUIRE(comps.inside);
@@ -135,9 +135,21 @@ TEST_CASE("The hit should offset the point", "[Intersection]") {
   Sphere shape;
   shape.set_transform(translation(0, 0, 1));
   Intersection i(5, &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   REQUIRE(comps.over_point.z < -EPSILON / 2);
   REQUIRE(comps.point.z > comps.over_point.z);
+}
+
+TEST_CASE("The under point is offset below the surface", "[Intersection]") {
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  //   And shape ← glass_sphere() with:
+  //     | transform | translation(0, 0, 1) |
+  //   And i ← intersection(5, shape)
+  //   And xs ← intersections(i)
+  //  When comps ← prepare_computations(i, r, xs)
+  //  Then comps.under_point.z > EPSILON/2
+  //   And comps.point.z < comps.under_point.z
+  FAIL();
 }
 
 //------------------------------------------------------------------------------
@@ -147,7 +159,60 @@ TEST_CASE("Precomputing the reflection vector", "[Intersection]") {
   Plane shape;
   Ray r(Point(0, 1, -1), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
   Intersection i(sqrt(2), &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   REQUIRE_THAT(comps.reflect_vector,
                Equals(Vector(0, sqrt(2) / 2, sqrt(2) / 2)));
+}
+
+//------------------------------------------------------------------------------
+// Refraction
+//------------------------------------------------------------------------------
+TEST_CASE("Finding n1 and n2 at various intersections", "[Intersection]") {
+  // Examples:
+  // | index | n1  | n2  |
+  // | 0     | 1.0 | 1.5 |
+  // | 1     | 1.5 | 2.0 |
+  // | 2     | 2.0 | 2.5 |
+  // | 3     | 2.5 | 2.5 |
+  // | 4     | 2.5 | 1.5 |
+  // | 5     | 1.5 | 1.0 |
+
+  using example = std::tuple<int, double, double>;
+  auto examples = GENERATE(table<std::size_t, double, double>(
+      {example{0, 1.0, 1.5}, example{1, 1.5, 2.0}, example{2, 2.0, 2.5},
+       example{3, 2.5, 2.5}, example{4, 2.5, 1.5}, example{5, 1.5, 1.0}}));
+
+  std::size_t index = std::get<0>(examples);
+  double n1 = std::get<1>(examples);
+  double n2 = std::get<2>(examples);
+
+  Sphere A = glass_sphere;
+  A.set_transform(scaling(2));
+  SimpleMaterial material_a = default_glass_material;
+  material_a.refractive_index = 1.5;
+  A.set_material(&material_a);
+
+  Sphere B = glass_sphere;
+  B.set_transform(translation(0, 0, -0.25));
+  SimpleMaterial material_b = default_glass_material;
+  material_b.refractive_index = 2.0;
+  B.set_material(&material_b);
+
+  Sphere C = glass_sphere;
+  C.set_transform(translation(0, 0, 0.25));
+  SimpleMaterial material_c = default_glass_material;
+  material_c.refractive_index = 2.5;
+  C.set_material(&material_c);
+
+  Ray r(Point(0, 0, -4), Vector(0, 0, 1));
+  Intersections xs;
+  xs.emplace_back(2, &A);
+  xs.emplace_back(2.75, &B);
+  xs.emplace_back(3.25, &C);
+  xs.emplace_back(4.75, &B);
+  xs.emplace_back(5.25, &C);
+  xs.emplace_back(6, &A);
+  PreparedComputations comps = prepare_computations(xs[index], r, xs);
+  REQUIRE(comps.n1 == Approx(n1));
+  REQUIRE(comps.n2 == Approx(n2));
 }

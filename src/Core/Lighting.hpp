@@ -19,10 +19,14 @@ struct PreparedComputations {
 
   Point point;
   Point over_point;
+  Point under_point;
 
   Vector eye_vector;
   Vector normal_vector;
   Vector reflect_vector;
+
+  double n1;
+  double n2;
 
   bool inside;
 };
@@ -42,4 +46,5 @@ Color color_at(const Scene& scene, const Ray& ray,
 Color reflected_color(const Scene& scene, const PreparedComputations& comps,
                       int remaining = MAX_RECURSION);
 
-PreparedComputations prepare_computations(const Intersection& i, const Ray& r);
+PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
+                                          const Intersections& is);

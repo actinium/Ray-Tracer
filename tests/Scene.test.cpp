@@ -76,7 +76,7 @@ TEST_CASE("Shading an intersection", "[Scene]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   const Object* shape = scene.objects.front();
   Intersection i(4, shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color c = shade_hit(scene, comps);
   REQUIRE_THAT(c, Equals(Color(0.380661, 0.475826, 0.285496)));
 }
@@ -89,7 +89,7 @@ TEST_CASE("Shading an intersection from the inside", "[Scene]") {
   Ray r(Point(0, 0, 0), Vector(0, 0, 1));
   const Object* shape = scene.objects[1];
   Intersection i(0.5, shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color c = shade_hit(scene, comps);
   REQUIRE_THAT(c, Equals(Color(0.90498, 0.90498, 0.90498)));
 }
@@ -108,7 +108,7 @@ TEST_CASE("Shading an intersection with multiple lights", "[Scene]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   const Object* shape = scene.objects.front();
   Intersection i(4, shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color c = shade_hit(scene, comps);
   REQUIRE_THAT(c, Equals(Color(0.380661, 0.475826, 0.285496)));
 }
@@ -192,7 +192,8 @@ TEST_CASE("shade_hit() is given an intersection in shadow", "[Scene]") {
 
   Ray ray(Point(0, 0, 5), Vector(0, 0, 1));
   Intersection i(4, &s2);
-  PreparedComputations comps = prepare_computations(i, ray);
+  PreparedComputations comps =
+      prepare_computations(i, ray, Intersections(1, i));
   Color c = shade_hit(scene, comps);
   REQUIRE_THAT(c, Equals(Color(0.1, 0.1, 0.1)));
 }
@@ -210,7 +211,7 @@ TEST_CASE("The reflected color for a nonreflective material", "[Scene]") {
   scene.objects[1] = &shape;
 
   Intersection i(1, &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color color = reflected_color(scene, comps);
   REQUIRE_THAT(color, Equals(Color(0, 0, 0)));
 }
@@ -227,7 +228,7 @@ TEST_CASE("The reflected color for a reflective material", "[Scene]") {
 
   Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
   Intersection i(sqrt(2), &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color color = reflected_color(scene, comps);
   REQUIRE_THAT(color, Equals(Color(0.190331, 0.237913, 0.142748)));
 }
@@ -244,7 +245,7 @@ TEST_CASE("shade_hit() with a reflective material", "[Scene]") {
 
   Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
   Intersection i(sqrt(2), &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color color = shade_hit(scene, comps);
   REQUIRE_THAT(color, Equals(Color(0.87676, 0.92434, 0.82917)));
 }
@@ -284,7 +285,7 @@ TEST_CASE("The reflected color at the maximum recursive depth", "[Scene]") {
 
   Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
   Intersection i(sqrt(2), &shape);
-  PreparedComputations comps = prepare_computations(i, r);
+  PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color color = reflected_color(scene, comps, 0);
   REQUIRE_THAT(color, Equals(Color(0, 0, 0)));
 }

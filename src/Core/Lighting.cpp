@@ -1,12 +1,17 @@
 #include "Lighting.hpp"
 
+#include <algorithm>
 #include <cmath>
+#include <vector>
 
 #include "Core/Constants.hpp"
 #include "Core/Math.hpp"
 #include "Scene/Objects/Object.hpp"
 
 using std::pow;
+
+void calc_refraction_indicies(PreparedComputations& comps,
+                              const Intersection& i, const Intersections& is);
 
 //------------------------------------------------------------------------------
 // Lighting
@@ -87,7 +92,7 @@ Color color_at(const Scene& scene, const Ray& ray, int remaining) {
     return Color(0, 0, 0);
   }
   Intersection i = hit.value();
-  PreparedComputations comps = prepare_computations(i, ray);
+  PreparedComputations comps = prepare_computations(i, ray, is);
   Color c = shade_hit(scene, comps, remaining);
   return c;
 }
@@ -113,7 +118,8 @@ Color reflected_color(const Scene& scene, const PreparedComputations& comps,
 //------------------------------------------------------------------------------
 // Prepare Computations
 //------------------------------------------------------------------------------
-PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
+PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
+                                          const Intersections& is) {
   PreparedComputations comps;
 
   comps.t = i.t;
@@ -131,5 +137,42 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r) {
   comps.reflect_vector = reflect(r.direction, comps.normal_vector);
   comps.over_point = comps.point + comps.normal_vector * EPSILON;
 
+  calc_refraction_indicies(comps, i, is);
+
   return comps;
+}
+
+void calc_refraction_indicies(PreparedComputations& comps,
+                              const Intersection& i_hit,
+                              const Intersections& is) {
+  using Containers = std::vector<const Object*>;
+  using Iterator = Containers::iterator;
+
+  Containers containers;
+
+  for (const Intersection& i : is) {
+    if (i.t == i_hit.t && i.object == i_hit.object) {
+      if (containers.empty()) {
+        comps.n1 = 1.0;
+      } else {
+        comps.n1 = containers.back()->material().refractive_index;
+      }
+    }
+
+    Iterator pos = std::find(containers.begin(), containers.end(), i.object);
+    if (pos != containers.end()) {
+      containers.erase(pos);
+    } else {
+      containers.push_back(i.object);
+    }
+
+    if (i.t == i_hit.t && i.object == i_hit.object) {
+      if (containers.empty()) {
+        comps.n2 = 1.0;
+      } else {
+        comps.n2 = containers.back()->material().refractive_index;
+      }
+      return;
+    }
+  }
 }
