@@ -124,8 +124,8 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
 
   comps.t = i.t;
   comps.object = i.object;
-
   comps.point = r.position(i.t);
+
   comps.eye_vector = -r.direction;
   comps.normal_vector = comps.object->normal_at(comps.point);
   if (dot(comps.normal_vector, comps.eye_vector) < 0) {
@@ -135,7 +135,9 @@ PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
     comps.inside = false;
   }
   comps.reflect_vector = reflect(r.direction, comps.normal_vector);
+
   comps.over_point = comps.point + comps.normal_vector * EPSILON;
+  comps.under_point = comps.point - comps.normal_vector * EPSILON;
 
   calc_refraction_indicies(comps, i, is);
 

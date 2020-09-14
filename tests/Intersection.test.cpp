@@ -142,14 +142,14 @@ TEST_CASE("The hit should offset the point", "[Intersection]") {
 
 TEST_CASE("The under point is offset below the surface", "[Intersection]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-  //   And shape ← glass_sphere() with:
-  //     | transform | translation(0, 0, 1) |
-  //   And i ← intersection(5, shape)
-  //   And xs ← intersections(i)
-  //  When comps ← prepare_computations(i, r, xs)
-  //  Then comps.under_point.z > EPSILON/2
-  //   And comps.point.z < comps.under_point.z
-  FAIL();
+
+  Sphere shape = glass_sphere;
+  shape.set_transform(translation(0, 0, 1));
+  Intersection i(5, &shape);
+  Intersections xs(1, i);
+  PreparedComputations comps = prepare_computations(i, r, xs);
+  REQUIRE(comps.under_point.z > EPSILON / 2);
+  REQUIRE(comps.point.z < comps.under_point.z);
 }
 
 //------------------------------------------------------------------------------
