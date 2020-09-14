@@ -4,6 +4,7 @@
 #include "Core/Transformations.hpp"
 #include "Core/Vector.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Materials/PatternMaterial.hpp"
 #include "Scene/Objects/Materials/SimpleMaterial.hpp"
 #include "Scene/Objects/Plane.hpp"
 #include "Scene/Objects/Sphere.hpp"
@@ -288,4 +289,106 @@ TEST_CASE("The reflected color at the maximum recursive depth", "[Scene]") {
   PreparedComputations comps = prepare_computations(i, r, Intersections(1, i));
   Color color = reflected_color(scene, comps, 0);
   REQUIRE_THAT(color, Equals(Color(0, 0, 0)));
+}
+
+//------------------------------------------------------------------------------
+// Refraction
+//------------------------------------------------------------------------------
+TEST_CASE("The refracted color with an opaque surface", "[Scene]") {
+  Scene scene = default_scene;
+  Sphere shape = default_sphere_1;
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Intersections xs = {Intersection(4, &shape), Intersection(6, &shape)};
+  PreparedComputations comps = prepare_computations(xs[0], r, xs);
+  Color c = refracted_color(scene, comps, 5);
+  REQUIRE_THAT(c, Equals(Color(0, 0, 0)));
+}
+
+TEST_CASE("The refracted color at the maximum recursive depth", "[Scene]") {
+  Scene scene = default_scene;
+
+  Sphere shape = default_sphere_1;
+  SimpleMaterial material = default_material_1;
+  material.transparency = 1.0;
+  material.refractive_index = 1.5;
+  shape.set_material(&material);
+
+  Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+  Intersections xs = {Intersection(4, &shape), Intersection(6, &shape)};
+  PreparedComputations comps = prepare_computations(xs[0], r, xs);
+  Color c = refracted_color(scene, comps, 0);
+  REQUIRE_THAT(c, Equals(Color(0, 0, 0)));
+}
+
+TEST_CASE("The refracted color under total internal reflection", "[Scene]") {
+  Scene scene = default_scene;
+
+  Sphere shape = default_sphere_1;
+  SimpleMaterial material = default_material_1;
+  material.transparency = 1.0;
+  material.refractive_index = 1.5;
+  shape.set_material(&material);
+
+  Ray r(Point(0, 0, sqrt(2) / 2), Vector(0, 1, 0));
+  Intersections xs = {Intersection(-sqrt(2) / 2, &shape),
+                      Intersection(sqrt(2) / 2, &shape)};
+  PreparedComputations comps = prepare_computations(xs[1], r, xs);
+  Color c = refracted_color(scene, comps, 5);
+  REQUIRE_THAT(c, Equals(Color(0, 0, 0)));
+}
+
+TEST_CASE("The refracted color with a refracted ray", "[Scene]") {
+  Scene scene;
+  scene.lights.push_back(&default_light);
+
+  Sphere A = default_sphere_1;
+  PatternMaterial material_a;
+  material_a.ambient = 1.0;
+  material_a.diffuse = default_material_1.diffuse;
+  material_a.specular = default_material_1.specular;
+  material_a.shininess = default_material_1.shininess;
+  TestPattern pattern;
+  material_a.pattern = &pattern;
+  A.set_material(&material_a);
+  scene.objects.push_back(&A);
+
+  Sphere B = default_sphere_2;
+  SimpleMaterial material_b = default_material_2;
+  material_b.transparency = 1.0;
+  material_b.refractive_index = 1.5;
+  B.set_material(&material_b);
+  scene.objects.push_back(&B);
+
+  Ray r(Point(0, 0, 0.1), Vector(0, 1, 0));
+  Intersections xs = {Intersection(-0.9899, &A), Intersection(-0.4899, &B),
+                      Intersection(0.4899, &B), Intersection(0.9899, &A)};
+  PreparedComputations comps = prepare_computations(xs[2], r, xs);
+  Color c = refracted_color(scene, comps, 5);
+  REQUIRE_THAT(c, Equals(Color(0, 0.998885, 0.0472164)));
+}
+
+TEST_CASE("shade_hit() with a transparent material", "[Scene]") {
+  Scene scene = default_scene;
+
+  Plane floor;
+  floor.set_transform(translation(0, -1, 0));
+  SimpleMaterial floor_material;
+  floor_material.transparency = 0.5;
+  floor_material.refractive_index = 1.5;
+  floor.set_material(&floor_material);
+  scene.objects.push_back(&floor);
+
+  Sphere ball;
+  ball.set_transform(translation(0, -3.5, -0.5));
+  SimpleMaterial ball_material;
+  ball_material.color = Color(1, 0, 0);
+  ball_material.ambient = 0.5;
+  ball.set_material(&ball_material);
+  scene.objects.push_back(&ball);
+
+  Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersections xs = {Intersection(sqrt(2), &floor)};
+  PreparedComputations comps = prepare_computations(xs[0], r, xs);
+  Color c = shade_hit(scene, comps, 5);
+  REQUIRE_THAT(c, Equals(Color(0.93642, 0.68642, 0.68642)));
 }

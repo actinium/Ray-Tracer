@@ -46,5 +46,8 @@ Color color_at(const Scene& scene, const Ray& ray,
 Color reflected_color(const Scene& scene, const PreparedComputations& comps,
                       int remaining = MAX_RECURSION);
 
+Color refracted_color(const Scene& scene, const PreparedComputations& comps,
+                      int remaining = MAX_RECURSION);
+
 PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
                                           const Intersections& is);

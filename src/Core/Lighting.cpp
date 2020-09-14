@@ -9,6 +9,7 @@
 #include "Scene/Objects/Object.hpp"
 
 using std::pow;
+using std::sqrt;
 
 void calc_refraction_indicies(PreparedComputations& comps,
                               const Intersection& i, const Intersections& is);
@@ -61,8 +62,11 @@ Color shade_hit(const Scene& scene, const PreparedComputations& comps,
                              comps.normal_vector, in_shadow);
     shade = shade + surface;
   }
+
   Color reflected = reflected_color(scene, comps, remaining);
-  shade = shade + reflected;
+  Color refracted = refracted_color(scene, comps, remaining);
+
+  shade = shade + reflected + refracted;
   return shade;
 }
 
@@ -113,6 +117,35 @@ Color reflected_color(const Scene& scene, const PreparedComputations& comps,
   Color color = color_at(scene, reflect_ray, remaining - 1);
 
   return color * comps.object->material().reflective;
+}
+
+//------------------------------------------------------------------------------
+// Refracted Color
+//------------------------------------------------------------------------------
+Color refracted_color(const Scene& scene, const PreparedComputations& comps,
+                      int remaining) {
+  if (remaining <= 0) {
+    return Color(0, 0, 0);
+  }
+  if (comps.object->material().transparency == 0) {
+    return Color(0, 0, 0);
+  }
+
+  double n_ratio = comps.n1 / comps.n2;
+  double cos_theta_i = dot(comps.eye_vector, comps.normal_vector);
+  double sin2_theta_t = n_ratio * n_ratio * (1 - cos_theta_i * cos_theta_i);
+  if (sin2_theta_t > 1) {
+    return Color(0, 0, 0);
+  }
+
+  double cos_theta_t = sqrt(1.0 - sin2_theta_t);
+  Vector direction =
+      comps.normal_vector * (n_ratio * cos_theta_i - cos_theta_t) -
+      comps.eye_vector * n_ratio;
+  Ray refract_ray(comps.under_point, direction);
+  Color color = color_at(scene, refract_ray, remaining - 1) *
+                comps.object->material().transparency;
+  return color;
 }
 
 //------------------------------------------------------------------------------
