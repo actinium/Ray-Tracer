@@ -49,5 +49,7 @@ Color reflected_color(const Scene& scene, const PreparedComputations& comps,
 Color refracted_color(const Scene& scene, const PreparedComputations& comps,
                       int remaining = MAX_RECURSION);
 
+double schlick(const PreparedComputations& comps);
+
 PreparedComputations prepare_computations(const Intersection& i, const Ray& r,
                                           const Intersections& is);

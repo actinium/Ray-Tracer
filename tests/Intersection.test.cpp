@@ -216,3 +216,37 @@ TEST_CASE("Finding n1 and n2 at various intersections", "[Intersection]") {
   REQUIRE(comps.n1 == Approx(n1));
   REQUIRE(comps.n2 == Approx(n2));
 }
+
+//------------------------------------------------------------------------------
+// Fresnel Effect
+//------------------------------------------------------------------------------
+TEST_CASE("The Schlick approximation under total internal reflection",
+          "[Intersection]") {
+  Sphere shape = glass_sphere;
+  Ray r(Point(0, 0, sqrt(2) / 2), Vector(0, 1, 0));
+  Intersections xs = {Intersection(-sqrt(2) / 2, &shape),
+                      Intersection(sqrt(2) / 2, &shape)};
+  PreparedComputations comps = prepare_computations(xs[1], r, xs);
+  double reflectance = schlick(comps);
+  REQUIRE(reflectance == Approx(1.0));
+}
+
+TEST_CASE("The Schlick approximation with a perpendicular viewing angle",
+          "[Intersection]") {
+  Sphere shape = glass_sphere;
+  Ray r(Point(0, 0, 0), Vector(0, 1, 0));
+  Intersections xs = {Intersection(-1, &shape), Intersection(1, &shape)};
+  PreparedComputations comps = prepare_computations(xs[1], r, xs);
+  double reflectance = schlick(comps);
+  REQUIRE(reflectance == Approx(0.04));
+}
+
+TEST_CASE("The Schlick approximation with small angle and n2 > n1",
+          "[Intersection]") {
+  Sphere shape = glass_sphere;
+  Ray r(Point(0, 0.99, -2), Vector(0, 0, 1));
+  Intersections xs = {Intersection(1.8589, &shape)};
+  PreparedComputations comps = prepare_computations(xs[0], r, xs);
+  double reflectance = schlick(comps);
+  REQUIRE(reflectance == Approx(0.48873));
+}

@@ -54,20 +54,24 @@ Color lighting(const Material& material, const Object* object,
 //------------------------------------------------------------------------------
 Color shade_hit(const Scene& scene, const PreparedComputations& comps,
                 int remaining) {
-  Color shade;
+  Color surface;
   for (const Light* light : scene.lights) {
     bool in_shadow = is_shadowed(comps.over_point, *light, scene);
-    Color surface = lighting(comps.object->material(), comps.object, *light,
-                             comps.over_point, comps.eye_vector,
-                             comps.normal_vector, in_shadow);
-    shade = shade + surface;
+    Color surface_color = lighting(comps.object->material(), comps.object,
+                                   *light, comps.over_point, comps.eye_vector,
+                                   comps.normal_vector, in_shadow);
+    surface = surface + surface_color;
   }
 
   Color reflected = reflected_color(scene, comps, remaining);
   Color refracted = refracted_color(scene, comps, remaining);
 
-  shade = shade + reflected + refracted;
-  return shade;
+  const Material& material = comps.object->material();
+  if (material.reflective > 0 && material.transparency > 0) {
+    double reflectance = schlick(comps);
+    return surface + reflected * reflectance + refracted * (1 - reflectance);
+  }
+  return surface + reflected + refracted;
 }
 
 //------------------------------------------------------------------------------
@@ -146,6 +150,23 @@ Color refracted_color(const Scene& scene, const PreparedComputations& comps,
   Color color = color_at(scene, refract_ray, remaining - 1) *
                 comps.object->material().transparency;
   return color;
+}
+
+//------------------------------------------------------------------------------
+// Schlick
+//------------------------------------------------------------------------------
+double schlick(const PreparedComputations& comps) {
+  double angle_cos = dot(comps.eye_vector, comps.normal_vector);
+  if (comps.n1 > comps.n2) {
+    double n = comps.n1 / comps.n2;
+    double sin2_t = n * n * (1.0 - angle_cos * angle_cos);
+    if (sin2_t > 1) {
+      return 1.0;
+    }
+    angle_cos = sqrt(1.0 - sin2_t);
+  }
+  double r0 = pow((comps.n1 - comps.n2) / (comps.n1 + comps.n2), 2);
+  return r0 + (1 - r0) * pow(1 - angle_cos, 5);
 }
 
 //------------------------------------------------------------------------------

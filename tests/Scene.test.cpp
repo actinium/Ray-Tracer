@@ -392,3 +392,30 @@ TEST_CASE("shade_hit() with a transparent material", "[Scene]") {
   Color c = shade_hit(scene, comps, 5);
   REQUIRE_THAT(c, Equals(Color(0.93642, 0.68642, 0.68642)));
 }
+
+TEST_CASE("shade_hit() with a reflective, transparent material", "[Scene]") {
+  Scene scene = default_scene;
+
+  Plane floor;
+  floor.set_transform(translation(0, -1, 0));
+  SimpleMaterial floor_material;
+  floor_material.reflective = 0.5;
+  floor_material.transparency = 0.5;
+  floor_material.refractive_index = 1.5;
+  floor.set_material(&floor_material);
+  scene.objects.push_back(&floor);
+
+  Sphere ball;
+  ball.set_transform(translation(0, -3.5, -0.5));
+  SimpleMaterial ball_material;
+  ball_material.color = Color(1, 0, 0);
+  ball_material.ambient = 0.5;
+  ball.set_material(&ball_material);
+  scene.objects.push_back(&ball);
+
+  Ray r(Point(0, 0, -3), Vector(0, -sqrt(2) / 2, sqrt(2) / 2));
+  Intersections xs = {Intersection(sqrt(2), &floor)};
+  PreparedComputations comps = prepare_computations(xs[0], r, xs);
+  Color color = shade_hit(scene, comps, 5);
+  REQUIRE_THAT(color, Equals(Color(0.93391, 0.69643, 0.69243)));
+}
