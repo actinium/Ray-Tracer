@@ -17,6 +17,7 @@
 
 ## Chapter 11
 ![Chapter 11 - Reflection](/images/chapter-11-reflection.png)
+![Chapter 11 - Refraction](/images/chapter-11-refraction.png)
 
 # Material Samples
 
