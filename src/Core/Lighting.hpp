@@ -25,8 +25,8 @@ struct PreparedComputations {
   Vector normal_vector;
   Vector reflect_vector;
 
-  double n1;
-  double n2;
+  double n1 = 0;
+  double n2 = 0;
 
   bool inside;
 };
