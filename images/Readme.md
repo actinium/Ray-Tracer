@@ -1,23 +1,26 @@
 # Book
 
 ## Chapter 5
-![Chapter 5](/images/chapter-05-sphere-intersections.png)
+![Chapter 5 - Sphere Intersection](/images/chapter-05-sphere-intersections.png)
 
 ## Chapter 6
-![Chapter 6](/images/chapter-06-light-and-shading.png)
+![Chapter 6 - Light & Shading](/images/chapter-06-light-and-shading.png)
 
 ## Chapter 7-8
-![Chapter 7](/images/chapter-07-making-a-scene.png)
+![Chapter 7 - Making a Scene](/images/chapter-07-making-a-scene.png)
 
 ## Chapter 9
-![Chapter 9](/images/chapter-09-planes.png)
+![Chapter 9 - Planes](/images/chapter-09-planes.png)
 
 ## Chapter 10
-![Chapter 10](/images/chapter-10-patterns.png)
+![Chapter 10 - Patterns](/images/chapter-10-patterns.png)
 
 ## Chapter 11
 ![Chapter 11 - Reflection](/images/chapter-11-reflection.png)
 ![Chapter 11 - Refraction](/images/chapter-11-refraction.png)
+
+## Chapter 11
+![Chapter 12 - Cubes](/images/chapter-12-cubes.png)
 
 # Material Samples
 
