@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "Core/Constants.hpp"
 #include "Chapters/Chapters.hpp"
 #include "Chapters/Extra/Extras.hpp"
 
@@ -50,6 +51,8 @@ void run_extra_scenes() {
 
 int main() {
   std::cout << "Hello Raytracer" << std::endl;
+
+  std::cout << MAX_THREADS << " concurrent threads are supported.\n\n";
 
   run_chapters();
 
