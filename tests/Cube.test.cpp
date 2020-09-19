@@ -5,7 +5,7 @@
 #include "TestUtils.hpp"
 #include "catch.hpp"
 
-TEST_CASE("A ray intersects a cube", "[Sphere]") {
+TEST_CASE("A ray intersects a cube", "[Cube]") {
   // Examples:
   // |        | origin            | direction        | t1 | t2 |
   // | +x     | point(5, 0.5, 0)  | vector(-1, 0, 0) |  4 |  6 |
@@ -38,7 +38,7 @@ TEST_CASE("A ray intersects a cube", "[Sphere]") {
   REQUIRE(xs[1].t == Approx(t2));
 }
 
-TEST_CASE("A ray misses a cube", "[Sphere]") {
+TEST_CASE("A ray misses a cube", "[Cube]") {
   // Examples:
   // | origin           | direction                      |
   // | point(-2, 0, 0)  | vector(0.2673, 0.5345, 0.8018) |
@@ -65,7 +65,7 @@ TEST_CASE("A ray misses a cube", "[Sphere]") {
   REQUIRE(xs.size() == 0);
 }
 
-TEST_CASE("The normal on the surface of a cube", "[Sphere]") {
+TEST_CASE("The normal on the surface of a cube", "[Cube]") {
   // Examples:
   // | point                | normal           |
   // | point(1, 0.5, -0.8)  | vector(1, 0, 0)  |
