@@ -5,7 +5,9 @@
 
 constexpr double EPSILON = 0.00000001;
 
+static_assert(std::numeric_limits<double>::is_iec559, "IEEE 754 required");
 constexpr double INF = std::numeric_limits<double>::infinity();
+constexpr double NEG_INF = -std::numeric_limits<double>::infinity();
 
 constexpr double PI = 3.14159265358979323846;
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Constants.hpp"
 #include "Scene/Objects/Object.hpp"
 
 class Cylinder : public Object {
@@ -10,9 +11,15 @@ class Cylinder : public Object {
  private:
   Intersections local_intersect(const Ray& ray) const override;
   Vector local_normal_at(const Point& point) const override;
+
+ public:
+  double minimum;
+  double maximum;
+  bool is_closed;
 };
 
-constexpr Cylinder::Cylinder() noexcept : Object() {}
+constexpr Cylinder::Cylinder() noexcept
+    : Object(), minimum(NEG_INF), maximum(INF), is_closed(false) {}
 
 inline Cylinder::Cylinder(const Matrix& t, const Material& m) noexcept
-    : Object(t, m) {}
+    : Object(t, m), minimum(NEG_INF), maximum(INF), is_closed(false) {}

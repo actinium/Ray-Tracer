@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "Core/Constants.hpp"
 #include "Chapters/Chapters.hpp"
 #include "Chapters/Extra/Extras.hpp"
+#include "Core/Constants.hpp"
 
 void run_chapters() {
   std::cout << "Running Chapter 5" << std::endl;
@@ -25,6 +25,9 @@ void run_chapters() {
 
   std::cout << "Running Chapter 12" << std::endl;
   chapter12();
+
+  std::cout << "Running Chapter 13" << std::endl;
+  chapter13();
 }
 
 void run_extra_materials() {
@@ -54,9 +57,10 @@ int main() {
 
   std::cout << MAX_THREADS << " concurrent threads are supported.\n\n";
 
-  run_chapters();
+  chapter13();
+  // run_chapters();
 
-  run_extra_materials();
+  // run_extra_materials();
 
-  run_extra_scenes();
+  // run_extra_scenes();
 }
