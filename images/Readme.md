@@ -22,6 +22,10 @@
 ## Chapter 12
 ![Chapter 12 - Cubes](/images/chapter-12-cubes.png)
 
+## Chapter 13
+![Chapter 13 - Cylinders](/images/chapter-13-cylinders.png)
+![Chapter 13 - Cylinders](/images/chapter-13-cylinder-reflection.png)
+
 # Material Samples
 
 ## Color
