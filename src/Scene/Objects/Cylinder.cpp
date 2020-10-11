@@ -11,7 +11,7 @@ using std::swap;
 
 namespace {
 // Checks to see if the intersection at `t` is within a radius
-// of 1 (the radius of your cylinders) from the y axis.
+// of 1 (the radius of the cylinder) from the y axis.
 bool check_cap(const Ray& ray, double t) {
   double x = ray.origin.x + t * ray.direction.x;
   double z = ray.origin.z + t * ray.direction.z;
