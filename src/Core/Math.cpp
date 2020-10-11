@@ -228,6 +228,7 @@ void vec4_mag(const double (&v)[4], double& r) {
 void vec4_norm(const double (&v)[4], double (&r)[4]) {
   double mag;
   vec4_mag(v, mag);
+  if (mag == 0) return;
   r[0] = v[0] / mag;
   r[1] = v[1] / mag;
   r[2] = v[2] / mag;
