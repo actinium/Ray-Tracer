@@ -58,8 +58,6 @@ int main() {
   std::cout << MAX_THREADS << " concurrent threads are supported.\n\n";
 
   run_chapters();
-
   run_extra_materials();
-
   run_extra_scenes();
 }

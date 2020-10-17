@@ -2,6 +2,7 @@
 #include "Core/Transformations.hpp"
 #include "Scene/Camera.hpp"
 #include "Scene/Lights/Light.hpp"
+#include "Scene/Objects/Cone.hpp"
 #include "Scene/Objects/Cube.hpp"
 #include "Scene/Objects/Cylinder.hpp"
 #include "Scene/Objects/Materials/PatternMaterial.hpp"
@@ -263,7 +264,85 @@ void cylinders_scene() {
 }
 }  // namespace
 
+void cone_scene() {
+  Scene scene;
+  //----------------------------------------------------------------------------
+  // Floor
+  //----------------------------------------------------------------------------
+  Plane floor;
+  SimpleMaterial wall_floor_material;
+  wall_floor_material.color = Color::Lightgrey;
+  wall_floor_material.specular = 0;
+  floor.set_material(&wall_floor_material);
+  scene.objects.push_back(&floor);
+
+  //----------------------------------------------------------------------------
+  // Middle Cone
+  //----------------------------------------------------------------------------
+  Cone middle;
+  middle.set_transform(rotation_y(0.5) * translation(-0.5, 0.4, 0.5) *
+                       scaling(0.8));
+  middle.minimum = -0.5;
+  middle.maximum = 0.5;
+  middle.is_closed = true;
+  SimpleMaterial middle_material;
+  middle_material.color = Color::Orange;
+  middle_material.diffuse = 0.7;
+  middle_material.specular = 0.3;
+  middle.set_material(&middle_material);
+  scene.objects.push_back(&middle);
+
+  //----------------------------------------------------------------------------
+  // Right Cone
+  //----------------------------------------------------------------------------
+  Cone right;
+  right.set_transform(rotation_y(-0.2) * scaling(0.5, 2, 0.5) *
+                      translation(1.5, 0.5, -0.5) * scaling(0.5));
+  right.minimum = -1;
+  right.maximum = 0;
+  right.is_closed = true;
+  SimpleMaterial right_material;
+  right_material.color = Color::Red;
+  right_material.diffuse = 0.7;
+  right_material.specular = 0.3;
+  right.set_material(&right_material);
+  scene.objects.push_back(&right);
+
+  //----------------------------------------------------------------------------
+  // Left Cone
+  //----------------------------------------------------------------------------
+  Cone left;
+  left.set_transform(scaling(0.5, 1.5, 0.5) * translation(-1.8, 0, -0.75) *
+                     scaling(0.33));
+  left.minimum = 0;
+  left.maximum = 1.3;
+  left.is_closed = true;
+  SimpleMaterial left_material;
+  left_material.color = Color::Yellow;
+  left_material.diffuse = 0.7;
+  left_material.specular = 0.3;
+  left.set_material(&left_material);
+  scene.objects.push_back(&left);
+
+  //----------------------------------------------------------------------------
+  // Light
+  //----------------------------------------------------------------------------
+  Light light(Point(-8, 10, -11), Color(1, 1, 1));
+  scene.lights.push_back(&light);
+
+  //----------------------------------------------------------------------------
+  // Camera
+  //----------------------------------------------------------------------------
+  Camera camera(1920, 1080, PI / 4);
+  camera.set_view_transform(Point(0, 1.5, -5), Point(0, 0.5, 0),
+                            Vector(0, 1, 0));
+
+  Image image = camera.render(scene);
+  image.save_as_png("images/chapter-13-cones.png");
+}
+
 void chapter13() {
   reflection_scene();
   cylinders_scene();
+  cone_scene();
 }
