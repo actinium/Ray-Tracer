@@ -25,6 +25,7 @@
 ## Chapter 13
 ![Chapter 13 - Cylinders](/images/chapter-13-cylinders.png)
 ![Chapter 13 - Cylinders](/images/chapter-13-cylinder-reflection.png)
+![Chapter 13 - Cones](/images/chapter-13-cones.png)
 
 # Material Samples
 
