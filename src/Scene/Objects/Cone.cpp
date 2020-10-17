@@ -16,7 +16,7 @@ bool check_cap(const Ray& ray, double t, double radius) {
   double x = ray.origin.x + t * ray.direction.x;
   double z = ray.origin.z + t * ray.direction.z;
 
-  return (x * x + z * z) <= radius;
+  return (x * x + z * z) <= (radius * radius);
 }
 
 void intersect_caps(const Cone& cone, const Ray& ray, Intersections& xs) {
@@ -90,11 +90,11 @@ Intersections Cone::local_intersect(const Ray& ray) const {
 Vector Cone::local_normal_at(const Point& point) const {
   double dist = point.x * point.x + point.z * point.z;
 
-  if (dist < 1 && point.y >= maximum - EPSILON) {
+  if (dist < maximum * maximum && point.y >= maximum - EPSILON) {
     return Vector(0, 1, 0);
   }
 
-  if (dist < 1 && point.y <= minimum + EPSILON) {
+  if (dist < minimum * minimum && point.y <= minimum + EPSILON) {
     return Vector(0, -1, 0);
   }
 
