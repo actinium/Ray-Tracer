@@ -2,6 +2,7 @@ CPP = @clang++
 CPPFLAGS = -std=c++17 \
            -march=native \
            -O2 \
+           -g \
            -pthread \
            $(WARNING_FLAGS) \
            $(INCLUDE_FLAGS)
