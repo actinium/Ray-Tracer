@@ -12,21 +12,24 @@ TEST_CASE("The normal of a plane is constant everywhere", "[Plane]") {
 TEST_CASE("Intersect with a ray parallel to the plane", "[Plane]") {
   Plane p;
   Ray r(Point(0, 10, 0), Vector(0, 0, 1));
-  Intersections xs = p.intersect(r);
+  Intersections xs;
+  p.intersect(r, xs);
   REQUIRE(xs.size() == 0);
 }
 
 TEST_CASE("Intersect with a coplanar ray", "[Plane]") {
   Plane p;
   Ray r(Point(0, 0, 0), Vector(0, 0, 1));
-  Intersections xs = p.intersect(r);
+  Intersections xs;
+  p.intersect(r, xs);
   REQUIRE(xs.size() == 0);
 }
 
 TEST_CASE("A ray intersecting a plane from above", "[Plane]") {
   Plane p;
   Ray r(Point(0, 1, 0), Vector(0, -1, 0));
-  Intersections xs = p.intersect(r);
+  Intersections xs;
+  p.intersect(r, xs);
   REQUIRE(xs.size() == 1);
   REQUIRE(xs[0].t == 1);
   REQUIRE(xs[0].object == &p);
@@ -35,7 +38,8 @@ TEST_CASE("A ray intersecting a plane from above", "[Plane]") {
 TEST_CASE("A ray intersecting a plane from below", "[Plane]") {
   Plane p;
   Ray r(Point(0, -1, 0), Vector(0, 1, 0));
-  Intersections xs = p.intersect(r);
+  Intersections xs;
+  p.intersect(r, xs);
   REQUIRE(xs.size() == 1);
   REQUIRE(xs[0].t == 1);
   REQUIRE(xs[0].object == &p);

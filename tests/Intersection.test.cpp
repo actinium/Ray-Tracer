@@ -32,7 +32,8 @@ TEST_CASE("Aggregating intersections", "[Intersection]") {
 TEST_CASE("Intersect sets the object on the intersection", "[Intersection]") {
   Ray r(Point(0, 0, -5), Vector(0, 0, 1));
   Sphere s;
-  Intersections xs = s.intersect(r);
+  Intersections xs;
+  s.intersect(r, xs);
   REQUIRE(xs.size() == 2);
   REQUIRE(xs[0].object == &s);
   REQUIRE(xs[1].object == &s);

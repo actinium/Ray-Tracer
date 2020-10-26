@@ -42,9 +42,7 @@ void intersect_caps(const Cylinder& cyl, const Ray& ray, Intersections& xs) {
 }
 }  // namespace
 
-Intersections Cylinder::local_intersect(const Ray& ray) const {
-  Intersections xs;
-
+void Cylinder::local_intersect(const Ray& ray, Intersections& xs) const {
   intersect_caps(*this, ray, xs);
 
   double a =
@@ -52,7 +50,7 @@ Intersections Cylinder::local_intersect(const Ray& ray) const {
 
   // ray is parallel to the y axis
   if (abs(a) < EPSILON) {
-    return xs;
+    return;
   }
 
   double b =
@@ -62,7 +60,7 @@ Intersections Cylinder::local_intersect(const Ray& ray) const {
 
   // ray does not intersect the cylinder
   if (disc < 0) {
-    return {};
+    return;
   }
 
   double t0 = (-b - sqrt(disc)) / (2 * a);
@@ -78,8 +76,6 @@ Intersections Cylinder::local_intersect(const Ray& ray) const {
   if (minimum < y1 && y1 < maximum) {
     xs.emplace_back(t1, this);
   }
-
-  return xs;
 }
 
 Vector Cylinder::local_normal_at(const Point& point) const {

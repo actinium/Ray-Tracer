@@ -32,7 +32,8 @@ TEST_CASE("A ray intersects a cube", "[Cube]") {
 
   Cube cube;
   Ray r(origin, direction);
-  Intersections xs = cube.intersect(r);
+  Intersections xs;
+  cube.intersect(r, xs);
   REQUIRE(xs.size() == 2);
   REQUIRE(xs[0].t == Approx(t1));
   REQUIRE(xs[1].t == Approx(t2));
@@ -61,7 +62,8 @@ TEST_CASE("A ray misses a cube", "[Cube]") {
 
   Cube cube;
   Ray r(origin, direction);
-  Intersections xs = cube.intersect(r);
+  Intersections xs;
+  cube.intersect(r, xs);
   REQUIRE(xs.size() == 0);
 }
 

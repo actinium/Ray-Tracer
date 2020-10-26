@@ -7,8 +7,7 @@
 
 using std::sqrt;
 
-Intersections Sphere::local_intersect(const Ray& ray) const {
-  Intersections is;
+void Sphere::local_intersect(const Ray& ray, Intersections& is) const {
   Vector sphere_to_ray = ray.origin - Point::Origin;
   double a = dot(ray.direction, ray.direction);
   double b = 2 * dot(ray.direction, sphere_to_ray);
@@ -18,7 +17,6 @@ Intersections Sphere::local_intersect(const Ray& ray) const {
     is.emplace_back((-b - sqrt(discriminant)) / (2 * a), this);
     is.emplace_back((-b + sqrt(discriminant)) / (2 * a), this);
   }
-  return is;
 }
 
 Vector Sphere::local_normal_at(const Point& point) const {

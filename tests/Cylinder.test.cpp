@@ -22,7 +22,8 @@ TEST_CASE("A ray misses a cylinder", "[Cylinder]") {
   Point origin = std::get<0>(examples);
   Vector direction = normalize(std::get<1>(examples));
   Ray r(origin, direction);
-  Intersections xs = cyl.intersect(r);
+  Intersections xs;
+  cyl.intersect(r, xs);
   REQUIRE(xs.size() == 0);
 }
 
@@ -45,7 +46,8 @@ TEST_CASE("A ray strikes a cylinder", "[Cylinder]") {
   double t0 = std::get<2>(examples);
   double t1 = std::get<3>(examples);
   Ray r(origin, direction);
-  Intersections xs = cyl.intersect(r);
+  Intersections xs;
+  cyl.intersect(r, xs);
   REQUIRE(xs.size() == 2);
   REQUIRE(xs[0].t == Approx(t0));
   REQUIRE(xs[1].t == Approx(t1));
@@ -107,7 +109,8 @@ TEST_CASE("Intersecting a constrained cylinder", "[Cylinder]") {
   cyl.minimum = 1;
   cyl.maximum = 2;
   Ray r(point, direction);
-  Intersections xs = cyl.intersect(r);
+  Intersections xs;
+  cyl.intersect(r, xs);
   REQUIRE(xs.size() == count);
 }
 
@@ -142,7 +145,8 @@ TEST_CASE("Intersecting the caps of a closed cylinder", "[Cylinder]") {
   cyl.maximum = 2;
   cyl.is_closed = true;
   Ray r(point, direction);
-  Intersections xs = cyl.intersect(r);
+  Intersections xs;
+  cyl.intersect(r, xs);
   REQUIRE(xs.size() == count);
 }
 

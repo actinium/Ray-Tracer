@@ -37,7 +37,7 @@ pair<double, double> check_axis(double origin, double direction) {
 }
 }  // namespace
 
-Intersections Cube::local_intersect(const Ray& ray) const {
+void Cube::local_intersect(const Ray& ray, Intersections& is) const {
   double xtmin, xtmax, ytmin, ytmax, ztmin, ztmax;
 
   tie(xtmin, xtmax) = check_axis(ray.origin.x, ray.direction.x);
@@ -48,9 +48,11 @@ Intersections Cube::local_intersect(const Ray& ray) const {
   double tmax = min({xtmax, ytmax, ztmax});
 
   if (tmin > tmax) {
-    return {};
+    return;
   }
-  return {Intersection(tmin, this), Intersection(tmax, this)};
+
+  is.emplace_back(tmin,this);
+  is.emplace_back(tmax,this);
 }
 
 Vector Cube::local_normal_at(const Point& point) const {

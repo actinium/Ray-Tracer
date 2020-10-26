@@ -42,9 +42,7 @@ void intersect_caps(const Cone& cone, const Ray& ray, Intersections& xs) {
 }
 }  // namespace
 
-Intersections Cone::local_intersect(const Ray& ray) const {
-  Intersections xs;
-
+void Cone::local_intersect(const Ray& ray, Intersections& xs) const {
   intersect_caps(*this, ray, xs);
 
   double a = ray.direction.x * ray.direction.x -
@@ -60,14 +58,14 @@ Intersections Cone::local_intersect(const Ray& ray) const {
   if (abs(a) < EPSILON) {
     double t = -c / (2 * b);
     xs.emplace_back(t, this);
-    return xs;
+    return;
   }
 
   double disc = b * b - 4 * a * c;
 
   // ray does not intersect the cone
   if (disc < 0) {
-    return {};
+    return;
   }
 
   double t0 = (-b - sqrt(disc)) / (2 * a);
@@ -83,8 +81,6 @@ Intersections Cone::local_intersect(const Ray& ray) const {
   if (minimum < y1 && y1 < maximum) {
     xs.emplace_back(t1, this);
   }
-
-  return xs;
 }
 
 Vector Cone::local_normal_at(const Point& point) const {

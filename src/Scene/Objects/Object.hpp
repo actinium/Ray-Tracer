@@ -20,11 +20,11 @@ class Object {
   void set_material(const Material* material);
 
  public:
-  Intersections intersect(const Ray& ray) const;
+  void intersect(const Ray& ray, Intersections& intersections) const;
   Vector normal_at(const Point& world_point) const;
 
  private:
-  virtual Intersections local_intersect(const Ray& ray) const = 0;
+  virtual void local_intersect(const Ray& ray, Intersections& intersections) const = 0;
   virtual Vector local_normal_at(const Point& point) const = 0;
 
  private:

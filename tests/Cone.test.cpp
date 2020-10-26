@@ -26,7 +26,8 @@ TEST_CASE("Intersecting a cone with a ray", "[Cone]") {
   Point origin = std::get<0>(examples);
   Vector direction = normalize(std::get<1>(examples));
   Ray r(origin, direction);
-  Intersections xs = cone.intersect(r);
+  Intersections xs;
+  cone.intersect(r, xs);
 
   double t0 = std::get<2>(examples);
   double t1 = std::get<3>(examples);
@@ -40,7 +41,8 @@ TEST_CASE("Intersecting a cone with a ray parallel to one of its halves",
   Cone cone;
   Vector direction = normalize(Vector(0, 1, 1));
   Ray r(Point(0, 0, -1), direction);
-  Intersections xs = cone.intersect(r);
+  Intersections xs;
+  cone.intersect(r, xs);
   REQUIRE(xs.size() == 1);
   REQUIRE(xs[0].t == Approx(0.35355));
 }
@@ -66,7 +68,8 @@ TEST_CASE("Intersecting a cone's end caps", "[Cone]") {
   Point origin = std::get<0>(examples);
   Vector direction = normalize(std::get<1>(examples));
   Ray r(origin, direction);
-  Intersections xs = cone.intersect(r);
+  Intersections xs;
+  cone.intersect(r, xs);
   REQUIRE(xs.size() == std::get<2>(examples));
 }
 

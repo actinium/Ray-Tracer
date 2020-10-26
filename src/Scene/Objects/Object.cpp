@@ -9,9 +9,9 @@ void Object::set_transform(const Matrix& matrix) {
 
 void Object::set_material(const Material* m) { material_ = m; }
 
-Intersections Object::intersect(const Ray& ray) const {
+void Object::intersect(const Ray& ray, Intersections& intersections) const {
   Ray local_ray = ray.transform(inverse_transform());
-  return local_intersect(local_ray);
+  local_intersect(local_ray, intersections);
 }
 
 Vector Object::normal_at(const Point& world_point) const {

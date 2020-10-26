@@ -23,7 +23,8 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape,
       double world_x = -half + pixel_size * x;
       Point position(world_x, world_y, wall_z);
       Ray r(ray_origin, normalize(position - ray_origin));
-      Intersections xs = shape.intersect(r);
+      Intersections xs;
+      shape.intersect(r, xs);
       Hit hit = get_first_hit(xs);
       if (hit.has_value()) {
         image(x, y) = color;

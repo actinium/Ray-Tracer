@@ -8,7 +8,7 @@ class Plane : public Object {
   Plane(const Matrix& transform, const Material& material) noexcept;
 
  private:
-  Intersections local_intersect(const Ray& ray) const override;
+  void local_intersect(const Ray& ray, Intersections& intersections) const override;
   Vector local_normal_at(const Point& point) const override;
 };
 
