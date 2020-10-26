@@ -21,3 +21,7 @@ Vector Object::normal_at(const Point& world_point) const {
   world_normal.w = 0;
   return normalize(world_normal);
 }
+
+const Object* Object::parent() const { return parent_; }
+
+void Object::set_parent(const Object* p) { parent_ = p; }

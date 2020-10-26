@@ -14,6 +14,7 @@ class Group : public Object {
 
  public:
   const std::vector<const Object*>& objects() const { return objects_; };
+  void add_child(Object* object);
 
  private:
   std::vector<const Object*> objects_;

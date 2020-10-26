@@ -27,19 +27,28 @@ class Object {
   virtual Intersections local_intersect(const Ray& ray) const = 0;
   virtual Vector local_normal_at(const Point& point) const = 0;
 
+ public:
+  const Object* parent() const;
+  void set_parent(const Object* parent);
+
  private:
+  const Object* parent_;
   Matrix transform_;
   Matrix inv_transform_;
   const Material* material_;
 };
 
 constexpr Object::Object() noexcept
-    : transform_{Matrix::Identity},
+    : parent_{nullptr},
+      transform_{Matrix::Identity},
       inv_transform_{Matrix::Identity},
       material_{&Material::Default} {}
 
 inline Object::Object(const Matrix& t, const Material& m) noexcept
-    : transform_{t}, inv_transform_{inverse(t)}, material_{&m} {}
+    : parent_{nullptr},
+      transform_{t},
+      inv_transform_{inverse(t)},
+      material_{&m} {}
 
 inline const Matrix& Object::transform() const { return transform_; }
 inline const Matrix& Object::inverse_transform() const {
