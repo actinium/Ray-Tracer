@@ -27,6 +27,9 @@
 ![Chapter 13 - Cylinders](/images/chapter-13-cylinder-reflection.png)
 ![Chapter 13 - Cones](/images/chapter-13-cones.png)
 
+## Chapter 14
+![Chapter 14 - Groups](/images/chapter-14-groups.png)
+
 # Material Samples
 
 ## Color
