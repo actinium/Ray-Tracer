@@ -28,6 +28,9 @@ void run_chapters() {
 
   std::cout << "Running Chapter 13" << std::endl;
   chapter13();
+
+  std::cout << "Running Chapter 14" << std::endl;
+  chapter14();
 }
 
 void run_extra_materials() {

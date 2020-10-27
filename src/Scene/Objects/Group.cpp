@@ -1,6 +1,7 @@
 #include "Group.hpp"
 
 #include <algorithm>
+#include <stdexcept>
 
 Intersections Group::local_intersect(const Ray& ray) const {
   Intersections is;
@@ -14,7 +15,9 @@ Intersections Group::local_intersect(const Ray& ray) const {
   return is;
 }
 
-Vector Group::local_normal_at(const Point&) const { return {}; }
+Vector Group::local_normal_at(const Point&) const {
+  throw std::domain_error("Groups don't have normals.");
+}
 
 void Group::add_child(Object* obj) {
   objects_.push_back(obj);

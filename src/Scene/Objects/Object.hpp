@@ -31,6 +31,9 @@ class Object {
   const Object* parent() const;
   void set_parent(const Object* parent);
 
+  Point world_to_object(Point point) const;
+  Vector normal_to_world(Vector normal) const;
+
  private:
   const Object* parent_;
   Matrix transform_;
