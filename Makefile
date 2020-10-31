@@ -44,6 +44,7 @@ PROGRESSBAR_DIR = vendor/prakhar1989/progress-cpp
 BIN = raytracer
 TEST_BIN = test
 SRC_FILES = $(wildcard $(SRC_DIR)/Core/*.cpp) \
+            $(wildcard $(SRC_DIR)/Parser/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Lights/*.cpp) \
             $(wildcard $(SRC_DIR)/Scene/Objects/*.cpp) \
