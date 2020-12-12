@@ -12,7 +12,6 @@ std::optional<Point> parse_vertex(const std::string& line) {
   }
   return {};
 }
-std::optional<Point> parse_face(const std::string& line) {}
 }  // namespace
 
 ObjParser::Obj ObjParser::parse_obj_file(std::istream& input) {
