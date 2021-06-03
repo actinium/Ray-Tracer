@@ -13,14 +13,14 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape,
   const double wall_z = 10;
   const double wall_size = 7;
   const double half = wall_size / 2;
-  const double pixel_size = wall_size / img_pixels;
+  const double pixel_size = wall_size / static_cast<double>(img_pixels);
 
   Image image(img_pixels, img_pixels);
 
   for (std::size_t y = 0; y < img_pixels; ++y) {
-    double world_y = half - pixel_size * y;
+    double world_y = half - pixel_size * static_cast<double>(y);
     for (std::size_t x = 0; x < img_pixels; ++x) {
-      double world_x = -half + pixel_size * x;
+      double world_x = -half + pixel_size * static_cast<double>(x);
       Point position(world_x, world_y, wall_z);
       Ray r(ray_origin, normalize(position - ray_origin));
       Intersections xs = shape.intersect(r);
