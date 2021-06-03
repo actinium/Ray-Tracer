@@ -52,8 +52,8 @@ TEST_CASE("Intersecting a cone's end caps", "[Cone]") {
   //  | point(0, 0, -0.25) | vector(0, 1, 1) | 2     |
   //  | point(0, 0, -0.25) | vector(0, 1, 0) | 4     |
 
-  using example = std::tuple<Point, Vector, double>;
-  auto examples = GENERATE(table<Point, Vector, double>(
+  using example = std::tuple<Point, Vector, std::size_t>;
+  auto examples = GENERATE(table<Point, Vector, std::size_t>(
       {example{Point(0, 0, -5), Vector(0, 1, 0), 0},
        example{Point(0, 0, -0.25), Vector(0, 1, 1), 2},
        example{Point(0, 0, -0.25), Vector(0, 1, 0), 4}}));
