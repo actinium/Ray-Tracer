@@ -15,7 +15,7 @@ Image render_sphere(const std::size_t img_pixels, const Sphere& shape) {
   const double wall_z = 10;
   const double wall_size = 7;
   const double half = wall_size / 2;
-  const double pixel_size = wall_size / img_pixels;
+  const double pixel_size = wall_size / static_cast<double>(img_pixels);
 
   Light light(Point(-10, 10, -10), Color(1, 1, 1));
 
