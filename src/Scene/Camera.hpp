@@ -56,7 +56,7 @@ constexpr Camera::Camera(std::size_t w, std::size_t h, double fov) noexcept
     half_width = half_view * aspect;
     half_height = half_view;
   }
-  pixel_size = (half_width * 2) / width;
+  pixel_size = (half_width * 2) / static_cast<double>(width);
 }
 
 inline const Matrix& Camera::transform() const { return transform_; }
