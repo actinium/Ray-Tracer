@@ -16,8 +16,8 @@ void Camera::set_view_transform(const Point& from, const Point& to,
 }
 
 Ray Camera::ray_for_pixel(std::size_t x, std::size_t y) const {
-  double xoffset = (x + 0.5) * pixel_size;
-  double yoffset = (y + 0.5) * pixel_size;
+  double xoffset = (static_cast<double>(x) + 0.5) * pixel_size;
+  double yoffset = (static_cast<double>(y) + 0.5) * pixel_size;
 
   double world_x = half_width - xoffset;
   double world_y = half_height - yoffset;
