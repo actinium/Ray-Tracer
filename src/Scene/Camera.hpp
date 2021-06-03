@@ -41,7 +41,7 @@ class Camera {
 constexpr Camera::Camera(std::size_t w, std::size_t h, double fov) noexcept
     : width(w),
       height(h),
-      aspect(width / static_cast<double>(height)),
+      aspect(static_cast<double>(width) / static_cast<double>(height)),
       field_of_view(fov),
       half_width(),
       half_height(),
