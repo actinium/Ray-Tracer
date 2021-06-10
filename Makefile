@@ -19,8 +19,7 @@ WARNING_FLAGS = -Wall \
                 -Werror
 INCLUDE_FLAGS = -I$(SRC_DIR) \
                 -I$(CATCH_DIR) \
-                -I$(STB_DIR) \
-                -I$(PROGRESSBAR_DIR)
+                -I$(STB_DIR)
 
 DIR_GUARD = @mkdir -p $(@D)
 ECHO = @echo
@@ -38,7 +37,6 @@ BUILD_DIR = build
 ################################################################################
 CATCH_DIR = vendor/catchorg/Catch2
 STB_DIR = vendor/nothings/stb
-PROGRESSBAR_DIR = vendor/prakhar1989/progress-cpp
 
 ################################################################################
 # Files
