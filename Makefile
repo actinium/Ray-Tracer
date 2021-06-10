@@ -1,7 +1,9 @@
 CPP = @clang++
 CPPFLAGS = -std=c++17 \
            -march=native \
-           -O2 \
+           -O3 \
+           -ffast-math \
+           -flto \
            -g \
            -pthread \
            $(WARNING_FLAGS) \
