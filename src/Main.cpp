@@ -53,6 +53,9 @@ void run_extra_materials() {
 void run_extra_scenes() {
   std::cout << "Running Extra - Spheres on Sphere" << std::endl;
   extra_spheres_on_sphere();
+
+  std::cout << "Running Extra - Mirror" << std::endl;
+  extra_mirror();
 }
 
 int main() {
