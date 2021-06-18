@@ -51,3 +51,6 @@
 
 ## Spheres on Sphere - Fibonacci Sphere
 ![Spheres on Sphere](/images/extra-06-spheres-on-sphere.png)
+
+## Mirror
+![Mirror](/images/extra-07-mirror.png)
