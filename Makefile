@@ -1,6 +1,5 @@
 CPP = @clang++
 CPPFLAGS = -std=c++17 \
-           -march=native \
            -O3 \
            -flto \
            -g \
