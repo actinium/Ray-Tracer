@@ -90,8 +90,8 @@ TEST_CASE("Intersecting a constrained cylinder", "[Cylinder]") {
   //  | 5 | point(0, 1, -5)   | vector(0, 0, 1)   | 0     |
   //  | 6 | point(0, 1.5, -2) | vector(0, 0, 1)   | 2     |
 
-  using example = std::tuple<Point, Vector, int>;
-  auto examples = GENERATE(table<Point, Vector, int>(
+  using example = std::tuple<Point, Vector, std::size_t>;
+  auto examples = GENERATE(table<Point, Vector, std::size_t>(
       {example{Point(0, 1.5, 0), Vector(0.1, 1, 0), 0},
        example{Point(0, 3, -5), Vector(0, 0, 1), 0},
        example{Point(0, 0, -5), Vector(0, 0, 1), 0},
@@ -101,7 +101,7 @@ TEST_CASE("Intersecting a constrained cylinder", "[Cylinder]") {
 
   Point point = std::get<0>(examples);
   Vector direction = normalize(std::get<1>(examples));
-  int count = std::get<2>(examples);
+  std::size_t count = std::get<2>(examples);
 
   Cylinder cyl;
   cyl.minimum = 1;
@@ -125,8 +125,8 @@ TEST_CASE("Intersecting the caps of a closed cylinder", "[Cylinder]") {
   //  | 4 | point(0, 0, -2)  | vector(0, 1, 2)  | 2     |
   //  | 5 | point(0, -1, -2) | vector(0, 1, 1)  | 2     | # corner case
 
-  using example = std::tuple<Point, Vector, int>;
-  auto examples = GENERATE(table<Point, Vector, int>(
+  using example = std::tuple<Point, Vector, std::size_t>;
+  auto examples = GENERATE(table<Point, Vector, std::size_t>(
       {example{Point(0, 3, 0), Vector(0, -1, 0), 2},
        example{Point(0, 3, -2), Vector(0, -1, 2), 2},
        example{Point(0, 4, -2), Vector(0, -1, 1), 2},
@@ -135,7 +135,7 @@ TEST_CASE("Intersecting the caps of a closed cylinder", "[Cylinder]") {
 
   Point point = std::get<0>(examples);
   Vector direction = normalize(std::get<1>(examples));
-  int count = std::get<2>(examples);
+  std::size_t count = std::get<2>(examples);
 
   Cylinder cyl;
   cyl.minimum = 1;
